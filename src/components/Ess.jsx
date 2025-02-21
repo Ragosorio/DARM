@@ -191,7 +191,7 @@ function Sorpresa() {
           {TEXTOS[TEXTOS.length - 1]}
         </h1>
         <BtnDescargar
-          link="../../public/frases.png"
+          link="./frases.png"
           nombre="Descargar :)"
           onDownload={() => setPhase("final")}
         />
@@ -203,7 +203,7 @@ function Sorpresa() {
     return (
       <div className="flex flex-col items-center justify-center h-screen space-y-4">
         <h1 className="text-3xl font-bold text-center">{ULTIMOTEXTO}</h1>
-        <BtnDescargar link="../../public/carta.png" nombre="Descargar Carta" />
+        <BtnDescargar link="./carta.png" nombre="Descargar Carta" />
       </div>
     );
   }
@@ -215,7 +215,7 @@ export default function All() {
   const [showSorpresa, setShowSorpresa] = useState(false);
 
   const handleSorpresa = () => {
-    const audio = new Audio("../../public/song.mp3");
+    const audio = new Audio("./song.mp3");
     audio.play();
     setShowSorpresa(true);
   };
