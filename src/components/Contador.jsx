@@ -59,7 +59,7 @@ function calcularTiempoRestante(fechaEvento) {
 }
 
 function Contador({ onSorpresa }) {
-  const fechaEvento = new Date("2025-02-20T05:00:00Z");
+  const fechaEvento = new Date("2025-02-24T05:00:00Z");
   const [tiempoRestante, setTiempoRestante] = useState(
     calcularTiempoRestante(fechaEvento)
   );
