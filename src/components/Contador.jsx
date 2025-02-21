@@ -59,7 +59,7 @@ function calcularTiempoRestante(fechaEvento) {
 }
 
 function Contador({ onSorpresa }) {
-  const fechaEvento = new Date("2025-02-24T05:00:00Z");
+  const fechaEvento = new Date("2025-02-20T05:00:00Z");
   const [tiempoRestante, setTiempoRestante] = useState(
     calcularTiempoRestante(fechaEvento)
   );
@@ -191,7 +191,7 @@ function Sorpresa() {
           {TEXTOS[TEXTOS.length - 1]}
         </h1>
         <BtnDescargar
-          link="/frases.png"
+          link="./frases.png"
           nombre="Descargar :)"
           onDownload={() => setPhase("final")}
         />
@@ -203,7 +203,7 @@ function Sorpresa() {
     return (
       <div className="flex flex-col items-center justify-center h-screen space-y-4">
         <h1 className="text-3xl font-bold text-center">{ULTIMOTEXTO}</h1>
-        <BtnDescargar link="/carta.png" nombre="Descargar Carta" />
+        <BtnDescargar link="./carta.png" nombre="Descargar Carta" />
       </div>
     );
   }
@@ -215,7 +215,7 @@ export default function All() {
   const [showSorpresa, setShowSorpresa] = useState(false);
 
   const handleSorpresa = () => {
-    const audio = new Audio("/song.mp3");
+    const audio = new Audio("./song.mp3");
     audio.play();
     setShowSorpresa(true);
   };
