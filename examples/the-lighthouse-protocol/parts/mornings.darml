@@ -1,0 +1,195 @@
+darm 1
+
+# Part two: the four mornings. Exactly one ending chapter is visible at a time:
+#   ending_landing  route == "landing"
+#   ending_answer   route == "tower" and answered
+#   ending_kept     route == "tower" and not answered and (oil >= 4 or duty == "bell")
+#   ending_dark     route == "tower" and not answered and oil < 4 and duty == "lamp"
+# After any of them, turning the page reaches the `daybreak` plate and then the
+# back cover. Every ending offers a restart: `reset` + `goto start`.
+
+# --- Ending: The Landing -----------------------------------------------------------
+
+chapter "The Landing", id=ending_landing, numbered=false, when=route == "landing":
+    text "You take the hand lantern from its hook and go down. A hundred and four steps, the open door, the chain cold and slick under your palm; and behind you, for the first time since it was lit, the light of Skerry Vane burns with nobody watching it.",
+            style=lead
+    text """
+        The landing is nine steps and a ledge, and at the bottom of them the fog is so thick
+        that your lantern lights nothing but itself. You hold it up anyway. You shout.
+
+        Nothing. You shout again, and swing the lantern, and go on doing both until your
+        voice is a rag and your arm is lead. It is a long time before anything answers: the
+        knock of an oar on stone, somewhere out in the white, and then a rope comes looping
+        out of the fog and falls across your boots.
+
+        You haul. There are three of them in the station skiff: two fishermen grey with
+        cold, wrapped in one coat, and at the single oar a broad old man with a brass horn
+        slung round his neck on a bootlace. He looks up at your lantern, and then past it, up
+        into the fog where the tower ought to be.
+
+        ‘You’ll be the relief,’ says Oriel Maddock. ‘Who’s minding my light?’
+        """
+    if answered:
+        text "You tell him what you did with the shutter. He shuts his eyes for a moment, like a man doing a sum. ‘Then we were lucky twice,’ he says. ‘Once that you answered, for I knew by it there was somebody home. And once that I didn’t trust it, and waited for a light low down, where a landing would be.’"
+    else:
+        text "‘Nobody,’ you say. He nods slowly, as if that were the answer to a different question. ‘We lost an oar to a sinking lugger at dusk,’ he says. ‘I’ve been asking the light where it was all night. I never thought to ask for a lantern on the steps.’"
+    if oil >= 4:
+        text "When you get them up the stair the lamp is burning as you left it, white and steady, turning its two eyes on the fog. It has kept the watch alone. Maddock stands under it for a long minute with the water running out of his sleeves. ‘She’s a better keeper than either of us,’ he says. ‘Don’t tell the Board.’"
+    else:
+        text "When you get them up the stair the lantern is dark. The reservoir has run dry while you stood on the landing, and for the better part of an hour Skerry Vane has shown the sea nothing at all. Maddock pumps; you trim; between you the light is back before the fog thins. In the morning he opens the log and writes it down exactly as it happened, and signs it, and turns the book round so that you can sign it too."
+    divider
+    text "**An ending: The Landing.** Three men off the water, and one line of the Protocol broken. There are three other mornings.",
+            style=small, align=center, animate=fade, delay=400ms
+    button "Wind the night back":
+        reset
+        goto start, transition=fade
+
+# --- Ending: The Answering Light -----------------------------------------------------
+
+chapter "The Answering Light", id=ending_answer, numbered=false, when=route == "tower" and answered:
+    text "You stay. Having spoken once, you find you cannot stop listening for the reply.",
+            style=lead
+    text """
+        It comes as a sound you will hear for the rest of your life: a long, soft, grinding
+        sigh from the north-west, like a great door being closed on gravel. Then voices. Then,
+        for a while, nothing at all.
+
+        They reach the tower an hour later, on foot, wading the neck of rock that the ebb
+        uncovers between the Calf and the Vane: two fishermen from a lugger that went down at
+        dusk, and Oriel Maddock, who rowed out to them when he heard their horn, and lost an
+        oar doing it, and has been calling to his own light ever since with a hand lantern
+        and that same brass horn.
+
+        ‘I asked you for a bearing,’ he says, when he has breath to say anything. He is not
+        angry. It would be easier if he were. ‘Three long: *where are you?* And you’re to say
+        nothing, and go on being where you are, and I row home on the flashes. Instead you
+        waved.’ He looks at the lanyard. ‘So I steered for the wave. Straight over the Calf.’
+
+        The skiff is matchwood. Nobody is drowned.
+        """
+    if duty == "bell":
+        text "‘It was the bell that saved us,’ one of the fishermen says. ‘We heard it to the left of where the light said, and the old man swore, and put her head round. We only touched.’"
+    else:
+        text "‘If there’d been a bell,’ one of the fishermen says, and does not finish."
+    text """
+        In the morning the fog lifts off a flat bright sea, and three miles out a collier is
+        lying at anchor where she stopped at ten past nine, when the light she was steering
+        on began to say something that was not on her chart. She has waited all night. Her
+        master will write to the Board, and so will Maddock, and so, in the end, will you.
+
+        Maddock makes the tea. He sets out the second mug.
+        """
+    divider
+    text "**An ending: The Answering Light.** You carried {oil} of 5 measures into the small hours. There are three other mornings.",
+            style=small, align=center, animate=fade, delay=400ms
+    button "Wind the night back":
+        reset
+        goto start, transition=fade
+
+# --- Ending: The Kept Light ----------------------------------------------------------
+
+chapter "The Kept Light", id=ending_kept, numbered=false,
+        when=route == "tower" and not answered and (oil >= 4 or duty == "bell"):
+    text "You stay. It is the least a keeper can do, and tonight it is everything.", style=lead
+    text """
+        The voice does not come again. The horn does not come again. You trim the wick at one,
+        and at three, and the bull’s-eyes go round, and you say the character over to yourself
+        like a psalm until the words wear smooth: two, and ten seconds’ dark.
+        """
+    if oil >= 4:
+        text "The oil holds. Toward five the flame is still white, and the grey in the east, when it comes, is not the lamp failing but the day."
+    else:
+        text "A little before five the flame sinks, flutters and goes out: the reservoir is dry. For the last hour of the night Skerry Vane is dark. But it is not silent. Down in the fog the bell you wound goes on counting the half-minutes, one stroke and then another, steady as a held hand."
+    text """
+        At sunrise the fog lifts in one piece, like a cloth off a table, and there is the
+        station skiff a cable off the landing: Oriel Maddock at the one oar, a fisherman
+        paddling with a bottom board, and a second fisherman baling with a boot. They went out
+        to a lugger sinking at dusk. They have been out there all night with a hand lantern
+        and a brass horn, asking the light where it was.
+
+        ‘And she told us,’ Maddock says, on the steps, with the water running out of his
+        sleeves.
+        """
+    if oil >= 4:
+        text "‘Every twelve seconds, and never a word more. I took a bearing each time she showed through, and we crabbed in on one oar, two flashes at a time.’"
+    else:
+        text "‘Till near five. And when she went dark there was the bell, where it ought to be, and we came in on that.’ He looks at you. ‘You wound it before you saw to the lamp. I’d not have had the sense.’"
+    text """
+        ‘I hailed you about midnight,’ he adds. ‘Thought we were under the steps. We were
+        half a mile off. Fog will put a voice anywhere it likes.’
+
+        He reads your entry in the log — *logged, not answered* — and says nothing about it
+        at all. But he uncaps the pen and holds it out, and shows you the place on the wall,
+        under thirty names, where there is room for one more.
+        """
+    divider
+    text "**An ending: The Kept Light.** There are three other mornings.", style=small,
+            align=center, animate=fade, delay=400ms
+    button "Wind the night back":
+        reset
+        goto start, transition=fade
+
+# --- Ending: The Dark Hour -----------------------------------------------------------
+
+chapter "The Dark Hour", id=ending_dark, numbered=false,
+        when=route == "tower" and not answered and oil < 4 and duty == "lamp":
+    text "You stay. You keep the character for as long as there is anything to keep it with.",
+            style=lead
+    text """
+        A little after two the flame begins to climb and shrink, climb and shrink, like
+        something trying to breathe. You know what it means before you look. The gauge is on
+        its stop.
+
+        You go down a hundred and four steps to the cistern and back again with a can in each
+        hand, and you are on the iron stair, almost in the lantern, when the lens above you
+        turns from white to red to nothing. The pump will not prime. The wick is charred to
+        the collar. It takes you fifty minutes to make a flame that will stay lit, and for
+        those fifty minutes the rock you were sent to mark is a hole in the night: no light,
+        and, because the weight still hangs unwound in its pit, no bell.
+
+        Nothing strikes. You will never know how near anything came.
+
+        The fog lifts at sunrise off an empty sea. Toward noon the mainland boat puts out,
+        and in her bows, wrapped in a blanket, sits a broad old man with a brass horn round
+        his neck. A coaster picked up the station skiff at first light, six miles down the
+        coast, with Oriel Maddock and two half-drowned fishermen in it. They had rowed toward
+        the light until the light went out. After that, he says, they just rowed.
+
+        He is kind about it. That is the worst part. He takes you up to the lantern and shows
+        you the card on the reservoir, and the pump, and how many strokes a night costs; and
+        then he opens the log at your last entry and waits, pen in hand, for you to tell him
+        what to write.
+        """
+    divider
+    text "**An ending: The Dark Hour.** You went into the fog with {oil} of 5 measures, and a night wants four. There are three other mornings.",
+            style=small, align=center, animate=fade, delay=400ms
+    button "Wind the night back":
+        reset
+        goto start, transition=fade
+
+# --- Ending plate: a fixed page shared by all four mornings ----------------------------
+
+chapter "Daybreak", id=daybreak, numbered=false, opener=false:
+    page background="#e9dcc8":
+        image daybreak_art, at=(0, 0), size=(100, 100), fit=cover
+        text "Daybreak", style=display, color="#16202a", at=(8, 6), size=(84, 12), align=center,
+                animate=fade, duration=1.5s
+        if route == "landing":
+            text "You left the lamp and went down to the landing.", style=lead, color="#16202a",
+                    at=(10, 20), size=(80, 10), align=center, animate=rise, delay=600ms
+        elif answered:
+            text "You answered the signal, and the light said something that was not its name.",
+                    style=lead, color="#16202a", at=(10, 20), size=(80, 10), align=center,
+                    animate=rise, delay=600ms
+        elif oil >= 4 or duty == "bell":
+            text "You logged the signal and kept the character until morning.", style=lead,
+                    color="#16202a", at=(10, 20), size=(80, 10), align=center, animate=rise,
+                    delay=600ms
+        else:
+            text "You kept the character until the oil ran out.", style=lead, color="#16202a",
+                    at=(10, 20), size=(80, 10), align=center, animate=rise, delay=600ms
+        text "Oil carried into the night: {oil} of 5 measures.", style=small, color="#16202a",
+                at=(10, 32), size=(80, 6), align=center, animate=fade, delay=1.2s
+        button "Stand the watch again", at=(25, 82), size=(50, 8), animate=fade, delay=1.6s:
+            reset
+            goto start, transition=fade

@@ -1,0 +1,57 @@
+darm 1
+
+chapter "La ardora", id=ardora:
+    text "Hay noches de verano en que el mar de aquí se enciende. No es un modo de hablar. Basta meter la mano en el agua para sacarla envuelta en chispas verdes, y las olas que rompen en la barra dibujan en la oscuridad una línea de luz fría que dura lo que un parpadeo.",
+            style=lead
+    text """
+        A eso lo llaman *ardora*, y el pueblo le debe el nombre. Los marineros viejos decían
+        también *mar de ardora*, y distinguían la buena, que delataba de noche los bancos de
+        sardina —cada pez dejaba al huir una estela encendida, y el cardumen entero brillaba
+        bajo la quilla como una brasa removida—, de la mala, que no anunciaba nada y solo
+        servía para asustar a los forasteros.
+
+        Hoy sabemos quién enciende la luz. Son seres de una sola célula, tan pequeños que caben
+        miles en una cucharada de agua, que flotan a la deriva y responden con un destello a
+        cualquier sacudida: una ola, un remo, un pie. El más común tiene nombre de linterna,
+        *Noctiluca*, «la que luce de noche». Nadie está del todo seguro de para qué les sirve
+        brillar. La hipótesis que más me gusta sostiene que es una alarma: el destello delata
+        al animal diminuto que se los está comiendo ante otro mayor que se lo comerá a él. Un
+        grito de luz que pide un enemigo para su enemigo.
+        """
+    image fig_ardora, id=lamina_ardora,
+            caption="Lámina 10. Noche de ardora en la barra: la rompiente, las pisadas y la pala del remo encienden el agua.",
+            width=100%
+
+    section "La noche del ciento dieciocho", id=noche_viva:
+        text """
+            La mejor ardora que he visto coincidió con la marea más grande que recuerdo: un
+            coeficiente de ciento dieciocho, un septiembre, el último año que mi abuelo pudo
+            bajar al muelle por su pie. La bajamar caía a las dos de la madrugada. Me despertó
+            tirando piedrecitas a la ventana, como un novio.
+
+            —Vístete —dijo—. Hoy se ve la chapa.
+
+            Bajamos por el Muelle Largo con una linterna que no hizo falta. La mar se había
+            retirado tan lejos que el Caño Grande corría por un cauce desconocido, estrecho y
+            hondo, y cada remolino de la corriente se encendía y se apagaba. Los pilotes,
+            desnudos hasta el pie, goteaban luz. Y allá abajo, en el tercero, por primera vez
+            desde hacía años, se veía entera la chapa de bronce con [el cero de las cartas](cero).
+
+            Mi abuelo bajó la escala de hierro despacio, peldaño a peldaño, y puso la palma sobre
+            el metal. Estuvo así un rato. Luego hundió la mano en el agua, un palmo más abajo, y
+            la sacó ardiendo.
+
+            —Cuarenta y un años apuntando hasta dónde sube —dijo—, y lo que yo quería era esto.
+            Tocar hasta dónde baja.
+
+            Volvimos por los Llanos, andando sobre la arena mojada. A cada paso se nos encendía
+            una huella verde que tardaba un instante en apagarse, de modo que al mirar atrás
+            veíamos nuestro propio camino dibujado en lumbre, y más atrás, borrándolo sin prisa,
+            la primera lengua de la marea que volvía.
+
+            Murió aquel invierno, en una marea muerta, sin ruido. En el bolsillo de su chaqueta
+            encontramos la tabla del año siguiente, con las grandes vivas de marzo subrayadas a
+            lápiz.
+            """
+        nota_marginal "Ardora fuerte en la barra. No apunto la altura porque esta noche no vine a medir.",
+                rotulo="Última nota del cuaderno de Anselmo"

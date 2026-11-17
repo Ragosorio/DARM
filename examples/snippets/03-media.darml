@@ -1,0 +1,25 @@
+darm 1
+
+# Media: declare files once in `assets:`, then use them by name (reference §7).
+# Formats are verified by content. `alt` is required for images and video.
+
+book "Media":
+    author = "DARM Examples"
+    language = "en"
+
+assets:
+    tide = image("assets/tide.svg", alt="A tide curve with two high waters marked")
+    moon = image("assets/moon.svg", alt="A crescent moon over two lines of water", title="Moon")
+    beam = video("assets/beam.mp4", alt="A lighthouse beam turning over a night sea",
+            poster="assets/beam.jpg", captions="assets/beam.en.vtt",
+            transcript="No speech. Swell on rock while the light flashes twice.")
+    bell = audio("assets/bell.m4a", title="Fog bell",
+            transcript="One bell stroke over a quiet sea.")
+
+chapter "Pictures":
+    image tide, caption="Fig. 1. *Two* tides a day.", width=80%
+    gallery tide, moon, caption="A gallery takes 2 to 24 images."
+
+chapter "Sound and Film":
+    audio bell, caption="The fog bell."
+    video beam, caption="The beam.", loop=true, muted=true

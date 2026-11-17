@@ -1,0 +1,1575 @@
+{
+  "actions": [
+    "name = expr",
+    "name += expr",
+    "name -= expr",
+    "goto target[, transition=...]",
+    "reset",
+    "reset name"
+  ],
+  "asset_constructors": [
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "image",
+      "named": [
+        {
+          "doc": "Text alternative.",
+          "name": "alt",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "doc": "Title.",
+          "name": "title",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "parent": "",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "File path relative to this source file.",
+          "name": "path",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "summary": "PNG, JPEG, GIF, WebP or static SVG.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "video",
+      "named": [
+        {
+          "doc": "Remote https URL instead of a path.",
+          "name": "url",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "doc": "Text alternative.",
+          "name": "alt",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "doc": "Title.",
+          "name": "title",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "doc": "Path of the poster image.",
+          "name": "poster",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "doc": "WebVTT path(s); language from a `.<lang>.vtt` suffix.",
+          "name": "captions",
+          "required": false,
+          "type": "text or list of text"
+        },
+        {
+          "doc": "Full transcript.",
+          "name": "transcript",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "parent": "",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "File path relative to this source file.",
+          "name": "path",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "summary": "MP4 or WebM.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "audio",
+      "named": [
+        {
+          "doc": "Remote https URL instead of a path.",
+          "name": "url",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "doc": "Title shown in the player.",
+          "name": "title",
+          "required": false,
+          "type": "text"
+        },
+        {
+          "doc": "WebVTT path(s).",
+          "name": "captions",
+          "required": false,
+          "type": "text or list of text"
+        },
+        {
+          "doc": "Full transcript.",
+          "name": "transcript",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "parent": "",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "File path relative to this source file.",
+          "name": "path",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "summary": "MP3, M4A/AAC, Ogg, WAV or FLAC.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "font",
+      "named": [],
+      "parent": "",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "File path relative to this source file.",
+          "name": "path",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "WOFF2, TTF or OTF.",
+      "variadic": false
+    }
+  ],
+  "common_block_arguments": [
+    {
+      "doc": "Makes the block a jump target. Unique in the book.",
+      "name": "id",
+      "required": false,
+      "type": "identifier"
+    },
+    {
+      "doc": "Horizontal alignment.",
+      "name": "align",
+      "required": false,
+      "type": "left|center|right|justify"
+    },
+    {
+      "doc": "Text colour override, \"#rrggbb\".",
+      "name": "color",
+      "required": false,
+      "type": "color"
+    },
+    {
+      "doc": "Type size multiplier.",
+      "name": "scale",
+      "required": false,
+      "type": "decimal 0.25..8"
+    },
+    {
+      "doc": "Entrance animation.",
+      "name": "animate",
+      "required": false,
+      "type": "fade|rise|drop|slide_left|slide_right|zoom"
+    },
+    {
+      "doc": "Delay before the entrance animation (default 0ms, max 30s).",
+      "name": "delay",
+      "required": false,
+      "type": "duration"
+    },
+    {
+      "doc": "Length of the entrance animation (default 600ms, 1ms..10s).",
+      "name": "duration",
+      "required": false,
+      "type": "duration"
+    },
+    {
+      "doc": "Top-left corner inside a fixed page, in percent of the page.",
+      "name": "at",
+      "required": false,
+      "type": "(x%, y%)"
+    },
+    {
+      "doc": "Size inside a fixed page, in percent of the page.",
+      "name": "size",
+      "required": false,
+      "type": "(w%, h%)"
+    }
+  ],
+  "components": {
+    "declare": "component name(param, other=\"default\"):  at the top level, followed by an indented body of content blocks",
+    "interpolate": "{param} inside any text of the body",
+    "rules": [
+      "expanded at compile time",
+      "no recursion",
+      "no state of their own",
+      "the name must not be a built-in element"
+    ],
+    "use": "name \"value\", other=\"x\"  (positional arguments first, then name=value)"
+  },
+  "conditions": {
+    "if": [
+      "if EXPR:",
+      "elif EXPR:",
+      "else:"
+    ],
+    "when": "when=EXPR on a chapter, a section or an option"
+  },
+  "diagnostics": [
+    {
+      "code": "E0101",
+      "explanation": "The character is not part of the language. DARM has no braces, semicolons, single-quoted strings or division.",
+      "title": "unexpected character"
+    },
+    {
+      "code": "E0102",
+      "explanation": "Indentation must use spaces only, so that the block structure is the same in every editor.",
+      "title": "tab in indentation"
+    },
+    {
+      "code": "E0103",
+      "explanation": "A line is indented less than its block but does not line up with any enclosing block.",
+      "title": "inconsistent indentation"
+    },
+    {
+      "code": "E0104",
+      "explanation": "A string must be closed on the line where it starts. Use a \"\"\" block for text that spans lines.",
+      "title": "unterminated string"
+    },
+    {
+      "code": "E0105",
+      "explanation": "Only \\\" \\\\ \\n \\t \\u{...} and the markup escapes \\* \\[ \\] \\{ \\} \\` are recognised.",
+      "title": "invalid escape"
+    },
+    {
+      "code": "E0106",
+      "explanation": "Numbers may carry the suffixes % (percent), ms and s (durations); nothing else.",
+      "title": "invalid number"
+    },
+    {
+      "code": "E0107",
+      "explanation": "Source files must be UTF-8 encoded text.",
+      "title": "not UTF-8"
+    },
+    {
+      "code": "E0108",
+      "explanation": "A `(` or `[` has no matching `)` or `]`.",
+      "title": "unclosed bracket"
+    },
+    {
+      "code": "E0201",
+      "explanation": "Every .darml file starts with `darm 1`, the grammar version it is written in.",
+      "title": "missing version line"
+    },
+    {
+      "code": "E0202",
+      "explanation": "The file asks for a grammar version this compiler does not implement.",
+      "title": "unsupported grammar version"
+    },
+    {
+      "code": "E0203",
+      "explanation": "The parser found a token it did not expect. The message names what was expected. Common causes: a missing comma between arguments, `=` where `==` was meant, `True` instead of `true`.",
+      "title": "syntax error"
+    },
+    {
+      "code": "E0204",
+      "explanation": "A line ending in `:` must be followed by an indented block.",
+      "title": "missing block"
+    },
+    {
+      "code": "E0205",
+      "explanation": "A line is indented deeper than the previous one, but the previous line does not end with `:`.",
+      "title": "unexpected indentation"
+    },
+    {
+      "code": "E0206",
+      "explanation": "`elif` and `else` must directly follow an `if` block at the same indentation.",
+      "title": "`elif`/`else` without `if`"
+    },
+    {
+      "code": "E0207",
+      "explanation": "Positional arguments come first.",
+      "title": "positional argument after named argument"
+    },
+    {
+      "code": "E0208",
+      "explanation": "The contents of a block go on the following lines, indented.",
+      "title": "block on the same line"
+    },
+    {
+      "code": "E0301",
+      "explanation": "The name is neither a built-in element nor a component defined in the project.",
+      "title": "unknown element"
+    },
+    {
+      "code": "E0302",
+      "explanation": "Each element has a place: top-level statements (`book`, `chapter`, …) cannot be nested, content blocks need a `chapter`, actions need a `button`/`option`/`on_correct` body, and so on.",
+      "title": "element not allowed here"
+    },
+    {
+      "code": "E0303",
+      "explanation": "The element or block does not take an argument with this name. `darm reference` lists what each one accepts.",
+      "title": "unknown argument or property"
+    },
+    {
+      "code": "E0304",
+      "explanation": "The name is not declared in an `assets:` block.",
+      "title": "unknown asset"
+    },
+    {
+      "code": "E0305",
+      "explanation": "A `goto`, link or `goto=` argument names an id that no chapter, section or block declares.",
+      "title": "unknown jump target"
+    },
+    {
+      "code": "E0306",
+      "explanation": "Ids, asset names, state variables, component names, properties and named arguments must be unique.",
+      "title": "duplicate definition"
+    },
+    {
+      "code": "E0307",
+      "explanation": "The argument needs a different kind of value (for example a string where a number was given).",
+      "title": "wrong type of value"
+    },
+    {
+      "code": "E0308",
+      "explanation": "A required argument, property or child is absent.",
+      "title": "missing required argument or property"
+    },
+    {
+      "code": "E0309",
+      "explanation": "A component was called with the wrong arguments, calls itself, or nests too deeply.",
+      "title": "invalid component use"
+    },
+    {
+      "code": "E0310",
+      "explanation": "The name is not declared in a `state:` block.",
+      "title": "unknown state variable"
+    },
+    {
+      "code": "E0311",
+      "explanation": "Arithmetic and ordering need integers, `and`/`or`/`not` need booleans, and `==`/`!=` need two values of the same type.",
+      "title": "type error in expression"
+    },
+    {
+      "code": "E0312",
+      "explanation": "The value has the right type but is out of range, not one of the allowed words, or malformed (colours are \"#rrggbb\").",
+      "title": "invalid value"
+    },
+    {
+      "code": "E0313",
+      "explanation": "The project is missing something structural (no `book`, no chapters) or an element has a block it cannot take / lacks one it needs.",
+      "title": "invalid structure"
+    },
+    {
+      "code": "E0314",
+      "explanation": "Inline markup is unbalanced or a link target is malformed. Escape literal markup characters with a backslash.",
+      "title": "invalid rich text"
+    },
+    {
+      "code": "E0315",
+      "explanation": "The source exceeds one of the documented limits (nesting depth, number of options, …).",
+      "title": "limit exceeded"
+    },
+    {
+      "code": "E0316",
+      "explanation": "Blocks inside `page` need `at=` and `size=` inside the page; outside a `page` they must not have them; `page` must be a direct child of `chapter`; a `fixed` book contains only pages.",
+      "title": "fixed-page rule violated"
+    },
+    {
+      "code": "E0317",
+      "explanation": "`cover`, `start`, `contents`, `end` and names starting with `_` are reserved; built-in element names cannot be reused for components.",
+      "title": "reserved name"
+    },
+    {
+      "code": "E0401",
+      "explanation": "A declared asset (or cover image, poster, captions file) does not exist at that path. Paths are relative to the source file that declares them.",
+      "title": "file not found"
+    },
+    {
+      "code": "E0402",
+      "explanation": "Asset and include paths must be relative and stay inside the project directory.",
+      "title": "path outside the project"
+    },
+    {
+      "code": "E0403",
+      "explanation": "Files are identified by content. The file is not one of the formats the constructor accepts, or it is damaged.",
+      "title": "unsupported or mismatched file format"
+    },
+    {
+      "code": "E0404",
+      "explanation": "The file could not be read, or exceeds the size limit.",
+      "title": "unreadable or oversized file"
+    },
+    {
+      "code": "E0405",
+      "explanation": "SVG images must be static and self-contained: no scripts, event handlers, animation elements, `foreignObject` or external references.",
+      "title": "unsafe SVG"
+    },
+    {
+      "code": "E0406",
+      "explanation": "Remote assets need `offline = false`, an https URL and the URL's host in the book's `network` list.",
+      "title": "remote asset not permitted"
+    },
+    {
+      "code": "E0407",
+      "explanation": "Caption files must be WebVTT: UTF-8, first line `WEBVTT`, at least one cue.",
+      "title": "invalid captions"
+    },
+    {
+      "code": "E0501",
+      "explanation": "The included file does not exist, is included twice, forms a cycle, or includes nest deeper than 16.",
+      "title": "include failed"
+    },
+    {
+      "code": "E0502",
+      "explanation": "The project file is malformed or names an entry file that does not exist.",
+      "title": "invalid darm.toml"
+    },
+    {
+      "code": "E0503",
+      "explanation": "The output file or directory could not be written.",
+      "title": "cannot write output"
+    },
+    {
+      "code": "E0504",
+      "explanation": "The encryption options are incomplete or contradictory (for example `--encrypt` without a password source or key file).",
+      "title": "invalid protection options"
+    },
+    {
+      "code": "E0599",
+      "explanation": "The compiler produced an IR that failed its own validation. This is a bug in DARM; please report it with the source that triggers it.",
+      "title": "internal compiler error"
+    },
+    {
+      "code": "W0601",
+      "explanation": "The project has no `cover:` block, so a deterministic typographic cover was generated from the title, author and book id.",
+      "title": "generated front cover"
+    },
+    {
+      "code": "W0602",
+      "explanation": "The project has no `back_cover:` block, so one was generated from the description.",
+      "title": "generated back cover"
+    },
+    {
+      "code": "W0603",
+      "explanation": "The asset is declared and will be packaged, but nothing refers to it.",
+      "title": "unused asset"
+    },
+    {
+      "code": "W0604",
+      "explanation": "A state variable is never read, or a component is never used.",
+      "title": "unused definition"
+    },
+    {
+      "code": "W0605",
+      "explanation": "The chapter has no content.",
+      "title": "empty chapter"
+    },
+    {
+      "code": "W0606",
+      "explanation": "The asset is larger than 64 MiB; consider a smaller encode for comfortable downloads and imports.",
+      "title": "large asset"
+    }
+  ],
+  "elements": [
+    {
+      "body": "properties",
+      "children": [],
+      "common": false,
+      "name": "book",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [
+        {
+          "doc": "Title of the book.",
+          "name": "title",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "Book metadata. Exactly one per project.",
+      "variadic": false
+    },
+    {
+      "body": "properties",
+      "children": [],
+      "common": false,
+      "name": "theme",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [],
+      "summary": "Interior colours and typography.",
+      "variadic": false
+    },
+    {
+      "body": "declarations",
+      "children": [],
+      "common": false,
+      "name": "assets",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [],
+      "summary": "Media and font declarations: `name = image(\"path\", alt=\"...\")`.",
+      "variadic": false
+    },
+    {
+      "body": "declarations",
+      "children": [],
+      "common": false,
+      "name": "state",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [],
+      "summary": "State variable declarations: `name = initial [in domain]`.",
+      "variadic": false
+    },
+    {
+      "body": "properties",
+      "children": [],
+      "common": false,
+      "name": "cover",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [],
+      "summary": "Front cover design.",
+      "variadic": false
+    },
+    {
+      "body": "properties",
+      "children": [],
+      "common": false,
+      "name": "back_cover",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [],
+      "summary": "Back cover design; `text` children are the blurb.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "include",
+      "named": [],
+      "parent": "",
+      "place": "top",
+      "positional": [
+        {
+          "doc": "Path relative to this file.",
+          "name": "path",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "Splice another .darml file's top-level statements here.",
+      "variadic": false
+    },
+    {
+      "body": "blocks",
+      "children": [],
+      "common": false,
+      "name": "chapter",
+      "named": [
+        {
+          "doc": "Jump target for the chapter.",
+          "name": "id",
+          "required": false,
+          "type": "identifier"
+        },
+        {
+          "doc": "Show an ordinal on the opener (default true).",
+          "name": "numbered",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "Render the chapter opener (default true).",
+          "name": "opener",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "List in the table of contents (default true).",
+          "name": "toc",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "Present only while the condition holds.",
+          "name": "when",
+          "required": false,
+          "type": "condition"
+        }
+      ],
+      "parent": "",
+      "place": "top",
+      "positional": [
+        {
+          "doc": "Chapter title.",
+          "name": "title",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "A chapter; starts on a new page.",
+      "variadic": false
+    },
+    {
+      "body": "blocks",
+      "children": [],
+      "common": false,
+      "name": "section",
+      "named": [
+        {
+          "doc": "Jump target.",
+          "name": "id",
+          "required": false,
+          "type": "identifier"
+        },
+        {
+          "doc": "List in the contents (default true).",
+          "name": "toc",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "Present only while the condition holds.",
+          "name": "when",
+          "required": false,
+          "type": "condition"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Section title.",
+          "name": "title",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A titled section inside a chapter.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "heading",
+      "named": [],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Heading text.",
+          "name": "text",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A minor heading (not listed in the contents).",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "text",
+      "named": [
+        {
+          "doc": "Paragraph style (default body).",
+          "name": "style",
+          "required": false,
+          "type": "body|lead|small|caption|dropcap|verse|mono|display"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Paragraph text.",
+          "name": "text",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A paragraph. In a \"\"\" block, blank lines separate paragraphs.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "quote",
+      "named": [
+        {
+          "doc": "Attribution.",
+          "name": "by",
+          "required": false,
+          "type": "rich text"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Quoted text.",
+          "name": "text",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A block quotation.",
+      "variadic": false
+    },
+    {
+      "body": "items",
+      "children": [],
+      "common": true,
+      "name": "list",
+      "named": [
+        {
+          "doc": "Numbered list (default false).",
+          "name": "ordered",
+          "required": false,
+          "type": "bool"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [],
+      "summary": "A bulleted or numbered list of `item`s.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "image",
+      "named": [
+        {
+          "doc": "Caption shown under the media.",
+          "name": "caption",
+          "required": false,
+          "type": "rich text"
+        },
+        {
+          "doc": "Width relative to the text column (default 100%).",
+          "name": "width",
+          "required": false,
+          "type": "percent 10%..100%"
+        },
+        {
+          "doc": "How the image fills its frame (default contain).",
+          "name": "fit",
+          "required": false,
+          "type": "contain|cover"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Image asset name.",
+          "name": "asset",
+          "required": true,
+          "type": "asset(image)"
+        }
+      ],
+      "summary": "An image with an optional caption.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "gallery",
+      "named": [
+        {
+          "doc": "Caption shown under the media.",
+          "name": "caption",
+          "required": false,
+          "type": "rich text"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Two or more image asset names.",
+          "name": "assets",
+          "required": true,
+          "type": "asset(image)..."
+        }
+      ],
+      "summary": "A swipeable set of 2-24 images.",
+      "variadic": true
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "video",
+      "named": [
+        {
+          "doc": "Caption shown under the media.",
+          "name": "caption",
+          "required": false,
+          "type": "rich text"
+        },
+        {
+          "doc": "Start (muted) when the page is shown (default false).",
+          "name": "autoplay",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "Repeat (default false).",
+          "name": "loop",
+          "required": false,
+          "type": "bool"
+        },
+        {
+          "doc": "Start muted (default false).",
+          "name": "muted",
+          "required": false,
+          "type": "bool"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Video asset name.",
+          "name": "asset",
+          "required": true,
+          "type": "asset(video)"
+        }
+      ],
+      "summary": "A video player.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "audio",
+      "named": [
+        {
+          "doc": "Caption shown under the media.",
+          "name": "caption",
+          "required": false,
+          "type": "rich text"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Audio asset name.",
+          "name": "asset",
+          "required": true,
+          "type": "asset(audio)"
+        }
+      ],
+      "summary": "An audio player.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": true,
+      "name": "divider",
+      "named": [
+        {
+          "doc": "Appearance (default ornament).",
+          "name": "style",
+          "required": false,
+          "type": "rule|ornament|blank"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [],
+      "summary": "A separator between passages.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "space",
+      "named": [],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Height in lines.",
+          "name": "lines",
+          "required": true,
+          "type": "number 0.25..40"
+        }
+      ],
+      "summary": "Vertical space measured in text lines.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "break",
+      "named": [],
+      "parent": "",
+      "place": "block",
+      "positional": [],
+      "summary": "Start a new page.",
+      "variadic": false
+    },
+    {
+      "body": "blocks",
+      "children": [],
+      "common": true,
+      "name": "box",
+      "named": [
+        {
+          "doc": "Appearance (default rule).",
+          "name": "style",
+          "required": false,
+          "type": "rule|tint|bar"
+        },
+        {
+          "doc": "Label shown at the top.",
+          "name": "title",
+          "required": false,
+          "type": "text"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [],
+      "summary": "A framed or tinted group of blocks.",
+      "variadic": false
+    },
+    {
+      "body": "optional_actions",
+      "children": [],
+      "common": true,
+      "name": "button",
+      "named": [
+        {
+          "doc": "Jump target: an id, or cover|start|contents|end.",
+          "name": "goto",
+          "required": false,
+          "type": "target"
+        },
+        {
+          "doc": "How the jump is shown (default flip).",
+          "name": "transition",
+          "required": false,
+          "type": "flip|fade|none"
+        }
+      ],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "Button label.",
+          "name": "label",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "A button that runs actions.",
+      "variadic": false
+    },
+    {
+      "body": "items",
+      "children": [],
+      "common": true,
+      "name": "choice",
+      "named": [],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "The question or situation.",
+          "name": "prompt",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A narrative choice between `option`s.",
+      "variadic": false
+    },
+    {
+      "body": "items",
+      "children": [],
+      "common": true,
+      "name": "quiz",
+      "named": [],
+      "parent": "",
+      "place": "block",
+      "positional": [
+        {
+          "doc": "The question.",
+          "name": "question",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "A multiple-choice question with `answer`s.",
+      "variadic": false
+    },
+    {
+      "body": "framed_blocks",
+      "children": [],
+      "common": false,
+      "name": "page",
+      "named": [
+        {
+          "doc": "Page background colour.",
+          "name": "background",
+          "required": false,
+          "type": "color"
+        },
+        {
+          "doc": "Jump target.",
+          "name": "id",
+          "required": false,
+          "type": "identifier"
+        }
+      ],
+      "parent": "",
+      "place": "chapter",
+      "positional": [],
+      "summary": "A fixed composition that fills one page.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "item",
+      "named": [],
+      "parent": "list",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "Item text.",
+          "name": "text",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "One list entry.",
+      "variadic": false
+    },
+    {
+      "body": "optional_actions",
+      "children": [],
+      "common": false,
+      "name": "option",
+      "named": [
+        {
+          "doc": "Present only while the condition holds.",
+          "name": "when",
+          "required": false,
+          "type": "condition"
+        },
+        {
+          "doc": "Jump target: an id, or cover|start|contents|end.",
+          "name": "goto",
+          "required": false,
+          "type": "target"
+        },
+        {
+          "doc": "How the jump is shown (default flip).",
+          "name": "transition",
+          "required": false,
+          "type": "flip|fade|none"
+        }
+      ],
+      "parent": "choice",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "Option label.",
+          "name": "label",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "One selectable option of a `choice`.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "answer",
+      "named": [
+        {
+          "doc": "Marks a correct answer (default false).",
+          "name": "correct",
+          "required": false,
+          "type": "bool"
+        }
+      ],
+      "parent": "quiz",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "Answer text.",
+          "name": "label",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "One answer of a `quiz`.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "explain",
+      "named": [],
+      "parent": "quiz",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "Explanation.",
+          "name": "text",
+          "required": true,
+          "type": "rich text"
+        }
+      ],
+      "summary": "Explanation shown after answering a `quiz`.",
+      "variadic": false
+    },
+    {
+      "body": "actions",
+      "children": [],
+      "common": false,
+      "name": "on_correct",
+      "named": [],
+      "parent": "quiz",
+      "place": "child",
+      "positional": [],
+      "summary": "Actions run the first time a `quiz` is answered correctly.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "credit",
+      "named": [],
+      "parent": "book",
+      "place": "child",
+      "positional": [
+        {
+          "doc": "Role, e.g. \"Illustrations\".",
+          "name": "role",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "doc": "Person or organisation.",
+          "name": "name",
+          "required": true,
+          "type": "text"
+        }
+      ],
+      "summary": "A credit line in the colophon.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "goto",
+      "named": [
+        {
+          "doc": "How the jump is shown (default flip).",
+          "name": "transition",
+          "required": false,
+          "type": "flip|fade|none"
+        }
+      ],
+      "parent": "",
+      "place": "action",
+      "positional": [
+        {
+          "doc": "An id, or cover|start|contents|end.",
+          "name": "target",
+          "required": true,
+          "type": "target"
+        }
+      ],
+      "summary": "Action: jump to a target.",
+      "variadic": false
+    },
+    {
+      "body": "none",
+      "children": [],
+      "common": false,
+      "name": "reset",
+      "named": [],
+      "parent": "",
+      "place": "action",
+      "positional": [
+        {
+          "doc": "Restore only this variable.",
+          "name": "variable",
+          "required": false,
+          "type": "state variable"
+        }
+      ],
+      "summary": "Action: restore all state (and quiz/choice records), or one variable.",
+      "variadic": false
+    }
+  ],
+  "expressions": {
+    "not_available": [
+      "division",
+      "function calls",
+      "loops",
+      "string computation"
+    ],
+    "operators": [
+      "+",
+      "-",
+      "*",
+      "==",
+      "!=",
+      "<",
+      "<=",
+      ">",
+      ">=",
+      "and",
+      "or",
+      "not"
+    ]
+  },
+  "grammar_version": 1,
+  "ir_version": "1.0",
+  "pragma": "darm 1",
+  "properties": {
+    "back_cover": [
+      {
+        "doc": "Cloth colour (default: front cover).",
+        "name": "color",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Lettering colour (default: front cover).",
+        "name": "ink",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Ornament colour (default: front cover).",
+        "name": "accent",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "One line set above the blurb.",
+        "name": "tagline",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Small image, e.g. an author portrait or device.",
+        "name": "image",
+        "required": false,
+        "type": "asset(image)"
+      }
+    ],
+    "book": [
+      {
+        "doc": "Stable identifier of the work; derived from title and author when absent.",
+        "name": "id",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Subtitle.",
+        "name": "subtitle",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Author name(s).",
+        "name": "author",
+        "required": true,
+        "type": "text or list of text"
+      },
+      {
+        "doc": "BCP 47 language tag, e.g. \"en\" or \"es-MX\".",
+        "name": "language",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "doc": "Edition statement.",
+        "name": "edition",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Version of this edition.",
+        "name": "version",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Publisher.",
+        "name": "publisher",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Publication date, YYYY-MM-DD.",
+        "name": "published",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Short description; default back-cover blurb.",
+        "name": "description",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Copyright / licence statement.",
+        "name": "rights",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Body layout (default reflow).",
+        "name": "layout",
+        "required": false,
+        "type": "reflow|fixed"
+      },
+      {
+        "doc": "Page proportions (default (2, 3) reflow, (3, 4) fixed).",
+        "name": "page_size",
+        "required": false,
+        "type": "(width, height)"
+      },
+      {
+        "doc": "All resources are packaged; never touch the network (default true).",
+        "name": "offline",
+        "required": false,
+        "type": "bool"
+      },
+      {
+        "doc": "Hosts remote assets may load from; requires offline = false.",
+        "name": "network",
+        "required": false,
+        "type": "list of text"
+      },
+      {
+        "doc": "Generated front matter (default all three).",
+        "name": "front_matter",
+        "required": false,
+        "type": "list of title|colophon|contents"
+      },
+      {
+        "doc": "Smart quotes, dashes and ellipses (default smart).",
+        "name": "typography",
+        "required": false,
+        "type": "smart|plain"
+      }
+    ],
+    "cover": [
+      {
+        "doc": "Lettering layout (default classic).",
+        "name": "style",
+        "required": false,
+        "type": "classic|band|minimal|modern"
+      },
+      {
+        "doc": "Cloth colour.",
+        "name": "color",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Lettering colour.",
+        "name": "ink",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Foil / ornament colour.",
+        "name": "accent",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Cover image.",
+        "name": "image",
+        "required": false,
+        "type": "asset(image)"
+      },
+      {
+        "doc": "Image covers the whole board (default false).",
+        "name": "full_bleed",
+        "required": false,
+        "type": "bool"
+      },
+      {
+        "doc": "Draw the lettering (default true; false needs an image).",
+        "name": "show_text",
+        "required": false,
+        "type": "bool"
+      },
+      {
+        "doc": "Lettering override (default: book title).",
+        "name": "title",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Lettering override (default: book subtitle).",
+        "name": "subtitle",
+        "required": false,
+        "type": "text"
+      },
+      {
+        "doc": "Lettering override (default: authors).",
+        "name": "author",
+        "required": false,
+        "type": "text"
+      }
+    ],
+    "theme": [
+      {
+        "doc": "Paper colour (default \"#f7f3ea\").",
+        "name": "paper",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Text colour (default \"#1f1c18\").",
+        "name": "ink",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Accent colour (default \"#8c3b2a\").",
+        "name": "accent",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Dark-mode paper; give all three dark_* or none.",
+        "name": "dark_paper",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Dark-mode text colour.",
+        "name": "dark_ink",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Dark-mode accent.",
+        "name": "dark_accent",
+        "required": false,
+        "type": "color"
+      },
+      {
+        "doc": "Body typeface (default serif).",
+        "name": "body_font",
+        "required": false,
+        "type": "serif|sans|mono|asset(font)"
+      },
+      {
+        "doc": "Heading typeface (default: same as body).",
+        "name": "heading_font",
+        "required": false,
+        "type": "serif|sans|mono|asset(font)"
+      },
+      {
+        "doc": "Paragraph separation (default indent).",
+        "name": "paragraph",
+        "required": false,
+        "type": "indent|spaced"
+      },
+      {
+        "doc": "Justify body text (default true).",
+        "name": "justify",
+        "required": false,
+        "type": "bool"
+      },
+      {
+        "doc": "Hyphenate body text (default true).",
+        "name": "hyphenate",
+        "required": false,
+        "type": "bool"
+      },
+      {
+        "doc": "Drop capital on the first paragraph of each chapter (default false).",
+        "name": "drop_caps",
+        "required": false,
+        "type": "bool"
+      }
+    ]
+  },
+  "reserved_targets": [
+    "cover",
+    "start",
+    "contents",
+    "end"
+  ],
+  "rich_text": {
+    "**bold**": "bold",
+    "*italic*": "italic",
+    "[label](target)": "link to an id, a reserved target, or an https/http/mailto URL",
+    "\\*": "literal character (also \\[ \\] \\{ \\} \\` \\\\)",
+    "`code`": "monospace",
+    "{name}": "value of a state variable or component parameter"
+  },
+  "source_extension": ".darml",
+  "state_declarations": [
+    "name = 0 in 0..5",
+    "name = false",
+    "name = \"a\" in [\"a\", \"b\"]",
+    "name = 0"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@darm/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DARM reader: Tauri 2 shell for macOS, Windows, Linux, Android and iOS",
+  "license": "Apache-2.0",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "icons": "tauri icon icon-source/app-icon.png --output src-tauri/icons --ios-color \"#7a2e22\""
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.5"
+  }
+}

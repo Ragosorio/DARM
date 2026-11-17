@@ -1,0 +1,26 @@
+{
+  "project": "webkit",
+  "browser": "webkit",
+  "renderer": "webgl2",
+  "book": "atlas-de-mareas (reflow, spread)",
+  "pages": 61,
+  "frames": 600,
+  "frameMs": {
+    "median": 17,
+    "p95": 27,
+    "p99": 29,
+    "max": 44
+  },
+  "framesOver33ms": 1,
+  "layoutMs": 34,
+  "importAndFirstPaintMs": 219,
+  "longJumpMs": 2967,
+  "keyToFirstMovingFrameMs": 2,
+  "textureMiB": 73.9,
+  "jsHeapMiB": null,
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "note": "headless run on the development machine; not a promise for other hardware"
+}

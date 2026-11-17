@@ -1,0 +1,94 @@
+darm 1
+
+book "The Lighthouse":
+    id = "org.example.lighthouse"
+    subtitle = "A test"
+    author = ["Ana", "Ben"]
+    language = "en-GB"
+    edition = "First"
+    published = "2026-11-16"
+    description = "A description."
+    credit "Editor", "Cy"
+
+theme:
+    paper = "#fff"
+    accent = "#9C3D2A"
+    dark_paper = "#111111"
+    dark_ink = "#eeeeee"
+    dark_accent = "#ff9977"
+    drop_caps = true
+    paragraph = spaced
+
+assets:
+    pic = image("art/pic.png", alt="A picture")
+    map = image("art/map.svg", alt="A map")
+    clip = video("media/clip.mp4", alt="A clip", poster="art/pic.png", captions=["media/clip.en.vtt", "media/clip.es.vtt"])
+    sound = audio("media/sound.m4a", title="Sound")
+
+state:
+    courage = 1 in 0..5
+    lit = false
+    route = "shore" in ["shore", "cliff"]
+
+cover:
+    style = band
+    color = "#7a2e22"
+    image = pic
+
+back_cover:
+    tagline = "Tag"
+    text "Blurb one."
+    text "Blurb two."
+
+component note(body, label="Note"):
+    box style=bar, title=label:
+        text body, style=small
+
+chapter "Arrival", id=arrival:
+    text "First paragraph."
+    section "The quay", id=quay:
+        image pic, caption="Fig. *1*", width=60%
+        gallery pic, map, caption="Both"
+        video clip, autoplay=true, muted=true
+        audio sound
+        note "Mind the **gap**."
+        note "Other", label="Warning"
+    quote "A coast.", by="Proverb"
+    list ordered=true:
+        item "One"
+        item "Two"
+    divider style=rule
+    space 2
+    break
+    text """
+        Roses are red
+        violets are blue
+        """, style=verse, align=center
+    choice "Which way?", id=fork:
+        option "Cliff":
+            route = "cliff"
+            courage += 1
+            goto cliff, transition=fade
+        option "Shore", when=lit, goto=arrival
+    if route == "cliff" and courage >= 2:
+        text "High."
+    elif lit:
+        text "Bright {courage}."
+    else:
+        text "Low."
+    quiz "2 + 2?":
+        answer "4", correct=true
+        answer "5"
+        explain "Because."
+        on_correct:
+            courage += 1
+    button "Again":
+        reset
+        goto start
+
+chapter "Cliff", id=cliff, when=route == "cliff", numbered=false:
+    text "Up here.", animate=rise, delay=200ms, duration=1s
+    page background="#102030", id=plate:
+        image map, at=(0, 0), size=(100, 100), fit=cover
+        text "Title", style=display, at=(10, 10), size=(80, 20), color="#ffffff"
+        button "Back", goto=quay, at=(30, 80), size=(40, 10)

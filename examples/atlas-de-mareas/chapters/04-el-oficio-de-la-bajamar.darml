@@ -1,0 +1,61 @@
+darm 1
+
+chapter "El oficio de la bajamar", id=bajamar:
+    text "La pleamar es para mirarla. La bajamar es para trabajar. En cuanto el agua empieza a descubrir los Llanos, Ardora entera cambia de postura: se remangan los pantalones, se abren los cobertizos, y una fila de figuras con cubos echa a andar hacia donde hace una hora había tres metros de mar.",
+            style=lead
+
+    section "Las mariscadoras", id=mariscadoras:
+        text """
+            Son casi todas mujeres, y lo han sido siempre. Marisquean a pie, con el agua por la
+            rodilla o por la cintura, arrastrando por el fondo un rastrillo de mango largo con un
+            cesto de malla en la trasera. El gesto parece simple y tarda años en aprenderse: hay
+            que peinar la arena a la profundidad justa, ni tan somero que el berberecho se quede,
+            ni tan hondo que el rastrillo se clave. Lo que sale se criba allí mismo, se mide
+            contra una regla de latón, y lo que no da la talla vuelve al agua.
+
+            —El mar no es una despensa —me dijo Obdulia, que lleva cincuenta inviernos en los
+            Llanos y a la que todos llaman la Ronca—. Es un huerto. Un huerto que se riega solo,
+            pero un huerto.
+
+            Tienen su propio calendario, que no coincide con el de nadie. Trabajan las horas que
+            la bajamar concede, sean las cinco de la tarde o las cinco de la mañana, y descansan
+            en las mareas muertas, cuando el agua no se retira lo bastante para llegar a los
+            bancos buenos. Una mariscadora de Ardora no dice «el martes»: dice «la segunda
+            bajamar de las vivas».
+            """
+        image fig_rastrillo, id=lamina_rastrillo,
+                caption="Lámina 7. Rastrillo, cesto y berberechos sobre la arena rizada de los Llanos, en bajamar.",
+                width=90%
+        text "Cada especie pide su maña. La Ronca me las fue enseñando una mañana de febrero, con el agua tan fría que dolían las muelas:"
+        list:
+            item "El **berberecho** vive a dos dedos de la superficie; basta peinar la arena con el rastrillo y saber dónde."
+            item "La **almeja** se entierra más hondo y se delata por un par de agujeros diminutos que las mariscadoras llaman *ojos*."
+            item "La **navaja** baja en vertical por una galería y huye en cuanto nota pisadas. Se la engaña con una pizca de sal en la boca del agujero: dicen que cree que vuelve la marea, y lo cierto es que sube sola."
+            item "La **coquina** prefiere la rompiente de la barra y se coge con la marea entrando, cuando el agua remueve la arena."
+        nota_marginal "Bajamar de 0,31. Conté cuarenta y dos mujeres en los Llanos y un solo hombre, que era el guarda. A las once ya no se veía a nadie: la mar había venido a cobrar.",
+                rotulo="Del cuaderno de Anselmo, un octubre"
+
+    section "Las Salinas Viejas", id=salinas:
+        text """
+            En la orilla norte, la marea trabaja para otros amos. Las Salinas Viejas son un
+            tablero de estanques separados por muros de barro, cada uno un poco más somero que el
+            anterior. En las vivas de primavera se abren las compuertas y la pleamar llena el
+            primero; luego el agua pasa de estanque en estanque, empujada solo por la pendiente,
+            mientras el sol y el viento del nordeste se llevan lo que sobra. En los primeros
+            estanques todavía es mar. En los últimos, los *cristalizadores*, es una salmuera
+            rosada y espesa sobre la que una mañana de julio amanece la costra blanca.
+
+            El salinero no fabrica nada. Su oficio consiste en abrir y cerrar compuertas a la
+            hora justa y en esperar; es decir, en conocer la marea mejor que nadie. Quedan dos en
+            Ardora, padre e hijo, y venden la sal en la plaza en cucuruchos de papel, todavía
+            húmeda, con ese gris de la arcilla que los turistas toman por suciedad y los
+            cocineros por un lujo.
+            """
+        quote "La mar da de comer dos veces al día, pero ni avisa ni fía.",
+                by="Dicho de las mariscadoras de Ardora"
+        text """
+            Hay una justicia rara en todo esto. La bajamar no es de nadie: no se puede cercar, ni
+            comprar, ni dejar en herencia. Dura lo que dura, y cuando el agua vuelve borra las
+            pisadas, los surcos del rastrillo y las lindes que cada cual se había imaginado. Al
+            día siguiente hay que empezar de nuevo, casi una hora más tarde.
+            """

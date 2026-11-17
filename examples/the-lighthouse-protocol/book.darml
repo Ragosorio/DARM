@@ -1,0 +1,92 @@
+darm 1
+
+# The Lighthouse Protocol — official DARM example book.
+# A branching interactive story in English: a reflow book that also contains
+# fixed `page` plates, state, choices, a quiz, audio, video and animations.
+# This file declares metadata, theme, assets, state and covers; the story is
+# in parts/ and comes in through `include`. Route map: see ../README.md.
+
+book "The Lighthouse Protocol":
+    id = "org.darm.examples.lighthouseprotocol"
+    subtitle = "A night watch in four mornings"
+    author = "Edda Hallowick"
+    language = "en"
+    edition = "First digital edition"
+    version = "1.0.0"
+    publisher = "Ninth Step Press"
+    published = "2026-11-16"
+    description = "You are the relief keeper of Skerry Vane. The last keeper is missing, the fog is coming in, and something out on the water is calling to the light. An interactive story with four endings."
+    rights = "© 2026 The DARM project. Original text, illustrations, sound and film made for the DARM example books. The author, the publisher and Skerry Vane are fictional."
+    layout = reflow
+    typography = smart
+    credit "Plates and chart", "Ninth Step Press drawing office"
+    credit "Sound and film", "Synthesised for this edition; no recordings were used"
+
+theme:
+    paper = "#eef1ef"
+    ink = "#16202a"
+    accent = "#a8521f"
+    dark_paper = "#0d141b"
+    dark_ink = "#dfe6ea"
+    dark_accent = "#f2b45a"
+    body_font = serif
+    heading_font = sans
+    paragraph = spaced
+    justify = false
+    hyphenate = true
+    drop_caps = false
+
+assets:
+    cover_art = image("art/cover.svg",
+            alt="A lighthouse on a low rock at night, two amber beams fanning out over fog and dark water")
+    plate_title_art = image("art/title-plate.svg",
+            alt="A distant lighthouse low on the right, one long beam reaching left across bands of fog above a dark sea")
+    chart_art = image("art/chart.svg",
+            alt="Keeper's chart of the rock of Skerry Vane: the lamp tower to the north, the bell house to the west, the landing to the south-east, the reef called the Calf to the north-west, and a dashed bearing line coming in from the north-west")
+    lens_art = image("art/lens.svg",
+            alt="The lantern room at night: a tall lens of stacked glass prisms with a flame inside, and below it a brass oil reservoir with a gauge and a hand pump")
+    bell_art = image("art/bell.svg",
+            alt="A fog bell hanging in a timber frame at the door of a small stone bell house, with a clockwork striker, and the lit tower small in the distance")
+    daybreak_art = image("art/daybreak.svg",
+            alt="Dawn over a calm sea: the lighthouse a small dark silhouette on the left, its lamp out, fog lifting in thin bands, a rowing boat far off")
+    beam_film = video("media/beam.mp4",
+            alt="A lighthouse at night turning two beams through drifting fog over a dark sea; they sweep past the viewer as two flashes",
+            title="The light of Skerry Vane", poster="media/beam.jpg", captions="media/beam.en.vtt",
+            transcript="No speech. Swell washes over rock and drains from the ledges while the light turns: two flashes, then a long dark. Near the end a fog bell sounds one stroke and rings away.")
+    signal_film = video("media/signal.mp4",
+            alt="Seen over a gallery rail, a small warm light low in dense fog shows three long flashes, pauses, and shows three long flashes again",
+            title="Three long", poster="media/signal.jpg", captions="media/signal.en.vtt",
+            transcript="No speech. A quiet sea under fog. A distant horn sounds three long blasts, each in step with a flash of the light; a pause; then three long blasts again, and silence.")
+    sea_sound = audio("media/sea.m4a", title="The sea at Skerry Vane",
+            transcript="Thirty seconds of slow swell breaking and draining on rock. No voices.")
+    bell_sound = audio("media/bell.m4a", title="The fog bell",
+            transcript="A fog bell is struck three times, eight seconds apart. Each stroke rings down slowly into the sound of a quiet sea.")
+    horn_sound = audio("media/horn.m4a", title="Horn from the north-west",
+            captions="media/horn.en.vtt",
+            transcript="A distant, mellow horn in fog: three long notes, a pause with only the sea, then three long notes again. The horn falls silent.")
+
+state:
+    oil = 2 in 0..5  # measures of oil in the lamp reservoir
+    half_flame = false  # true once the quiz is answered correctly
+    answered = false  # did the keeper answer the signal?
+    duty = "lamp" in ["lamp", "bell"]  # the duty seen to before dark
+    route = "tower" in ["tower", "landing"]  # where the keeper stands the rest of the watch
+
+cover:
+    style = modern
+    color = "#0e1a26"
+    ink = "#e9e4d6"
+    accent = "#f2b45a"
+    image = cover_art
+    full_bleed = true
+    show_text = true
+
+back_cover:
+    color = "#0e1a26"
+    tagline = "The light must not answer. The fog keeps asking."
+    text "Skerry Vane is forty paces of rock, a stone tower and a bell. Its keeper has gone, leaving a cold kettle, an unfinished line in the log, and four standing orders pinned to the wall."
+    text "Tonight the fog comes in, and a horn begins to call from the north-west: *three long*. What you do next decides which of **four mornings** you will see. Then wind the night back, and stand the watch again."
+
+include "parts/watch.darml"
+
+include "parts/mornings.darml"

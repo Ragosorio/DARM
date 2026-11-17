@@ -1,0 +1,51 @@
+DARM
+Copyright 2026 The DARM contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+"DARM" and the DARM logo are names used to identify this project. The Apache
+License does not grant permission to use them as trademarks (see section 6 of
+the licence and the "Licensing" section of README.md).
+
+-------------------------------------------------------------------------------
+Third-party material distributed with the reader
+-------------------------------------------------------------------------------
+
+The reader application (apps/reader, and the desktop shell that embeds it)
+bundles the following works. Their licences are reproduced in the packages
+they are installed from (apps/reader/node_modules/<package>/LICENSE).
+
+Literata (typeface)
+  Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)
+  SIL Open Font License, Version 1.1 — via @fontsource-variable/literata
+
+Inter (typeface)
+  Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
+  SIL Open Font License, Version 1.1 — via @fontsource-variable/inter
+
+JetBrains Mono (typeface)
+  Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+  SIL Open Font License, Version 1.1 — via @fontsource-variable/jetbrains-mono
+
+hyphen (hyphenation engine and TeX hyphenation patterns for en, es, fr, de, pt, it)
+  Copyright (c) Yevhen Tiurin — ISC License; the pattern files carry the
+  licences of their respective TeX pattern authors (see the package).
+
+-------------------------------------------------------------------------------
+Rust dependencies
+-------------------------------------------------------------------------------
+
+The Rust crates this project links against (serde, serde_json, clap, sha2,
+aes-gcm, argon2, hkdf, zeroize, miniz_oxide, base64ct, getrandom, schemars,
+toml, rpassword, unicode-normalization, wasm-bindgen, js-sys, and
+for the desktop shell tauri and its plugins) are licensed under MIT and/or
+Apache-2.0 or similarly permissive terms; `cargo tree` and each crate's
+manifest give the exact licence of every version in Cargo.lock.
+
+-------------------------------------------------------------------------------
+Example books
+-------------------------------------------------------------------------------
+
+The books under examples/ and the fixture under apps/reader/tests/fixtures —
+text, illustrations, audio and video — are original works created for this
+project. Their authors and publishers named inside the books are fictional.

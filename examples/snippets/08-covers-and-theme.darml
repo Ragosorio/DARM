@@ -1,0 +1,39 @@
+darm 1
+
+# Theme, front cover, back cover and full metadata (reference §4.1, §4.2, §13).
+
+book "Salt Hours":
+    id = "org.example.salthours"
+    subtitle = "A pocket almanac"
+    author = ["Ada Fenn", "Tom Quarry"]  # one author or a list
+    language = "en"
+    edition = "First digital edition"
+    version = "1.0.0"
+    publisher = "Example Press"
+    published = "2026-11-16"
+    description = "Used as the back-cover blurb when the back cover has no text of its own."
+    rights = "© 2026 the authors."
+    front_matter = [title, contents]  # leave out the colophon
+    credit "Editor", "June Marsh"
+
+theme:
+    paper = "#f6f1e7"
+    ink = "#1d1a16"
+    accent = "#9c3d2a"
+    dark_paper = "#191715"  # dark overrides: all three or none
+    dark_ink = "#e9e2d4"
+    dark_accent = "#e08a6f"
+    drop_caps = true
+
+cover:
+    style = band  # classic | band | minimal | modern
+    color = "#24454f"
+    ink = "#f3e9d2"
+    accent = "#d9b46a"
+
+back_cover:
+    tagline = "An hour is only as long as its tide."
+    text "The blurb is *rich text*; several `text` statements are allowed."
+
+chapter "January":
+    text "The year opens at low water."

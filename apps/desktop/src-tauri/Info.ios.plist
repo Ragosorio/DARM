@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Merged by the Tauri CLI into the generated iOS Info.plist (it looks for
+  Info.ios.plist next to tauri.conf.json). NOT BUILT OR VALIDATED: no iOS
+  project has been generated from this repository yet, see docs/platforms.md.
+
+  The document type itself (org.darm.book, .darm, application/vnd.darm) comes
+  from bundle.fileAssociations in tauri.conf.json.
+-->
+<plist version="1.0">
+<dict>
+  <!-- "Open in DARM" / share sheet: iOS copies the file into the app's own
+       Documents/Inbox and hands the shell a plain file URL, which the file
+       registry can read without security-scoped bookmarks. -->
+  <key>LSSupportsOpeningDocumentsInPlace</key>
+  <false/>
+  <!-- Deliberately absent: ITSAppUsesNonExemptEncryption. DARM can open
+       encrypted books, so the export-compliance answer is a decision for the
+       publisher of the app, not a default to copy. -->
+</dict>
+</plist>

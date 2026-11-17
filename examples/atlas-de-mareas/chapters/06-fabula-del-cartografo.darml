@@ -1,0 +1,97 @@
+darm 1
+
+chapter "Fábula del cartógrafo y la orilla", id=fabula:
+    text "Hubo una vez un rey que quiso saber dónde terminaba su reino, y un cartógrafo al que se le encargó averiguarlo de una vez y para siempre.",
+            style=lead
+    text """
+        El cartógrafo era un hombre exacto. Había medido cordilleras con una cadena de
+        agrimensor y había puesto cada río en su cauce con un error menor que el grosor de una
+        pluma. Cuando el rey le pidió la línea de la costa —«la raya donde acaba lo mío», dijo,
+        golpeando la mesa con el anillo—, calculó que el trabajo le llevaría un verano.
+
+        Llegó a Ardora una tarde de marzo, con dos mulas, un ayudante y un baúl de
+        instrumentos. La mar estaba alta, quieta y llena hasta los bordes, y lamía las piedras
+        del camino. El cartógrafo plantó su tablero, miró por la alidada, y antes de que
+        oscureciera había trazado con tinta china una línea limpia y segura que dejaba el
+        pueblo a un lado y el agua al otro.
+
+        —Ya está —dijo—. Aquí acaba el reino.
+
+        Durmió bien. A la mañana siguiente salió a repasar su línea y no la encontró. Donde
+        había dibujado mar había una llanura de arena que llegaba hasta el horizonte, con
+        charcos que devolvían el cielo, y por ella andaba una vieja con un cesto, agachándose
+        de tanto en tanto.
+
+        —¡Oiga! —gritó el cartógrafo desde su raya—. ¡Salga de ahí! ¡Está usted pisando el
+        mar!
+
+        La vieja se enderezó, lo miró un rato y siguió a lo suyo. El cartógrafo, que no
+        toleraba que lo contradijera el paisaje, se quitó las botas y fue tras ella.
+
+        —Señora, ayer la costa pasaba por allí arriba. Lo tengo dibujado.
+
+        —Ayer por la tarde, sí —dijo la vieja sin dejar de escarbar—. Y esta noche, otra vez.
+        ¿Y qué?
+
+        —Que una costa no puede estar en dos sitios.
+
+        —Esta sí. Lleva haciéndolo desde antes de que hubiera reyes.
+
+        El cartógrafo volvió a su tablero, raspó la línea con una cuchilla y la dibujó de
+        nuevo, esta vez por el borde del agua, allá lejos. Seis horas después tuvo que salir
+        corriendo con el tablero en alto, porque el reino se le estaba encogiendo bajo los
+        pies. Rehízo la línea. La volvió a raspar. Al cabo de una semana el papel estaba tan
+        gastado en aquella parte que se transparentaba, y el ayudante había empezado a mirarlo
+        con lástima.
+
+        Fue a buscar a la vieja. La encontró en la estoa, sentada en la borda de una barca
+        varada, esperando a que el agua se decidiera.
+
+        —Dígame al menos dónde está *de verdad* —le rogó—. La línea buena. Usted tiene que
+        saberlo.
+
+        —No hay línea buena, hombre. Usted quiere una raya y esto es un resuello. ¿Le pondría
+        una raya a alguien en el pecho para decir «hasta aquí llega»? Llega hasta donde llega
+        cuando coge aire, y hasta donde llega cuando lo suelta, y lo de en medio también es
+        suyo.
+
+        —¿De quién? ¿Del rey o del mar?
+
+        —De la Luna —dijo la vieja, y se rio con una risa que parecía una tos—. Pero no se lo
+        diga al rey, que la querrá cobrar.
+
+        El cartógrafo no durmió aquella noche. Al amanecer pidió un pliego nuevo y dibujó dos
+        líneas: una por donde llegaba el agua en las mareas más vivas y otra por donde se
+        retiraba en las bajamares más grandes. Entre las dos dejó el papel en blanco. Estuvo
+        mucho rato con la pluma en el aire, buscando un nombre para aquella franja que no era
+        tierra ni era mar, y al final escribió con su mejor letra: *Aquí manda la Luna.*
+
+        Dicen que el rey, al ver el mapa, preguntó de cuál de las dos líneas para dentro podía
+        cobrar impuestos, y que el cartógrafo contestó que dependía de la hora. Dicen también
+        que no volvió a la corte. En Ardora hay quien asegura que se quedó a vivir en el
+        pueblo, que fue el primero en clavar una regla graduada en el muelle y que de él
+        descienden, por caminos torcidos, todos los que después han cuidado el mareógrafo. Mi
+        abuelo no lo afirmaba ni lo negaba. Decía solo que el blanco de aquel mapa era la
+        parte mejor dibujada.
+        """
+
+    break
+    text "En la tapa del último cuaderno de mi abuelo encontré estos versos, sin fecha y sin firma. No sé si son suyos. Los copio porque dicen lo mismo que la fábula en menos sitio."
+    space 1
+    heading "Tabla de mareas", align=center
+    text """
+        Sube el agua y no pregunta
+        de quién es lo que recoge;
+        baja el agua y no se lleva
+        más de lo que trajo anoche.
+
+        La orilla no es una raya:
+        es un pecho que respira.
+        Quien la quiera sobre un mapa
+        que la dibuje dos veces
+        y deje en medio la vida.
+        """, style=verse, align=center
+    space 1
+    divider style=rule
+    text "Quien quiera comprobar la fábula sobre el terreno puede volver al [mapa del estero](lamina_mapa) y buscar en él la línea de la costa. No la encontrará: dibujé los Llanos y dejé que cada cual decida.",
+            style=small

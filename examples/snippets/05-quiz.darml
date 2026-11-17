@@ -1,0 +1,26 @@
+darm 1
+
+# Quiz: answers, an explanation and `on_correct` actions (reference §9).
+
+book "Pilot's Quiz":
+    author = "DARM Examples"
+    language = "en"
+
+state:
+    score = 0 in 0..1
+
+chapter "Night Sky", id=night_sky:
+    text "A pilot steers by one star above all the others."
+    quiz "Which star does the pilot steer by?", id=star_quiz:
+        answer "Polaris", correct=true
+        answer "Sirius"
+        answer "Vega"
+        explain "Polaris sits within a degree of the celestial pole, so it barely moves."
+        on_correct:  # runs once, on the first correct pick
+            score += 1
+    if score == 1:
+        text "Right. Score: {score}."
+    else:
+        text "No point yet. Score: {score}."
+    button "Try again":
+        reset  # restores state and clears the answer

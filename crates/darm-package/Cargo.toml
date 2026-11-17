@@ -1,0 +1,32 @@
+[package]
+name = "darm-package"
+description = "Reader and writer for the .darm interactive-book container (format 1.0)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[features]
+default = ["std", "write"]
+# `std` adds the `std::fs::File` conveniences (`ReadAt for File`, `Package::open_path`).
+std = []
+# `write` adds `PackageBuilder`, `generate_keyfile` and pulls the OS random source.
+write = ["std", "dep:getrandom"]
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true, features = ["raw_value"] }
+aes-gcm = { version = "0.11.1", default-features = false, features = ["aes", "alloc", "zeroize"] }
+argon2 = { version = "0.6.0", default-features = false, features = ["alloc", "zeroize"] }
+hkdf = { version = "0.13.0", default-features = false }
+sha2 = { version = "0.11", default-features = false }
+zeroize = { version = "1.9.1", default-features = false, features = ["alloc"] }
+miniz_oxide = { version = "0.9.1", default-features = false, features = ["with-alloc"] }
+base64ct = { version = "1.8", default-features = false, features = ["alloc"] }
+getrandom = { version = "0.4.3", optional = true }
+
+[dev-dependencies]
+# Used by the tests to craft hostile packages by hand.
+miniz_oxide = { version = "0.9.1", default-features = false, features = ["with-alloc"] }
+sha2 = { version = "0.11", default-features = false }

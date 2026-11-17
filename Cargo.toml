@@ -1,0 +1,47 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/darm-ir",
+    "crates/darm-lang",
+    "crates/darm-compiler",
+    "crates/darm-package",
+    "crates/darm-cli",
+    "crates/darm-wasm",
+]
+# The desktop shell (Tauri) lives in apps/desktop/src-tauri and is its own
+# workspace so that `cargo test` at the root never has to build a webview stack.
+exclude = ["apps/desktop/src-tauri", "fuzz"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "Apache-2.0"
+authors = ["The DARM contributors"]
+
+[workspace.dependencies]
+darm-ir = { path = "crates/darm-ir", version = "0.1.0" }
+darm-lang = { path = "crates/darm-lang", version = "0.1.0" }
+darm-compiler = { path = "crates/darm-compiler", version = "0.1.0" }
+darm-package = { path = "crates/darm-package", version = "0.1.0", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Line tables only: readable backtraces, a fraction of the disk space.
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 4
+strip = "debuginfo"
+
+# Smaller, still fast WebAssembly for the reader core.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

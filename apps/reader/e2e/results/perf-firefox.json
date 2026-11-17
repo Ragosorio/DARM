@@ -1,0 +1,26 @@
+{
+  "project": "firefox",
+  "browser": "firefox",
+  "renderer": "webgl2",
+  "book": "atlas-de-mareas (reflow, spread)",
+  "pages": 64,
+  "frames": 600,
+  "frameMs": {
+    "median": 16.659999999999854,
+    "p95": 17.299999999999727,
+    "p99": 50,
+    "max": 95.61999999999898
+  },
+  "framesOver33ms": 8,
+  "layoutMs": 42,
+  "importAndFirstPaintMs": 242,
+  "longJumpMs": 2037,
+  "keyToFirstMovingFrameMs": 14,
+  "textureMiB": 70.2,
+  "jsHeapMiB": null,
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "note": "headless run on the development machine; not a promise for other hardware"
+}

@@ -1,0 +1,103 @@
+darm 1
+
+# Atlas de mareas — libro de ejemplo oficial de DARM.
+# Ensayo-fábula en español, maquetación fluida (reflow), proyecto de varios archivos.
+# Este archivo declara los metadatos, el tema, las láminas, las cubiertas y el
+# componente compartido; los capítulos viven en chapters/ y entran con `include`.
+
+book "Atlas de mareas":
+    id = "org.darm.examples.atlasdemareas"
+    subtitle = "Cuaderno de una costa que no se está quieta"
+    author = "Brígida Almenar"
+    language = "es"
+    edition = "Primera edición digital"
+    version = "1.0.0"
+    publisher = "Ediciones del Mareógrafo"
+    published = "2026-11-16"
+    description = "Dos veces al día el estero de Ardora se llena y se vacía. Entre los cuadernos de un vigilante de mareas, las mariscadoras de la bajamar y una vieja fábula sobre un cartógrafo, este atlas enseña a mirar una orilla que nunca está dos veces en el mismo sitio."
+    rights = "© 2026 Proyecto DARM. Texto e ilustraciones originales creados para los libros de ejemplo de DARM. La autora, la editorial y la villa de Ardora son ficticias."
+    layout = reflow
+    typography = smart
+    credit "Ilustraciones y cartografía", "Taller de láminas de Ediciones del Mareógrafo"
+    credit "Edición", "Nicanor Ubierna"
+
+theme:
+    paper = "#f4eee1"
+    ink = "#22201c"
+    accent = "#a5482e"
+    dark_paper = "#161b1d"
+    dark_ink = "#e6dfd0"
+    dark_accent = "#e39a7c"
+    body_font = serif
+    heading_font = serif
+    paragraph = indent
+    justify = true
+    hyphenate = true
+    drop_caps = true
+
+assets:
+    cubierta = image("art/cubierta.svg",
+            alt="Medallón con una luna creciente sobre las líneas de marea de un estero y una caseta sobre pilotes")
+    fig_mapa = image("art/mapa-ardora.svg",
+            alt="Mapa dibujado a tinta del estero de Ardora: el mar abierto al oeste, la barra de arena en la boca, el Caño Grande, las salinas al norte, el pueblo al sur y la marisma al este")
+    fig_caseta = image("art/caseta.svg",
+            alt="Caseta de madera al final de un muelle largo sobre pilotes, a media marea, con una regla graduada y aves zancudas en la orilla")
+    fig_sizigia = image("art/sizigia.svg",
+            alt="Esquema en dos filas: arriba el Sol, la Tierra y la Luna alineados con el agua muy alargada; abajo la Luna en ángulo recto y el agua casi redonda")
+    fig_curva = image("art/curva-marea.svg",
+            alt="Curva de marea de quince días: una oscilación de dos pleamares diarias cuya amplitud crece en las mareas vivas y mengua en las muertas")
+    fig_mareografo = image("art/mareografo.svg",
+            alt="Corte de un mareógrafo de flotador: caseta sobre el muelle, tubo vertical hasta el agua, flotador, polea, contrapeso y tambor con una curva trazada")
+    fig_escandallo = image("art/escandallo.svg",
+            alt="Escandallo de plomo colgado de su cabo marcado con tiras de cuero y nudos, y detalle de la base hueca con sebo y granos de arena")
+    fig_reloj = image("art/reloj-mareas.svg",
+            alt="Reloj de mareas de pared con una sola aguja, la palabra pleamar arriba, bajamar abajo y las horas del uno al cinco a cada lado")
+    fig_rastrillo = image("art/rastrillo.svg",
+            alt="Rastrillo de mango largo, cesto de mimbre con berberechos, conchas sueltas y pisadas sobre arena rizada en bajamar")
+    fig_zonacion = image("art/zonacion.svg",
+            alt="Perfil de una marisma que sube desde el caño hasta el junco, con cinco niveles de marea a trazos y una franja de plantas distinta en cada escalón")
+    fig_salicornia = image("art/salicornia.svg",
+            alt="Lámina botánica de una salicornia: planta entera de tallos carnosos y articulados, con raíz, y detalle ampliado de dos segmentos")
+    fig_ardora = image("art/ardora.svg",
+            alt="Escena nocturna: olas con el borde encendido de chispas verdosas, pisadas luminosas en la arena mojada y un remo que deja un remolino de luz")
+
+cover:
+    style = classic
+    color = "#1f3a44"
+    ink = "#f1e7d0"
+    accent = "#c9a45c"
+    image = cubierta
+    full_bleed = false
+    show_text = true
+
+back_cover:
+    color = "#1f3a44"
+    tagline = "Dos veces al día, el mar corrige el mapa."
+    text "En Ardora nadie pregunta qué hora es, sino cómo está la marea. Brígida Almenar vuelve al estero para vaciar la casa de su abuelo, que durante cuarenta y un años cuidó el mareógrafo del Muelle Largo, y encuentra en los márgenes de sus cuadernos otra manera de medir el mar."
+    text "Un libro sobre la Luna, el fango y la paciencia; sobre las *mareas vivas* y las *muertas*; sobre las mujeres que trabajan lo que la bajamar descubre y sobre una costa que, por mucho que se la dibuje, **no se está quieta**."
+
+# Componente reutilizable: una nota al margen, como las que Anselmo escribía
+# en los bordes de sus cuadernos. `rotulo` tiene un valor por omisión.
+component nota_marginal(cuerpo, rotulo="Nota al margen"):
+    box style=bar, title=rotulo:
+        text cuerpo, style=small
+
+include "chapters/00-prefacio.darml"
+
+include "chapters/01-la-costa-que-respira.darml"
+
+include "chapters/02-la-luna-tira-de-la-manta.darml"
+
+include "chapters/03-instrumentos.darml"
+
+include "chapters/04-el-oficio-de-la-bajamar.darml"
+
+include "chapters/05-botanica-de-lo-salobre.darml"
+
+include "chapters/06-fabula-del-cartografo.darml"
+
+include "chapters/07-la-ardora.darml"
+
+include "chapters/08-mareas-que-vendran.darml"
+
+include "chapters/09-nota-de-cierre.darml"

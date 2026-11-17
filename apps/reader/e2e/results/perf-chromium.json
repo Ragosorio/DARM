@@ -1,0 +1,26 @@
+{
+  "project": "chromium",
+  "browser": "chromium",
+  "renderer": "webgl2",
+  "book": "atlas-de-mareas (reflow, spread)",
+  "pages": 64,
+  "frames": 600,
+  "frameMs": {
+    "median": 16.699999999999818,
+    "p95": 16.700000000000728,
+    "p99": 16.800000000000182,
+    "max": 16.80000000000109
+  },
+  "framesOver33ms": 0,
+  "layoutMs": 47.2,
+  "importAndFirstPaintMs": 217,
+  "longJumpMs": 1885,
+  "keyToFirstMovingFrameMs": 12.7,
+  "textureMiB": 70.2,
+  "jsHeapMiB": 6.4,
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "note": "headless run on the development machine; not a promise for other hardware"
+}

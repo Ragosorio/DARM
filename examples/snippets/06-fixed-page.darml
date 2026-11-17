@@ -1,0 +1,27 @@
+darm 1
+
+# Fixed layout: every top-level block is a `page`; children are placed with
+# at=(x, y) and size=(w, h) in percent of the page (reference §10).
+
+book "Plates":
+    author = "DARM Examples"
+    language = "en"
+    layout = fixed
+    page_size = (3, 4)
+
+assets:
+    moon = image("assets/moon.svg", alt="A crescent moon over two lines of water")
+
+chapter "Plates", id=plates, opener=false:
+    page background="#16303a":
+        image moon, at=(0, 0), size=(100, 60), fit=cover
+        text "The Charted Coast", style=display, color="#f1e7d0", at=(8, 62), size=(84, 12),
+                align=center
+        text "A plate keeps its proportions on every device.", color="#f1e7d0", at=(10, 76),
+                size=(80, 8), align=center
+        button "Next plate", goto=second_plate, at=(30, 88), size=(40, 7)
+    page background="#efe7d6", id=second_plate:
+        text "Second plate", style=display, at=(8, 10), size=(84, 14), align=center
+        text "Frames are generous so that text is never squeezed.", at=(10, 30), size=(80, 20),
+                align=center
+        button "Back to the first", goto=plates, at=(30, 80), size=(40, 8)

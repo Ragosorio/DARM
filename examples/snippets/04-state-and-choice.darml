@@ -1,0 +1,35 @@
+darm 1
+
+# State, choices, gated chapters and conditional text (reference §8–§9).
+
+book "The Fork":
+    author = "DARM Examples"
+    language = "en"
+
+state:
+    courage = 0 in 0..3  # int, clamped to its range
+    has_lantern = false  # bool
+    route = "shore" in ["shore", "cliff"]  # text: one of a closed set
+
+chapter "Breakwater", id=breakwater:
+    button "Light the lantern":  # actions run in order
+        has_lantern = true
+        courage += 1
+    choice "The path forks.", id=fork:
+        option "Climb the cliff":
+            route = "cliff"
+            goto cliff
+        option "Stay on the shore", goto=shore  # shorthand for a single goto
+        option "Signal with the lantern", when=has_lantern:
+            courage += 1
+
+chapter "The Cliff", id=cliff, when=route == "cliff":  # skipped while false
+    text "From up here the whole coast is a map."
+
+chapter "The Shore", id=shore:
+    if route == "cliff" and courage >= 2:
+        text "You came back down braver than you went up."
+    elif has_lantern:
+        text "The lantern hisses. Courage: {courage} of 3."
+    else:
+        text "You stay on the shingle, in the dark."

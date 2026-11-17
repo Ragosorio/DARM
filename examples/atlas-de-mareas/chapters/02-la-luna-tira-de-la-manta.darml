@@ -1,0 +1,90 @@
+darm 1
+
+chapter "La Luna tira de la manta", id=luna:
+    text "La explicación corta cabe en una línea: la Luna atrae el agua. La explicación verdadera es más rara y más hermosa, porque la Luna no levanta el mar: lo estira.",
+            style=lead
+
+    section "Dos abultamientos", id=abultamientos:
+        text """
+            Si la Luna se limitara a tirar del agua hacia sí, habría una sola pleamar al día, la
+            que mira a la Luna. Pero hay dos, y la segunda ocurre justo en el lado contrario de
+            la Tierra, de espaldas a ella. Durante siglos ese fue el escollo de todas las teorías,
+            y todavía lo es de casi todas las explicaciones de sobremesa.
+
+            La clave está en que la atracción de la Luna no es igual en todas partes. El agua del
+            lado cercano está un poco más cerca de la Luna que el centro de la Tierra, y recibe
+            un tirón algo mayor; el agua del lado lejano está un poco más lejos, y recibe un tirón
+            algo menor. Lo que cuenta no es la fuerza, sino la diferencia. Vista desde el centro
+            del planeta, esa diferencia adelanta el agua cercana y deja rezagada el agua lejana,
+            de modo que el océano se alarga por los dos extremos y se estrecha por la cintura,
+            como una masa de pan cuando se tira de ella. Quedan dos abultamientos, uno de cara a
+            la Luna y otro de espaldas, y la Tierra, al girar, pasa cada día bajo los dos.
+
+            Cada día, pero no cada veinticuatro horas. Mientras la Tierra da una vuelta, la Luna
+            ha avanzado un trecho en su órbita, y hay que girar unos cincuenta minutos más para
+            volver a tenerla encima. El día de las mareas dura, pues, veinticuatro horas y
+            cincuenta minutos, y en él caben dos pleamares y dos bajamares separadas por algo más
+            de seis horas. Por eso la marea llega cada día casi una hora más tarde que la víspera,
+            y por eso en Ardora las citas se dan con la coletilla «si la mar deja».
+            """
+        nota_marginal "La Luna tira de la manta y a nosotros se nos destapan los pies. El agua que falta aquí en la bajamar no se ha perdido: está abultando otra orilla.",
+                rotulo="Del cuaderno de Anselmo"
+
+    section "Vivas y muertas", id=vivas_muertas:
+        text """
+            El Sol también estira el océano. Es inmensamente mayor que la Luna, pero está tan
+            lejos que su efecto se queda en algo menos de la mitad del de ella. Lo interesante es
+            lo que ocurre cuando los dos se ponen de acuerdo o se llevan la contraria.
+
+            En luna nueva y en luna llena, el Sol, la Tierra y la Luna quedan en fila —los
+            astrónomos llaman a eso *sizigia*, una palabra que parece inventada para ganar al
+            dominó—, y los dos estirones se suman. Son las **mareas vivas**: pleamares que lamen
+            el último escalón del muelle y bajamares que destapan arenas que no veían el aire
+            desde hacía dos semanas. En los cuartos, creciente y menguante, la Luna tira en ángulo
+            recto respecto al Sol —la *cuadratura*— y cada uno estropea un poco la obra del otro.
+            Son las **mareas muertas**: el agua sube sin ganas, baja sin convicción, y el estero
+            pasa unos días a medio llenar, como un vaso que nadie termina.
+            """
+        image fig_sizigia, id=lamina_sizigia,
+                caption="Lámina 3. Arriba, sizigia: el Sol y la Luna, alineados, suman sus efectos. Abajo, cuadratura: tiran en ángulo recto y la marea se queda corta.",
+                width=100%
+        text """
+            El ciclo completo, de vivas a vivas, dura unos quince días, y la lámina 4 lo enseña
+            mejor que cualquier párrafo: una respiración rápida, de dos veces al día, montada
+            sobre otra lenta que se hincha y se encoge con la Luna. Hay un detalle que los libros
+            suelen callar y los marineros no: las mareas más vivas no llegan el mismo día de la
+            luna llena o de la nueva, sino uno o dos días después. El océano es pesado y tarda en
+            obedecer. A ese retraso lo llaman, con una expresión que siempre me ha gustado,
+            *la edad de la marea*.
+            """
+        image fig_curva, id=lamina_curva,
+                caption="Lámina 4. Quince días de marea en Ardora. Cada cresta es una pleamar; el conjunto se hincha en las vivas y adelgaza en las muertas.",
+                width=100%
+        text """
+            Dos veces al año, hacia los equinoccios de marzo y de septiembre, las vivas son
+            todavía mayores. En las tablas que se usan en Ardora se las reconoce por el
+            *coeficiente*, un número que rara vez baja de veinte y nunca pasa de ciento veinte.
+            Cuando en la lonja alguien dice «viene un ciento quince», medio pueblo saca las botas
+            altas y el otro medio sube los muebles del bajo.
+            """
+        box style=tint, title="La regla de los doceavos":
+            text "Para saber cuánta agua habrá a una hora cualquiera, los patrones de Ardora no usan fórmulas. Dividen en doce partes lo que la marea ha de subir —o de bajar— y las reparten entre las seis horas que dura:"
+            list ordered=true:
+                item "Primera hora: **un** doceavo. La marea se despereza."
+                item "Segunda hora: **dos** doceavos."
+                item "Tercera hora: **tres** doceavos. El agua corre."
+                item "Cuarta hora: **tres** doceavos."
+                item "Quinta hora: **dos** doceavos."
+                item "Sexta hora: **un** doceavo, y otra vez la calma."
+            text "Es una aproximación, pero basta para no quedarse en seco: la mitad de toda la marea pasa en las dos horas centrales.",
+                    style=small
+        text """
+            Entre una marea y la siguiente hay un momento en que el agua no va a ninguna parte.
+            Dura poco —unos minutos en el caño, casi media hora en el fondo de la marisma— y
+            tiene nombre propio: la *estoa*. En Ardora dicen también *el repunte*. Es la hora de
+            cruzar el caño a remo, de fondear sin que la barca bornee y, según mi abuelo, la
+            única hora del día en que se puede pensar.
+            """
+
+    divider
+    text "Todo esto se sabe porque alguien lo midió, pleamar a pleamar, durante generaciones. De los aparatos que lo hicieron posible trata [el capítulo siguiente](instrumentos)."

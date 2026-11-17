@@ -1,0 +1,13 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Everything the reader's webview may ask of the native shell: learn which files the operating system handed over, read them by opaque token, and be told when more arrive. Deliberately no file-system, shell, HTTP, dialog or opener permissions.",
+  "windows": ["main"],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-darm-take-pending",
+    "allow-darm-read-chunk",
+    "allow-darm-release"
+  ]
+}

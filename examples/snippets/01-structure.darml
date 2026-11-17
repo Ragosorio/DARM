@@ -1,0 +1,34 @@
+darm 1
+
+# Structure: chapters, sections and the basic editorial blocks (reference §4–§5).
+
+book "Blocks":
+    author = "DARM Examples"
+    language = "en"
+
+chapter "Front Note", numbered=false:  # no ordinal: a preface
+    text "An opening paragraph in the larger lead style.", style=lead
+    text "A plain body paragraph."
+
+chapter "Blocks", id=blocks:
+    section "Text and quotes", id=text_quotes:  # sections appear in the contents
+        heading "A heading inside a section"
+        text "Small print for notes and asides.", style=small
+        text """
+            Verse keeps its line breaks,
+            one line under another.
+            """, style=verse
+        quote "A coast is never finished.", by="Anonymous pilot"
+    section "Lists and boxes", id=lists_boxes:
+        list:  # bulleted
+            item "Rope"
+            item "Lantern"
+        list ordered=true:  # numbered
+            item "Cast off."
+            item "Row."
+        box style=tint, title="Remember":  # box styles: rule | tint | bar
+            text "Boxes can hold any blocks."
+        divider  # ornament (default) | rule | blank
+        space 2  # two blank lines
+        break  # start a new page
+        text "This paragraph starts on a fresh page."

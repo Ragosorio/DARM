@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- shared-mime-info entry: teaches Linux desktops that *.darm is application/vnd.darm,
+     which is the MIME type the DARM .desktop file declares it can open. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/vnd.darm">
+    <comment>DARM book</comment>
+    <glob pattern="*.darm"/>
+    <generic-icon name="x-office-document"/>
+  </mime-type>
+</mime-info>

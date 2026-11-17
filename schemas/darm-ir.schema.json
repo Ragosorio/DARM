@@ -1,0 +1,1901 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Book",
+  "description": "A whole book. This is the document stored in the `ir` entry of a package.",
+  "type": "object",
+  "properties": {
+    "anchors": {
+      "description": "Named jump targets (`id=` in source) mapped to their location.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Anchor"
+      },
+      "default": {}
+    },
+    "chapters": {
+      "description": "Reading order: generated front matter followed by authored chapters.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Chapter"
+      }
+    },
+    "cover": {
+      "description": "Front and back cover. Both are always present.",
+      "$ref": "#/$defs/Covers"
+    },
+    "grammar_version": {
+      "description": "Grammar version of the source this IR was compiled from.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "ir_version": {
+      "description": "`\"MAJOR.MINOR\"`, see [`IR_VERSION`].",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    },
+    "resources": {
+      "description": "Media and fonts, in declaration order. Names are unique.",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Resource"
+      }
+    },
+    "state": {
+      "description": "Bounded state variables used by interactive content.",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/StateVar"
+      }
+    },
+    "theme": {
+      "$ref": "#/$defs/Theme"
+    },
+    "toc": {
+      "description": "Table of contents, precomputed by the compiler.",
+      "type": "array",
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/TocEntry"
+      }
+    }
+  },
+  "required": [
+    "ir_version",
+    "grammar_version",
+    "meta",
+    "theme",
+    "cover",
+    "chapters"
+  ],
+  "$defs": {
+    "Action": {
+      "description": "A declarative effect. Actions are the only way content can change state.",
+      "oneOf": [
+        {
+          "description": "Assign `value` to the state variable `var` (ints are clamped to range).",
+          "type": "object",
+          "properties": {
+            "do": {
+              "type": "string",
+              "const": "set"
+            },
+            "value": {
+              "$ref": "#/$defs/Expr"
+            },
+            "var": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "do",
+            "var",
+            "value"
+          ]
+        },
+        {
+          "description": "Navigate to an anchor or a reserved target (see [`RESERVED_TARGETS`]).",
+          "type": "object",
+          "properties": {
+            "do": {
+              "type": "string",
+              "const": "goto"
+            },
+            "target": {
+              "type": "string"
+            },
+            "transition": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Transition"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "do",
+            "target"
+          ]
+        },
+        {
+          "description": "Restore one variable, or all of them and every quiz/choice when `var` is `None`.",
+          "type": "object",
+          "properties": {
+            "do": {
+              "type": "string",
+              "const": "reset"
+            },
+            "var": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "do"
+          ]
+        }
+      ]
+    },
+    "Align": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right",
+        "justify"
+      ]
+    },
+    "Anchor": {
+      "description": "Location of a named anchor.",
+      "type": "object",
+      "properties": {
+        "block": {
+          "description": "Id of the block inside the chapter; `None` targets the chapter start.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "chapter": {
+          "description": "Id of the chapter that contains the target.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chapter"
+      ]
+    },
+    "Anim": {
+      "type": "object",
+      "properties": {
+        "delay_ms": {
+          "type": "integer",
+          "format": "uint32",
+          "default": 0,
+          "minimum": 0
+        },
+        "duration_ms": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "kind": {
+          "$ref": "#/$defs/AnimKind"
+        }
+      },
+      "required": [
+        "kind",
+        "duration_ms"
+      ]
+    },
+    "AnimKind": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "fade",
+            "slide_left",
+            "slide_right",
+            "zoom"
+          ]
+        },
+        {
+          "description": "Fade in while moving up.",
+          "type": "string",
+          "const": "rise"
+        },
+        {
+          "description": "Fade in while moving down.",
+          "type": "string",
+          "const": "drop"
+        }
+      ]
+    },
+    "BackCover": {
+      "type": "object",
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "blurb": {
+          "description": "Blurb paragraphs.",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Span"
+            }
+          }
+        },
+        "color": {
+          "type": "string"
+        },
+        "generated": {
+          "type": "boolean"
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ink": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "color",
+        "ink",
+        "accent"
+      ]
+    },
+    "BinOp": {
+      "type": "string",
+      "enum": [
+        "add",
+        "sub",
+        "mul",
+        "eq",
+        "ne",
+        "lt",
+        "le",
+        "gt",
+        "ge",
+        "and",
+        "or"
+      ]
+    },
+    "Block": {
+      "description": "A piece of content. `id` is unique in the book.",
+      "type": "object",
+      "properties": {
+        "align": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Align"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "anim": {
+          "description": "Entrance animation played when the page becomes visible.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Anim"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "color": {
+          "description": "Text colour override, `#rrggbb`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "frame": {
+          "description": "Placement inside a fixed `page` (percent of the page box). Only valid there.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Frame"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "scale": {
+          "description": "Type size multiplier (0.25..=8).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "spans": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/TextStyle"
+            },
+            "type": {
+              "type": "string",
+              "const": "paragraph"
+            }
+          },
+          "required": [
+            "type",
+            "spans",
+            "style"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "level": {
+              "description": "2 = section title, 3 = minor heading. (Level 1 is the chapter opener.)",
+              "type": "integer",
+              "format": "uint8",
+              "maximum": 255,
+              "minimum": 0
+            },
+            "spans": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "heading"
+            }
+          },
+          "required": [
+            "type",
+            "spans",
+            "level"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "attribution": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "paragraphs": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/Span"
+                }
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "quote"
+            }
+          },
+          "required": [
+            "type",
+            "paragraphs"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/Span"
+                }
+              }
+            },
+            "ordered": {
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "list"
+            }
+          },
+          "required": [
+            "type",
+            "ordered",
+            "items"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "caption": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "fit": {
+              "$ref": "#/$defs/Fit"
+            },
+            "resource": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "image"
+            },
+            "width": {
+              "description": "Fraction of the text width (0.1..=1).",
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "required": [
+            "type",
+            "resource",
+            "width",
+            "fit"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "caption": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "resources": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "gallery"
+            }
+          },
+          "required": [
+            "type",
+            "resources"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "autoplay": {
+              "type": "boolean"
+            },
+            "caption": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "loop": {
+              "type": "boolean"
+            },
+            "muted": {
+              "type": "boolean"
+            },
+            "resource": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "video"
+            }
+          },
+          "required": [
+            "type",
+            "resource"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "caption": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "resource": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "audio"
+            }
+          },
+          "required": [
+            "type",
+            "resource"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "style": {
+              "$ref": "#/$defs/DividerStyle"
+            },
+            "type": {
+              "type": "string",
+              "const": "divider"
+            }
+          },
+          "required": [
+            "type",
+            "style"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "lines": {
+              "description": "Height in text lines (0.25..=40).",
+              "type": "number",
+              "format": "double"
+            },
+            "type": {
+              "type": "string",
+              "const": "space"
+            }
+          },
+          "required": [
+            "type",
+            "lines"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "page_break"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Block"
+              }
+            },
+            "style": {
+              "$ref": "#/$defs/BoxStyle"
+            },
+            "title": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "const": "box"
+            }
+          },
+          "required": [
+            "type",
+            "style",
+            "blocks"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "actions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Action"
+              }
+            },
+            "label": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "button"
+            }
+          },
+          "required": [
+            "type",
+            "label",
+            "actions"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "options": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ChoiceOption"
+              }
+            },
+            "prompt": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "choice"
+            }
+          },
+          "required": [
+            "type",
+            "prompt",
+            "options"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/QuizAnswer"
+              }
+            },
+            "explanation": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "on_correct": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Action"
+              }
+            },
+            "question": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "quiz"
+            }
+          },
+          "required": [
+            "type",
+            "question",
+            "answers"
+          ]
+        },
+        {
+          "description": "Content shown only while `when` holds (lowered from `if`/`elif`/`else`\nand from `section ..., when=`). `when: None` is an unconditional group.",
+          "type": "object",
+          "properties": {
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Block"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "group"
+            },
+            "when": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Expr"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "blocks"
+          ]
+        },
+        {
+          "description": "A fixed-layout composition that occupies exactly one page.",
+          "type": "object",
+          "properties": {
+            "background": {
+              "description": "Background colour, `#rrggbb`.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Block"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "page"
+            }
+          },
+          "required": [
+            "type",
+            "blocks"
+          ]
+        }
+      ],
+      "required": [
+        "id"
+      ]
+    },
+    "BoxStyle": {
+      "oneOf": [
+        {
+          "description": "Hairline border.",
+          "type": "string",
+          "const": "rule"
+        },
+        {
+          "description": "Tinted background.",
+          "type": "string",
+          "const": "tint"
+        },
+        {
+          "description": "Accent bar on the leading edge.",
+          "type": "string",
+          "const": "bar"
+        }
+      ]
+    },
+    "BuiltinFont": {
+      "type": "string",
+      "enum": [
+        "serif",
+        "sans",
+        "mono"
+      ]
+    },
+    "CaptionTrack": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "lang": {
+          "description": "BCP 47 language tag.",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Name of a resource of kind `captions` (WebVTT).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "resource",
+        "lang",
+        "label"
+      ]
+    },
+    "Chapter": {
+      "description": "One unit of the reading order. A chapter always starts on a new page.",
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Block"
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ChapterKind"
+        },
+        "number": {
+          "description": "Ordinal shown on the chapter opener; `None` for unnumbered chapters.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "opener": {
+          "description": "Render a chapter opener (number, title, ornament) before the blocks.",
+          "type": "boolean"
+        },
+        "title": {
+          "type": "string"
+        },
+        "when": {
+          "description": "The chapter is part of the reading order only while this holds.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expr"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "title"
+      ]
+    },
+    "ChapterKind": {
+      "oneOf": [
+        {
+          "description": "Generated title page (rendered from [`Meta`]).",
+          "type": "string",
+          "const": "title"
+        },
+        {
+          "description": "Generated colophon: edition, rights, credits.",
+          "type": "string",
+          "const": "colophon"
+        },
+        {
+          "description": "Generated table of contents (rendered from [`Book::toc`]).",
+          "type": "string",
+          "const": "contents"
+        },
+        {
+          "description": "Authored content.",
+          "type": "string",
+          "const": "chapter"
+        }
+      ]
+    },
+    "ChoiceOption": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Action"
+          }
+        },
+        "label": {
+          "type": "string"
+        },
+        "when": {
+          "description": "Option is offered only while this holds.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expr"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "actions"
+      ]
+    },
+    "CoverStyle": {
+      "oneOf": [
+        {
+          "description": "Centered lettering inside a double-rule frame.",
+          "type": "string",
+          "const": "classic"
+        },
+        {
+          "description": "A horizontal title band across the board.",
+          "type": "string",
+          "const": "band"
+        },
+        {
+          "description": "Small lettering, generous empty cloth.",
+          "type": "string",
+          "const": "minimal"
+        },
+        {
+          "description": "Large display title set flush left.",
+          "type": "string",
+          "const": "modern"
+        }
+      ]
+    },
+    "Covers": {
+      "type": "object",
+      "properties": {
+        "back": {
+          "$ref": "#/$defs/BackCover"
+        },
+        "front": {
+          "$ref": "#/$defs/FrontCover"
+        }
+      },
+      "required": [
+        "front",
+        "back"
+      ]
+    },
+    "Credit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "name"
+      ]
+    },
+    "DividerStyle": {
+      "type": "string",
+      "enum": [
+        "rule",
+        "ornament",
+        "blank"
+      ]
+    },
+    "Expr": {
+      "description": "A total, side-effect free expression over state variables.",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "int"
+            },
+            "value": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "required": [
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "bool"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "str"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "op": {
+              "type": "string",
+              "const": "var"
+            }
+          },
+          "required": [
+            "op",
+            "name"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "expr": {
+              "$ref": "#/$defs/Expr"
+            },
+            "op": {
+              "type": "string",
+              "const": "not"
+            }
+          },
+          "required": [
+            "op",
+            "expr"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "expr": {
+              "$ref": "#/$defs/Expr"
+            },
+            "op": {
+              "type": "string",
+              "const": "neg"
+            }
+          },
+          "required": [
+            "op",
+            "expr"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "$ref": "#/$defs/BinOp"
+            },
+            "left": {
+              "$ref": "#/$defs/Expr"
+            },
+            "op": {
+              "type": "string",
+              "const": "bin"
+            },
+            "right": {
+              "$ref": "#/$defs/Expr"
+            }
+          },
+          "required": [
+            "op",
+            "kind",
+            "left",
+            "right"
+          ]
+        }
+      ]
+    },
+    "Fit": {
+      "oneOf": [
+        {
+          "description": "Whole image visible.",
+          "type": "string",
+          "const": "contain"
+        },
+        {
+          "description": "Fill the frame, cropping if needed.",
+          "type": "string",
+          "const": "cover"
+        }
+      ]
+    },
+    "FontRef": {
+      "oneOf": [
+        {
+          "description": "One of the typefaces every reader ships.",
+          "type": "object",
+          "properties": {
+            "family": {
+              "$ref": "#/$defs/BuiltinFont"
+            },
+            "source": {
+              "type": "string",
+              "const": "builtin"
+            }
+          },
+          "required": [
+            "source",
+            "family"
+          ]
+        },
+        {
+          "description": "A font resource embedded in the package.",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string",
+              "const": "resource"
+            }
+          },
+          "required": [
+            "source",
+            "name"
+          ]
+        }
+      ]
+    },
+    "Frame": {
+      "description": "Placement of a block on a fixed page, in percent of the page box.",
+      "type": "object",
+      "properties": {
+        "h": {
+          "type": "number",
+          "format": "double"
+        },
+        "w": {
+          "type": "number",
+          "format": "double"
+        },
+        "x": {
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ]
+    },
+    "FrontCover": {
+      "type": "object",
+      "properties": {
+        "accent": {
+          "description": "Foil/ornament colour, `#rrggbb`.",
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "color": {
+          "description": "Cloth/board colour, `#rrggbb`.",
+          "type": "string"
+        },
+        "full_bleed": {
+          "description": "`true`: the image covers the whole board. `false`: it sits in a panel.",
+          "type": "boolean"
+        },
+        "generated": {
+          "description": "`true` when the compiler derived this design because the source had no `cover:` block.",
+          "type": "boolean"
+        },
+        "image": {
+          "description": "Optional image resource.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ink": {
+          "description": "Lettering colour, `#rrggbb`.",
+          "type": "string"
+        },
+        "show_text": {
+          "description": "Draw title/author lettering (may be disabled when the image carries it).",
+          "type": "boolean"
+        },
+        "style": {
+          "$ref": "#/$defs/CoverStyle"
+        },
+        "subtitle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "style",
+        "color",
+        "ink",
+        "accent",
+        "show_text",
+        "title",
+        "author"
+      ]
+    },
+    "Layout": {
+      "description": "How the body of the book is laid out.",
+      "oneOf": [
+        {
+          "description": "Text flows into pages sized for the device; user can change type size.",
+          "type": "string",
+          "const": "reflow"
+        },
+        {
+          "description": "Every page is an authored composition with a fixed aspect ratio.",
+          "type": "string",
+          "const": "fixed"
+        }
+      ]
+    },
+    "Link": {
+      "oneOf": [
+        {
+          "description": "Jump inside the book.",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "anchor"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "target"
+          ]
+        },
+        {
+          "description": "External `https:`, `http:` or `mailto:` link, opened outside the reader after confirmation.",
+          "type": "object",
+          "properties": {
+            "href": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "const": "url"
+            }
+          },
+          "required": [
+            "kind",
+            "href"
+          ]
+        }
+      ]
+    },
+    "Meta": {
+      "description": "Bibliographic and behavioural metadata.",
+      "type": "object",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "credits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Credit"
+          }
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "edition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "generator": {
+          "description": "Name and version of the tool that produced this IR.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Stable identifier of the work (reverse-DNS style or derived hash).",
+          "type": "string"
+        },
+        "language": {
+          "description": "BCP 47 language tag of the main text.",
+          "type": "string"
+        },
+        "layout": {
+          "$ref": "#/$defs/Layout"
+        },
+        "network": {
+          "description": "Hosts remote resources may be loaded from. Empty means \"no network\".",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "offline": {
+          "description": "`true`: every resource is inside the package and the reader must not\ntouch the network for this book.",
+          "type": "boolean"
+        },
+        "page_aspect": {
+          "description": "Page width divided by page height. Authoritative for `fixed` books;\na preferred proportion for `reflow` books.",
+          "type": "number",
+          "format": "double"
+        },
+        "published": {
+          "description": "ISO 8601 date (`YYYY-MM-DD`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publisher": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rights": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "subtitle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of this edition of the book (free-form, e.g. `1.0.0`).",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "authors",
+        "language",
+        "layout",
+        "page_aspect",
+        "offline",
+        "generator"
+      ]
+    },
+    "Palette": {
+      "type": "object",
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "ink": {
+          "type": "string"
+        },
+        "paper": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "paper",
+        "ink",
+        "accent"
+      ]
+    },
+    "ParagraphStyle": {
+      "oneOf": [
+        {
+          "description": "First-line indent, no space between paragraphs (book style).",
+          "type": "string",
+          "const": "indent"
+        },
+        {
+          "description": "No indent, space between paragraphs.",
+          "type": "string",
+          "const": "spaced"
+        }
+      ]
+    },
+    "QuizAnswer": {
+      "type": "object",
+      "properties": {
+        "correct": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    },
+    "Resource": {
+      "description": "A media file, caption track or font used by the book.",
+      "type": "object",
+      "properties": {
+        "alt": {
+          "description": "Text alternative. Required by the compiler for images and video.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "captions": {
+          "description": "Caption/subtitle tracks (video and audio).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CaptionTrack"
+          }
+        },
+        "duration_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "height": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "kind": {
+          "$ref": "#/$defs/ResourceKind"
+        },
+        "media_type": {
+          "description": "IANA media type, verified against the file content by the compiler.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name used by blocks to refer to this resource. Unique.",
+          "type": "string"
+        },
+        "poster": {
+          "description": "Name of an image resource shown before a video plays.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "description": "Lower-case hex SHA-256 of the file (empty for remote resources).",
+          "type": "string",
+          "default": ""
+        },
+        "size": {
+          "description": "Size in bytes (0 for remote resources).",
+          "type": "integer",
+          "format": "uint64",
+          "default": 0,
+          "minimum": 0
+        },
+        "source": {
+          "$ref": "#/$defs/ResourceSource"
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "transcript": {
+          "description": "Full-text transcript (audio and video).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "width": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "source",
+        "media_type"
+      ]
+    },
+    "ResourceKind": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "audio",
+        "captions",
+        "font"
+      ]
+    },
+    "ResourceSource": {
+      "oneOf": [
+        {
+          "description": "Stored in the package under the entry name `entry`.",
+          "type": "object",
+          "properties": {
+            "entry": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string",
+              "const": "packaged"
+            }
+          },
+          "required": [
+            "location",
+            "entry"
+          ]
+        },
+        {
+          "description": "Loaded from the network, only if the host is in [`Meta::network`]\nand the reader's user allows it.",
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "const": "remote"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "location",
+            "url"
+          ]
+        }
+      ]
+    },
+    "Span": {
+      "description": "A run of inline text with uniform formatting.",
+      "type": "object",
+      "properties": {
+        "bold": {
+          "type": "boolean"
+        },
+        "break": {
+          "description": "Forced line break after this span (verse and addresses).",
+          "type": "boolean"
+        },
+        "code": {
+          "type": "boolean"
+        },
+        "italic": {
+          "type": "boolean"
+        },
+        "link": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Link"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "description": "Literal text. Empty when `var` is set.",
+          "type": "string"
+        },
+        "var": {
+          "description": "Name of a state variable whose current value is shown in place of `text`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "StateVar": {
+      "description": "A bounded state variable.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "description": "Integer clamped to `min..=max` on every assignment.",
+          "type": "object",
+          "properties": {
+            "initial": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "max": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "min": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "type": {
+              "type": "string",
+              "const": "int"
+            }
+          },
+          "required": [
+            "type",
+            "initial",
+            "min",
+            "max"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "initial": {
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "bool"
+            }
+          },
+          "required": [
+            "type",
+            "initial"
+          ]
+        },
+        {
+          "description": "One of a closed set of strings.",
+          "type": "object",
+          "properties": {
+            "initial": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "const": "enum"
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "type",
+            "initial",
+            "values"
+          ]
+        }
+      ],
+      "required": [
+        "name"
+      ]
+    },
+    "TextStyle": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "body",
+            "small",
+            "caption",
+            "mono"
+          ]
+        },
+        {
+          "description": "Larger opening paragraph.",
+          "type": "string",
+          "const": "lead"
+        },
+        {
+          "description": "Body paragraph with a drop capital.",
+          "type": "string",
+          "const": "dropcap"
+        },
+        {
+          "description": "Line breaks are preserved, no justification.",
+          "type": "string",
+          "const": "verse"
+        },
+        {
+          "description": "Large display lettering (title plates, fixed pages).",
+          "type": "string",
+          "const": "display"
+        }
+      ]
+    },
+    "Theme": {
+      "description": "Visual identity of the book interior.",
+      "type": "object",
+      "properties": {
+        "accent": {
+          "description": "Accent colour for ornaments, links and controls, `#rrggbb`.",
+          "type": "string"
+        },
+        "body_font": {
+          "$ref": "#/$defs/FontRef"
+        },
+        "dark": {
+          "description": "Optional palette for the reader's dark mode. Derived by the reader when absent.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Palette"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "drop_caps": {
+          "type": "boolean"
+        },
+        "heading_font": {
+          "$ref": "#/$defs/FontRef"
+        },
+        "hyphenate": {
+          "type": "boolean"
+        },
+        "ink": {
+          "description": "Text colour, `#rrggbb`.",
+          "type": "string"
+        },
+        "justify": {
+          "type": "boolean"
+        },
+        "paper": {
+          "description": "Paper colour, `#rrggbb`.",
+          "type": "string"
+        },
+        "paragraph": {
+          "$ref": "#/$defs/ParagraphStyle"
+        }
+      },
+      "required": [
+        "paper",
+        "ink",
+        "accent",
+        "body_font",
+        "heading_font",
+        "paragraph",
+        "justify",
+        "hyphenate",
+        "drop_caps"
+      ]
+    },
+    "TocEntry": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "description": "1 = chapter, 2 = section.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "target": {
+          "description": "Anchor name to jump to.",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "when": {
+          "description": "Entry is listed only while this holds (mirrors the chapter/section condition).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Expr"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "target",
+        "level"
+      ]
+    },
+    "Transition": {
+      "description": "How the reader moves to a non-adjacent location.",
+      "oneOf": [
+        {
+          "description": "Riffle through the leaves in between (default).",
+          "type": "string",
+          "const": "flip"
+        },
+        {
+          "description": "Cross-fade.",
+          "type": "string",
+          "const": "fade"
+        },
+        {
+          "description": "Cut.",
+          "type": "string",
+          "const": "none"
+        }
+      ]
+    }
+  }
+}

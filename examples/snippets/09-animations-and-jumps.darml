@@ -1,0 +1,29 @@
+darm 1
+
+# Entrance animations, jump transitions, buttons and reset (reference §8, §11).
+
+book "Motion":
+    author = "DARM Examples"
+    language = "en"
+
+state:
+    visits = 0 in 0..9
+
+chapter "Entrances", id=entrances:
+    text "Each block below enters in its own way.", style=lead
+    text "Fades in.", animate=fade
+    text "Rises, after a short delay.", animate=rise, delay=300ms
+    text "Slides in slowly from the left.", animate=slide_left, delay=600ms, duration=1.2s
+    quote "Zooms in last.", by="The fourth block", animate=zoom, delay=900ms
+    button "Cross-fade to the next chapter":
+        visits += 1
+        goto jumps, transition=fade  # flip (default) | fade | none
+
+chapter "Jumps", id=jumps:
+    text "You have jumped here {visits} time(s)."
+    button "Cut straight back", goto=entrances, transition=none
+    button "Forget the count":
+        reset visits  # restore one variable
+    button "Reset everything and restart":
+        reset  # restore all state
+        goto start

@@ -1,0 +1,33 @@
+darm 1
+
+chapter "Antes de la primera marea", id=prefacio, numbered=false:
+    text "Aprendí a leer la hora en el agua antes que en los relojes. En Ardora, donde nací, nadie preguntaba qué hora era, sino cómo estaba la marea, y la respuesta —subiendo, parada, bajando a escape— ordenaba el día mejor que cualquier campanario.",
+            style=lead
+    text """
+        Este libro es un atlas, pero no de los que fijan las cosas en su sitio. Un atlas
+        corriente dice: aquí está la costa. Este se limita a decir por dónde anda. Lo empecé
+        como un cuaderno de campo, el invierno en que volví al estero para vaciar la casa de
+        mi abuelo Anselmo, que durante cuarenta y un años cuidó el mareógrafo del Muelle
+        Largo, y lo terminé dos años después, convencida de que la mejor manera de entender
+        una orilla es mirarla moverse.
+
+        No es un tratado. Quien busque fórmulas las encontrará mejores en los manuales de
+        oceanografía, y quien quiera predicciones hará bien en fiarse de las tablas oficiales
+        de su puerto y no de estas páginas. Aquí hay otra cosa: lo que se aprende acompañando
+        a la bajamar con las botas puestas, los nombres que la gente del estero da a cada
+        momento del agua, unas cuantas láminas dibujadas a tinta y una fábula que me contaron
+        tantas veces que ya no sé si es antigua o si la inventó mi abuelo para dormirme.
+
+        He procurado no adornar. El mar ya viene adornado de casa, y a quien escribe sobre él
+        le basta con no estorbar. Si alguna página suena a elegía, no es culpa mía: es que
+        todo lo que cuento aquí se retira dos veces al día, y una acaba cogiéndole cariño a
+        lo que se va.
+        """
+    box style=rule, title="Cómo leer este atlas":
+        list:
+            item "Los capítulos pueden leerse en orden o a saltos: cada uno acaba donde empieza la marea siguiente."
+            item "Las **láminas** llevan número y pie. El [mapa del estero](lamina_mapa) conviene tenerlo a mano desde el principio."
+            item "Las *notas al margen* recogen lo que mi abuelo apuntaba en los bordes de sus cuadernos."
+            item "Al final hay un [glosario mínimo](glosario) con las palabras del oficio."
+    space 1
+    text "Ardora, en la estoa de una marea viva de marzo.", style=small, align=right

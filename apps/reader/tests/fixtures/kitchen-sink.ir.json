@@ -1,0 +1,1191 @@
+{
+  "ir_version": "1.0",
+  "grammar_version": 1,
+  "meta": {
+    "id": "org.darm.fixtures.kitchen-sink",
+    "title": "The Kitchen Sink",
+    "subtitle": "A book that contains one of everything",
+    "authors": [
+      "Ana Reyes",
+      "Ben Okafor"
+    ],
+    "language": "en",
+    "edition": "Test edition",
+    "version": "1.0.0",
+    "publisher": "DARM Fixtures",
+    "published": "2026-11-16",
+    "description": "Every block the reader knows how to draw, in one short volume. Used by the automated tests.",
+    "rights": "Public domain (CC0). Written for the DARM test suite.",
+    "credits": [
+      {
+        "role": "Illustrations",
+        "name": "The test suite"
+      },
+      {
+        "role": "Typesetting",
+        "name": "The DARM reader"
+      }
+    ],
+    "layout": "reflow",
+    "page_aspect": 0.6666666666666666,
+    "offline": true,
+    "generator": "darm 0.1.0"
+  },
+  "theme": {
+    "paper": "#f7f3ea",
+    "ink": "#1f1c18",
+    "accent": "#8c3b2a",
+    "dark": {
+      "paper": "#181614",
+      "ink": "#e8e1d3",
+      "accent": "#e08a6f"
+    },
+    "body_font": {
+      "source": "builtin",
+      "family": "serif"
+    },
+    "heading_font": {
+      "source": "builtin",
+      "family": "serif"
+    },
+    "paragraph": "indent",
+    "justify": true,
+    "hyphenate": true,
+    "drop_caps": true
+  },
+  "resources": [
+    {
+      "name": "pic",
+      "kind": "image",
+      "source": {
+        "location": "packaged",
+        "entry": "res/pic.png"
+      },
+      "media_type": "image/png",
+      "size": 1746,
+      "sha256": "aa754b36457e863a07c109a05acd9d80c7482a439cd3c9e1a24ba9f75883b7c3",
+      "width": 360,
+      "height": 240,
+      "alt": "A low sun over a dark sea"
+    },
+    {
+      "name": "map",
+      "kind": "image",
+      "source": {
+        "location": "packaged",
+        "entry": "res/map.svg"
+      },
+      "media_type": "image/svg+xml",
+      "size": 790,
+      "sha256": "2d5c20216b7ada21de5ddd90c429db55b22c5c7e0b912ff05f9e3a32d45a16aa",
+      "width": 800,
+      "height": 600,
+      "alt": "A chart with a red hill, a compass rose and three lines of water"
+    },
+    {
+      "name": "clip",
+      "kind": "video",
+      "source": {
+        "location": "packaged",
+        "entry": "res/clip.mp4"
+      },
+      "media_type": "video/mp4",
+      "size": 41754,
+      "sha256": "a01710e5264a9f2d5812c22811ccaaeed9d64bcacd1f5c746e4f03c81845b285",
+      "width": 480,
+      "height": 270,
+      "duration_ms": 4000,
+      "alt": "A slow diagonal gradient from navy to gold",
+      "title": "Gradient study",
+      "poster": "clip__poster",
+      "captions": [
+        {
+          "resource": "clip__cc_en",
+          "lang": "en",
+          "label": "English"
+        },
+        {
+          "resource": "clip__cc_es",
+          "lang": "es",
+          "label": "Español"
+        }
+      ]
+    },
+    {
+      "name": "clip__poster",
+      "kind": "image",
+      "source": {
+        "location": "packaged",
+        "entry": "res/clip__poster.png"
+      },
+      "media_type": "image/png",
+      "size": 1746,
+      "sha256": "aa754b36457e863a07c109a05acd9d80c7482a439cd3c9e1a24ba9f75883b7c3",
+      "width": 360,
+      "height": 240,
+      "alt": "A slow diagonal gradient from navy to gold"
+    },
+    {
+      "name": "clip__cc_en",
+      "kind": "captions",
+      "source": {
+        "location": "packaged",
+        "entry": "res/clip__cc_en.vtt"
+      },
+      "media_type": "text/vtt",
+      "size": 101,
+      "sha256": "e4e3ddf7af630c1487e0f5a2e6292c5325613e3503c5da5edf68f42bd92aee10"
+    },
+    {
+      "name": "clip__cc_es",
+      "kind": "captions",
+      "source": {
+        "location": "packaged",
+        "entry": "res/clip__cc_es.vtt"
+      },
+      "media_type": "text/vtt",
+      "size": 111,
+      "sha256": "6fd874c36ae048f47400f1d0d3e7a3987c7daed0aa6815e47585c2fcb46b072f"
+    },
+    {
+      "name": "sound",
+      "kind": "audio",
+      "source": {
+        "location": "packaged",
+        "entry": "res/sound.m4a"
+      },
+      "media_type": "audio/mp4",
+      "size": 19824,
+      "sha256": "1dcaea8bdf88a1dabc731e1dbf57026843d296be8198dd0b6da1e0fc3bb1dcf3",
+      "duration_ms": 3000,
+      "title": "A single tone",
+      "transcript": "A steady low tone that fades in and out."
+    }
+  ],
+  "state": [
+    {
+      "name": "courage",
+      "type": "int",
+      "initial": 1,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "name": "lit",
+      "type": "bool",
+      "initial": false
+    },
+    {
+      "name": "route",
+      "type": "enum",
+      "initial": "shore",
+      "values": [
+        "shore",
+        "cliff"
+      ]
+    }
+  ],
+  "cover": {
+    "front": {
+      "style": "classic",
+      "color": "#7a2e22",
+      "ink": "#f4ead5",
+      "accent": "#d9b46a",
+      "show_text": true,
+      "title": "The Kitchen Sink",
+      "subtitle": "A book that contains one of everything",
+      "author": "Ana Reyes, Ben Okafor"
+    },
+    "back": {
+      "color": "#7a2e22",
+      "ink": "#f4ead5",
+      "accent": "#d9b46a",
+      "blurb": [
+        [
+          {
+            "text": "A short volume built to exercise a reading machine: paragraphs that run long enough to break across pages, figures, verse, lists, boxes, and a story that forks."
+          }
+        ],
+        [
+          {
+            "text": "If you can read this on the back board, the "
+          },
+          {
+            "text": "contraportada",
+            "italic": true
+          },
+          {
+            "text": " works."
+          }
+        ]
+      ],
+      "tagline": "One of everything."
+    }
+  },
+  "chapters": [
+    {
+      "id": "_title",
+      "kind": "title",
+      "title": "Title page"
+    },
+    {
+      "id": "_colophon",
+      "kind": "colophon",
+      "title": "Colophon"
+    },
+    {
+      "id": "_contents",
+      "kind": "contents",
+      "title": "Contents"
+    },
+    {
+      "id": "arrival",
+      "kind": "chapter",
+      "title": "Arrival",
+      "number": 1,
+      "opener": true,
+      "blocks": [
+        {
+          "id": "_b1",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "The ferry came in sideways, as it always did, shouldering the tide. From the rail the town looked like a sentence somebody had started with confidence and then abandoned: a bright row of houses, a comma of breakwater, and after that only weather."
+            }
+          ],
+          "style": "dropcap"
+        },
+        {
+          "id": "_b2",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "Nobody met the boat. The gulls conducted their usual inquiry. A man in an oilskin was coiling rope with the patience of someone who intends to coil it again tomorrow, and the harbour clock, which had been wrong for so long that people navigated by its error, said a quarter past something."
+            }
+          ],
+          "style": "body"
+        },
+        {
+          "id": "_b3",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "She had come for the archive, or that was what the letter said. The letter also said "
+            },
+            {
+              "text": "bring boots",
+              "italic": true
+            },
+            {
+              "text": ", which she had taken for a joke until she saw the quay. It was the kind of quay that keeps what it is given."
+            }
+          ],
+          "style": "body"
+        },
+        {
+          "id": "_b4",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "The first thing anyone tells you here is the time of the next low water."
+            }
+          ],
+          "style": "lead"
+        },
+        {
+          "id": "_b13",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "quay",
+              "type": "heading",
+              "spans": [
+                {
+                  "text": "The quay"
+                }
+              ],
+              "level": 2
+            },
+            {
+              "id": "_b6",
+              "type": "image",
+              "resource": "pic",
+              "caption": [
+                {
+                  "text": "Fig. 1. The harbour at dusk, "
+                },
+                {
+                  "text": "looking west",
+                  "italic": true
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "width": 0.7,
+              "fit": "contain"
+            },
+            {
+              "id": "_b7",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "There is a particular light on a coast in the last hour, when the water gives back more than the sky sends down. Painters have a word for it and so do pilots, and the two words do not agree. The painters mean that the edges of things go soft; the pilots mean that you can no longer trust a distance."
+                }
+              ],
+              "style": "body"
+            },
+            {
+              "id": "_b8",
+              "type": "gallery",
+              "resources": [
+                "pic",
+                "map"
+              ],
+              "caption": [
+                {
+                  "text": "Two views of the same water."
+                }
+              ]
+            },
+            {
+              "id": "_b10",
+              "type": "box",
+              "style": "bar",
+              "title": "Note",
+              "blocks": [
+                {
+                  "id": "_b9",
+                  "type": "paragraph",
+                  "spans": [
+                    {
+                      "text": "Mind the "
+                    },
+                    {
+                      "text": "gap",
+                      "bold": true
+                    },
+                    {
+                      "text": " between the pontoon and the steps."
+                    }
+                  ],
+                  "style": "small"
+                }
+              ]
+            },
+            {
+              "id": "_b12",
+              "type": "box",
+              "style": "bar",
+              "title": "Warning",
+              "blocks": [
+                {
+                  "id": "_b11",
+                  "type": "paragraph",
+                  "spans": [
+                    {
+                      "text": "Spring tides run two hours late here."
+                    }
+                  ],
+                  "style": "small"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_b23",
+          "type": "group",
+          "blocks": [
+            {
+              "id": "_b14",
+              "type": "heading",
+              "spans": [
+                {
+                  "text": "What the tide left"
+                }
+              ],
+              "level": 2
+            },
+            {
+              "id": "_b15",
+              "type": "quote",
+              "paragraphs": [
+                [
+                  {
+                    "text": "A coast is a sentence the sea keeps rewriting."
+                  }
+                ]
+              ],
+              "attribution": [
+                {
+                  "text": "Harbour proverb"
+                }
+              ]
+            },
+            {
+              "id": "_b16",
+              "type": "list",
+              "ordered": true,
+              "items": [
+                [
+                  {
+                    "text": "Rope, tarred, about four fathoms."
+                  }
+                ],
+                [
+                  {
+                    "text": "A "
+                  },
+                  {
+                    "text": "brass",
+                    "bold": true
+                  },
+                  {
+                    "text": " sounding lead with the tallow still in it."
+                  }
+                ],
+                [
+                  {
+                    "text": "One boot. Nobody asks about the other."
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "_b17",
+              "type": "list",
+              "ordered": false,
+              "items": [
+                [
+                  {
+                    "text": "Limpets"
+                  }
+                ],
+                [
+                  {
+                    "text": "Bladderwrack"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "_b18",
+              "type": "divider",
+              "style": "rule"
+            },
+            {
+              "id": "_b19",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "The tide kept its accounts in the old way,",
+                  "break": true
+                },
+                {
+                  "text": "a line of wrack for every hour it stayed,",
+                  "break": true
+                },
+                {
+                  "text": "and what it took it entered as a loan."
+                }
+              ],
+              "style": "verse",
+              "align": "center"
+            },
+            {
+              "id": "_b20",
+              "type": "divider",
+              "style": "ornament"
+            },
+            {
+              "id": "_b21",
+              "type": "video",
+              "resource": "clip",
+              "caption": [
+                {
+                  "text": "A study in two colours."
+                }
+              ]
+            },
+            {
+              "id": "_b22",
+              "type": "audio",
+              "resource": "sound",
+              "caption": [
+                {
+                  "text": "The same study, for the ear."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_b24",
+          "type": "heading",
+          "spans": [
+            {
+              "text": "A minor heading"
+            }
+          ],
+          "level": 3
+        },
+        {
+          "id": "_b25",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "Body text resumes after the heading, set in the same measure as before. "
+            },
+            {
+              "text": "Inline code",
+              "code": true
+            },
+            {
+              "text": " sits in a mono face, and a "
+            },
+            {
+              "text": "link to the fork",
+              "link": {
+                "kind": "anchor",
+                "target": "fork"
+              }
+            },
+            {
+              "text": " is underlined in the accent colour, as is "
+            },
+            {
+              "text": "an external one",
+              "link": {
+                "kind": "url",
+                "href": "https://example.org/tides"
+              }
+            },
+            {
+              "text": "."
+            }
+          ],
+          "style": "body"
+        },
+        {
+          "id": "_b27",
+          "type": "box",
+          "style": "tint",
+          "title": "A tinted box",
+          "blocks": [
+            {
+              "id": "_b26",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "Boxes hold blocks. This one has a tint; the notes above use a bar; the one below a rule."
+                }
+              ],
+              "style": "body"
+            }
+          ]
+        },
+        {
+          "id": "_b29",
+          "type": "box",
+          "style": "rule",
+          "blocks": [
+            {
+              "id": "_b28",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "A plain ruled box."
+                }
+              ],
+              "style": "body"
+            }
+          ]
+        },
+        {
+          "id": "_b30",
+          "type": "space",
+          "lines": 1.0
+        },
+        {
+          "id": "_b31",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "Small print belongs at the foot of things."
+            }
+          ],
+          "style": "small"
+        },
+        {
+          "id": "_b32",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "MONOSPACE 0123456789"
+            }
+          ],
+          "style": "mono"
+        },
+        {
+          "id": "_b33",
+          "type": "page_break"
+        },
+        {
+          "id": "fork",
+          "type": "choice",
+          "prompt": [
+            {
+              "text": "The path forks at the breakwater."
+            }
+          ],
+          "options": [
+            {
+              "label": "Climb to the lighthouse",
+              "actions": [
+                {
+                  "do": "set",
+                  "var": "route",
+                  "value": {
+                    "op": "str",
+                    "value": "cliff"
+                  }
+                },
+                {
+                  "do": "set",
+                  "var": "courage",
+                  "value": {
+                    "op": "bin",
+                    "kind": "add",
+                    "left": {
+                      "op": "var",
+                      "name": "courage"
+                    },
+                    "right": {
+                      "op": "int",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "do": "goto",
+                  "target": "cliff",
+                  "transition": "fade"
+                }
+              ]
+            },
+            {
+              "label": "Wade into the sea caves",
+              "when": {
+                "op": "var",
+                "name": "lit"
+              },
+              "actions": [
+                {
+                  "do": "set",
+                  "var": "route",
+                  "value": {
+                    "op": "str",
+                    "value": "shore"
+                  }
+                },
+                {
+                  "do": "goto",
+                  "target": "arrival"
+                }
+              ]
+            },
+            {
+              "label": "Stay on the shingle",
+              "actions": [
+                {
+                  "do": "set",
+                  "var": "route",
+                  "value": {
+                    "op": "str",
+                    "value": "shore"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lantern",
+          "type": "button",
+          "label": "Light the lantern",
+          "actions": [
+            {
+              "do": "set",
+              "var": "lit",
+              "value": {
+                "op": "bool",
+                "value": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "_b37",
+          "type": "group",
+          "when": {
+            "op": "bin",
+            "kind": "and",
+            "left": {
+              "op": "bin",
+              "kind": "eq",
+              "left": {
+                "op": "var",
+                "name": "route"
+              },
+              "right": {
+                "op": "str",
+                "value": "cliff"
+              }
+            },
+            "right": {
+              "op": "bin",
+              "kind": "ge",
+              "left": {
+                "op": "var",
+                "name": "courage"
+              },
+              "right": {
+                "op": "int",
+                "value": 2
+              }
+            }
+          },
+          "blocks": [
+            {
+              "id": "verdict_high",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "From up here the whole coast is a map."
+                }
+              ],
+              "style": "body"
+            }
+          ]
+        },
+        {
+          "id": "_b39",
+          "type": "group",
+          "when": {
+            "op": "bin",
+            "kind": "and",
+            "left": {
+              "op": "not",
+              "expr": {
+                "op": "bin",
+                "kind": "and",
+                "left": {
+                  "op": "bin",
+                  "kind": "eq",
+                  "left": {
+                    "op": "var",
+                    "name": "route"
+                  },
+                  "right": {
+                    "op": "str",
+                    "value": "cliff"
+                  }
+                },
+                "right": {
+                  "op": "bin",
+                  "kind": "ge",
+                  "left": {
+                    "op": "var",
+                    "name": "courage"
+                  },
+                  "right": {
+                    "op": "int",
+                    "value": 2
+                  }
+                }
+              }
+            },
+            "right": {
+              "op": "var",
+              "name": "lit"
+            }
+          },
+          "blocks": [
+            {
+              "id": "verdict_lit",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "The lantern hisses. Courage: "
+                },
+                {
+                  "var": "courage"
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "style": "body"
+            }
+          ]
+        },
+        {
+          "id": "_b41",
+          "type": "group",
+          "when": {
+            "op": "bin",
+            "kind": "and",
+            "left": {
+              "op": "not",
+              "expr": {
+                "op": "bin",
+                "kind": "and",
+                "left": {
+                  "op": "bin",
+                  "kind": "eq",
+                  "left": {
+                    "op": "var",
+                    "name": "route"
+                  },
+                  "right": {
+                    "op": "str",
+                    "value": "cliff"
+                  }
+                },
+                "right": {
+                  "op": "bin",
+                  "kind": "ge",
+                  "left": {
+                    "op": "var",
+                    "name": "courage"
+                  },
+                  "right": {
+                    "op": "int",
+                    "value": 2
+                  }
+                }
+              }
+            },
+            "right": {
+              "op": "not",
+              "expr": {
+                "op": "var",
+                "name": "lit"
+              }
+            }
+          },
+          "blocks": [
+            {
+              "id": "verdict_low",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "You stay on the shingle with the gulls."
+                }
+              ],
+              "style": "body"
+            }
+          ]
+        },
+        {
+          "id": "star_quiz",
+          "type": "quiz",
+          "question": [
+            {
+              "text": "Which star does the pilot steer by?"
+            }
+          ],
+          "answers": [
+            {
+              "label": "Polaris",
+              "correct": true
+            },
+            {
+              "label": "Sirius"
+            },
+            {
+              "label": "Vega"
+            }
+          ],
+          "explanation": [
+            {
+              "text": "Polaris sits within a degree of the celestial pole."
+            }
+          ],
+          "on_correct": [
+            {
+              "do": "set",
+              "var": "courage",
+              "value": {
+                "op": "bin",
+                "kind": "add",
+                "left": {
+                  "op": "var",
+                  "name": "courage"
+                },
+                "right": {
+                  "op": "int",
+                  "value": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "restart",
+          "type": "button",
+          "label": "Start again",
+          "actions": [
+            {
+              "do": "reset"
+            },
+            {
+              "do": "goto",
+              "target": "start"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cliff",
+      "kind": "chapter",
+      "title": "The cliff",
+      "opener": true,
+      "when": {
+        "op": "bin",
+        "kind": "eq",
+        "left": {
+          "op": "var",
+          "name": "route"
+        },
+        "right": {
+          "op": "str",
+          "value": "cliff"
+        }
+      },
+      "blocks": [
+        {
+          "id": "_b44",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "The path up is cut into the rock like a line of handwriting."
+            }
+          ],
+          "style": "dropcap",
+          "anim": {
+            "kind": "rise",
+            "delay_ms": 200,
+            "duration_ms": 800
+          }
+        },
+        {
+          "id": "plate",
+          "type": "page",
+          "background": "#102030",
+          "blocks": [
+            {
+              "id": "_b45",
+              "type": "image",
+              "resource": "map",
+              "width": 1.0,
+              "fit": "cover",
+              "frame": {
+                "x": 0.0,
+                "y": 0.0,
+                "w": 100.0,
+                "h": 100.0
+              }
+            },
+            {
+              "id": "_b46",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "The Charted Coast"
+                }
+              ],
+              "style": "display",
+              "align": "center",
+              "frame": {
+                "x": 8.0,
+                "y": 8.0,
+                "w": 84.0,
+                "h": 16.0
+              },
+              "color": "#ffffff"
+            },
+            {
+              "id": "_b47",
+              "type": "paragraph",
+              "spans": [
+                {
+                  "text": "A fixed page: every element is placed by hand."
+                }
+              ],
+              "style": "body",
+              "align": "center",
+              "frame": {
+                "x": 15.0,
+                "y": 26.0,
+                "w": 70.0,
+                "h": 10.0
+              },
+              "color": "#3a2a24"
+            },
+            {
+              "id": "_b48",
+              "type": "button",
+              "label": "Back to the quay",
+              "actions": [
+                {
+                  "do": "goto",
+                  "target": "quay"
+                }
+              ],
+              "frame": {
+                "x": 30.0,
+                "y": 82.0,
+                "w": 40.0,
+                "h": 9.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "_b50",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "And back down again, more carefully."
+            }
+          ],
+          "style": "body"
+        }
+      ]
+    },
+    {
+      "id": "afterword",
+      "kind": "chapter",
+      "title": "Afterword",
+      "opener": true,
+      "blocks": [
+        {
+          "id": "_b51",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "A test book should end the way a real one does: with a last page that has some white under it, and then the back board. If you are reading this in a browser at two in the morning because a snapshot changed by one pixel, I am sorry, and also: check the font loaded."
+            }
+          ],
+          "style": "dropcap"
+        },
+        {
+          "id": "_b52",
+          "type": "paragraph",
+          "spans": [
+            {
+              "text": "The end.",
+              "italic": true
+            }
+          ],
+          "style": "body",
+          "align": "center"
+        }
+      ]
+    }
+  ],
+  "toc": [
+    {
+      "title": "Arrival",
+      "target": "arrival",
+      "level": 1,
+      "number": 1
+    },
+    {
+      "title": "The quay",
+      "target": "quay",
+      "level": 2
+    },
+    {
+      "title": "What the tide left",
+      "target": "_b14",
+      "level": 2
+    },
+    {
+      "title": "The cliff",
+      "target": "cliff",
+      "level": 1,
+      "when": {
+        "op": "bin",
+        "kind": "eq",
+        "left": {
+          "op": "var",
+          "name": "route"
+        },
+        "right": {
+          "op": "str",
+          "value": "cliff"
+        }
+      }
+    },
+    {
+      "title": "Afterword",
+      "target": "afterword",
+      "level": 1
+    }
+  ],
+  "anchors": {
+    "_b14": {
+      "chapter": "arrival",
+      "block": "_b14"
+    },
+    "afterword": {
+      "chapter": "afterword"
+    },
+    "arrival": {
+      "chapter": "arrival"
+    },
+    "cliff": {
+      "chapter": "cliff"
+    },
+    "fork": {
+      "chapter": "arrival",
+      "block": "fork"
+    },
+    "lantern": {
+      "chapter": "arrival",
+      "block": "lantern"
+    },
+    "plate": {
+      "chapter": "cliff",
+      "block": "plate"
+    },
+    "quay": {
+      "chapter": "arrival",
+      "block": "quay"
+    },
+    "restart": {
+      "chapter": "arrival",
+      "block": "restart"
+    },
+    "star_quiz": {
+      "chapter": "arrival",
+      "block": "star_quiz"
+    },
+    "verdict_high": {
+      "chapter": "arrival",
+      "block": "verdict_high"
+    },
+    "verdict_lit": {
+      "chapter": "arrival",
+      "block": "verdict_lit"
+    },
+    "verdict_low": {
+      "chapter": "arrival",
+      "block": "verdict_low"
+    }
+  }
+}

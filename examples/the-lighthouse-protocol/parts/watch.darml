@@ -1,0 +1,318 @@
+darm 1
+
+# Part one: the night. Chapters, in reading order:
+#   title_plate -> reader_orders -> arrival -> lamp_room | bell_house -> fog
+#   -> the_answer | the_log -> chart_plate
+# Gated chapters (`when=`) are skipped by page turning while their condition
+# is false, so turning pages without choosing always follows the defaults.
+
+# --- Title plate: a fixed page inside a reflow book ----------------------------
+
+chapter "Title plate", id=title_plate, numbered=false, opener=false, toc=false:
+    page background="#0e1a26":
+        image plate_title_art, at=(0, 0), size=(100, 100), fit=cover
+        text "The Lighthouse Protocol", style=display, color="#e9e4d6", at=(8, 8), size=(84, 20),
+                align=center, animate=fade, duration=1.2s
+        text "One keeper. One night of fog. Four standing orders.", color="#e9e4d6", at=(10, 30),
+                size=(80, 7), align=center, animate=rise, delay=700ms, duration=900ms
+        button "Begin the watch", at=(30, 84), size=(40, 8), animate=fade, delay=1.4s:
+            goto reader_orders, transition=fade
+
+# --- How the book works --------------------------------------------------------
+
+chapter "Standing Orders for the Reader", id=reader_orders, numbered=false:
+    text "This is a book with more than one night in it.", style=lead
+    text """
+        Now and then the story will stop and ask what you do. Choose, and the pages that
+        follow rearrange themselves around your answer. You may always turn the page instead
+        of choosing; the watch then goes on as the last keeper would have stood it. You may
+        go back and choose again. And when you reach a morning — there are four of them — you
+        may wind the night back and stand it differently.
+        """
+    list:
+        item "**Choices** decide which chapters come next."
+        item "**The gauge.** Some pages show how much oil is in the lamp. It is counted in measures, from 0 to 5, and it matters."
+        item "**Sound and film** are captioned and transcribed. Nothing in the story depends on hearing them."
+    button "Land at Skerry Vane", goto=arrival
+
+# --- 1. Arrival ------------------------------------------------------------------
+
+chapter "The Relief", id=arrival, numbered=false:
+    text "The boatman will not come closer than the length of his oars. He holds the skiff off the rock with one blade and waits, not looking at you, while you choose your moment and jump.",
+            style=lead
+    text """
+        The landing is a ledge and nine wet steps. By the time you have your bag and your
+        footing he is already pulling for the mainland, small and steady, and getting smaller.
+        He has said eleven words to you all afternoon. Seven of them were: ‘Maddock will meet
+        you. He always does.’
+
+        Nobody meets you.
+
+        Skerry Vane is forty paces of black rock, a stone tower, a bell house no bigger than
+        a privy, and a great deal of sea. The door at the foot of the tower stands open.
+        Inside, a kettle sits cold on the stove, a chair is pushed back from the table, and a
+        second mug has been set out beside the first: clean, upside down, waiting for the
+        relief.
+        """
+    video beam_film,
+            caption="The light of Skerry Vane. Its character: *two flashes in every twelve seconds*.",
+            loop=true, animate=fade
+    text """
+        Above you the lamp is lit, though it is not yet dark. You count without meaning to —
+        flash, flash, and ten slow seconds of nothing — and find it is exactly what the chart
+        promised. Whoever lit it knew his business.
+
+        On the table, under the mug, lies the station log. And pinned to the wall above it,
+        in a copperplate hand gone brown with age, are the four lines that every keeper of
+        this rock has signed beneath.
+        """
+    box style=rule, title="The Protocol", id=protocol:
+        list ordered=true:
+            item "The light shall show its character, **two flashes in every twelve seconds**, from sunset to sunrise, and no other."
+            item "In fog the flame is kept at **half**, and the bell is sounded: **one stroke in every thirty seconds**."
+            item "The keeper shall not leave the tower while the light is burning."
+            item "Signals from seaward are to be **logged, never answered**."
+        text "Signed beneath, in thirty different hands. The last is *O. Maddock*. There is room for one more.",
+                style=small
+    text "The last entry in the log is in the same hand, and it is not finished."
+    quote "Glass falling. Fog by dark. Horn again from the north-west, three long. It is not a ship. I am going down to",
+            by="Station log, Skerry Vane: the last entry"
+    text "You read it twice. Then you look at the window, where the horizon has begun to go soft."
+    audio sea_sound, caption="The sea at the foot of the tower."
+    text """
+        There is perhaps an hour of daylight left, and two things want doing before the fog
+        arrives. The reservoir of the lamp is low; you can tell by the colour of the flame.
+        And the fog bell runs by clockwork that nobody has wound. One keeper can do one of
+        them properly before dark.
+        """
+    choice "What do you see to first?", id=first_duty:
+        option "Climb to the lamp room and see to the oil":
+            duty = "lamp"
+            goto lamp_room
+        option "Go down to the bell house and wind the bell":
+            duty = "bell"
+            goto bell_house
+
+# --- 2a. The lamp room (duty == "lamp") ------------------------------------------
+
+chapter "The Lamp Room", id=lamp_room, numbered=false, when=duty == "lamp":
+    text "A hundred and four steps, and the last dozen are iron. You come up through the floor of the lantern into a room made entirely of light.",
+            style=lead
+    text """
+        The lens stands taller than you are: a beehive of glass, ring upon ring of prisms
+        around two bull’s-eyes set close together like a pair of eyes. It turns on its bath
+        of quicksilver with no more noise than a breath, and each time the eyes swing past
+        you the whole room goes white, twice, and then gives you back the dusk.
+
+        At the heart of it the flame is burning long and yellow. Too yellow.
+        """
+    image lens_art,
+            caption="The lens of Skerry Vane. The reservoir and its hand pump stand at the foot of the pedestal.",
+            width=80%, animate=zoom, duration=800ms
+    text """
+        Under the pedestal you find the reservoir, a brass drum with a glass gauge let into
+        its side and a pump handle worn bright by thirty keepers’ palms. The cistern is far
+        below, at the foot of the tower. Every stroke of the pump lifts one measure of oil the
+        whole height of the stair.
+        """
+    text "The gauge stands at {oil} of 5 measures.", id=lamp_gauge, align=center
+    button "Work the pump":
+        oil += 1
+    if oil >= 4:
+        text "The flame steadies and whitens. Four measures will see a careful keeper through to sunrise, if the flame is kept at half. You wipe your hands and trim the wick square."
+    elif oil == 3:
+        text "Better. But the card on the reservoir is plain: at half flame the lamp burns a measure every two hours, and it is a long way to sunrise."
+    else:
+        text "The gauge is barely off its stop. On this much the light will not see midnight."
+    text """
+        While you work, the horizon closes. The mainland goes first, then the line between
+        sea and sky. When you look down again the bell house is a grey thought, and you
+        remember that nobody has wound it.
+        """
+    button "Keep the watch", goto=fog
+
+# --- 2b. The bell house (duty == "bell") -----------------------------------------
+
+chapter "The Bell House", id=bell_house, numbered=false, when=duty == "bell":
+    text "The path to the bell house is a chain let into the rock. You go down it hand over hand, with the sea breathing on your ankles.",
+            style=lead
+    text """
+        Inside there is room for one keeper and one machine. The bell hangs in the seaward
+        doorway, green with weather, as wide as a barrel. Behind it stands the clockwork: a
+        drum of chain, a weight like an anvil, a train of wheels, and a hammer on a long arm,
+        cocked and waiting.
+
+        The weight is at the bottom of its pit. It has run all the way down, and nobody has
+        raised it.
+
+        You fit the crank and wind. It takes two hundred turns, and you count every one, and
+        at the end of them the weight hangs under the roof and your shoulders are shaking. You
+        lift the pawl. The wheels consider the matter. Then the arm draws back, slow as a
+        tide, and lets go.
+        """
+    audio bell_sound,
+            caption="The fog bell of Skerry Vane. On the rock the strokes come thirty seconds apart; here they are closer."
+    image bell_art, caption="The bell in its frame, and the clockwork that strikes it.", width=80%,
+            animate=rise, duration=800ms
+    text """
+        The note goes out over the water and does not come back. Thirty seconds later the arm
+        lets go again. It will do that until morning without any help from you, which is as
+        well, because when you step outside the tower has no top. The fog has come in while
+        you were winding, and the lamp is a yellow smear inside it: yellower than it should
+        be. You had forgotten the oil.
+
+        You climb. By the time you reach the lantern there is no light to work by but the
+        lamp’s own, and the pump at the foot of the lens will not prime in the cold. Whatever
+        is in the reservoir is what you have.
+        """
+    text "The gauge stands at {oil} of 5 measures.", id=bell_gauge, align=center
+    button "Keep the watch", goto=fog
+
+# --- 3. Fog: the quiz and the signal ---------------------------------------------
+
+chapter "Fog", id=fog, numbered=false:
+    text "By eight the fog is on the glass like wool. The beams no longer reach the sea; they stand out from the lantern a little way, two pale spokes, and stop.",
+            style=lead
+    if duty == "bell":
+        text "Below you, faithful as a pulse, the bell counts the half-minutes. It is the only proof that there is anything down there at all."
+    else:
+        text "Below you there is nothing. No bell: the clockwork sits unwound in the dark, and it is too late now to go down the chain and find it. The silence has a shape, and it is the shape of the second line of the Protocol."
+    text """
+        You have the lamp. You have the card on the reservoir, which says that the lamp drinks
+        a measure an hour at full flame and half that at half. And you have the fog, which is
+        the one thing the Protocol was written for.
+        """
+    quiz "The fog has closed in. How should the flame be set?", id=flame_quiz:
+        answer "Full, to push as much light as possible through the fog"
+        answer "Half, as the Protocol orders in fog", correct=true
+        answer "Out, to save the oil for a clear hour"
+        explain "A high flame only lights the fog around the lantern, and burns a measure an hour doing it. At half flame the lens still throws the character as far as the fog allows, and the oil lasts twice as long. A dark tower helps nobody."
+        on_correct:
+            half_flame = true
+            oil += 1
+    if half_flame:
+        text "You turn the flame down to half. The room dims; the lens goes on turning; and the measure you would have burned for nothing stays in the reservoir. The gauge stands at {oil} of 5."
+    else:
+        text "The gauge stands at {oil} of 5."
+
+    section "Three long", id=three_long:
+        text """
+            It comes a little after nine. You feel it before you hear it, a note so low that
+            it seems to rise through the stone: a horn, far out, to the north-west. One long
+            breath. Another. A third. Then nothing, for as long as it takes you to cross to
+            the seaward glass.
+            """
+        audio horn_sound, caption="From the north-west: three long, a pause, three long."
+        text "And with the horn, a light. Low down, where no ship’s lamp would ride, a small warm spark opens in the fog, and holds, and closes: three times, in step with the horn."
+        video signal_film, caption="Seen from the gallery of Skerry Vane, a little after nine.",
+                animate=fade, delay=200ms
+        text """
+            It is not a ship. Maddock wrote that, and he was right: a ship would be higher,
+            and would not keep so still. It is somebody with a hand lantern and a mouth horn,
+            very low on the water, saying the same thing over and over to the only light in
+            sight.
+
+            The shutter lanyard hangs by the lens, within reach. One pull drops the brass
+            screen across the bull’s-eyes; with it a keeper can make the light say anything he
+            likes. That is precisely why the fourth line of [the Protocol](protocol) was
+            written. A light that answers is no longer the light on the chart, and anyone else
+            out in the fog tonight, steering on two flashes in twelve seconds because their
+            lives depend on it, would be steering on a stranger.
+
+            The horn again. Three long.
+            """
+        choice "The signal is waiting. What do you do?", id=the_signal:
+            option "Log it, and keep the character":
+                answered = false
+                route = "tower"
+                goto the_log
+            option "Take the lanyard and answer: three long":
+                answered = true
+                route = "tower"
+                oil -= 1
+                goto the_answer
+            option "Leave the lamp and go down the chain to the landing", when=duty == "bell":
+                answered = false
+                route = "landing"
+                goto ending_landing, transition=fade
+
+# --- 4a. The answer (answered) -----------------------------------------------------
+
+chapter "The Answer", id=the_answer, numbered=false, when=answered:
+    text "You turn the flame up full, take the lanyard in both hands, and for the first time in its history the light of Skerry Vane says something that is not its name.",
+            style=lead
+    text """
+        Screen down: dark. Screen up, and hold. One. Down. Up, and hold. Two. Down. Up. Three.
+        Your arms know the rhythm before your head has agreed to it. Then you let the lens go
+        back to its turning, and you stand with your heart going like the clockwork, and wait.
+
+        The reply comes at once, and it is not three long. The little light out there goes
+        mad: short, short, long, a scribble of joy with no code in it. The horn brays. And
+        then, you would swear to it, the spark begins to move: not along the rock but straight
+        toward it, toward you, toward the answering light.
+        """
+    text "It costs a measure of oil to shout like that. The gauge stands at {oil} of 5.",
+            animate=fade, delay=300ms
+    text "Only afterwards, with the lanyard still swinging, do you think of the chart. North-west of the tower, between the signal and the rock, lies the reef they call the Calf."
+    if duty == "bell":
+        text "At least there is the bell. Whatever you have told them with the light, the bell is still telling them the truth, every thirty seconds."
+    else:
+        text "And there is no bell to tell them where the rock really is."
+    button "Look at the chart", goto=chart_plate
+
+# --- 4b. The log (not answered) ------------------------------------------------------
+
+chapter "The Log", id=the_log, numbered=false, when=not answered:
+    text "You take your hand off the lanyard. You sit down at the desk under the lens, uncap the ink, and under Maddock’s unfinished line you begin your own.",
+            style=lead
+    quote "9.10 p.m. Horn and hand lamp bearing north-west, three long, repeated. Logged. Not answered. Light showing its proper character.",
+            by="Station log, Skerry Vane: in a new hand"
+    text """
+        It is the hardest sentence you have ever written, and it fits on two lines.
+
+        The horn calls again while the ink is still wet. Three long. You do not look up. Above
+        your head the bull’s-eyes go round, patient as oxen, saying the only thing they know:
+        *two, and ten seconds’ dark; two, and ten seconds’ dark.* It occurs to you that this
+        is also an answer. It says: I am here. I am where I have always been. Take your
+        bearing and come home on me.
+
+        Whether anyone out there can still read so plain a sentence is another matter.
+        """
+    if oil >= 4:
+        text "You look at the gauge, {oil} of 5, and for the first time tonight you believe in the morning."
+    else:
+        text "You look at the gauge: {oil} of 5. You do the sum the card taught you, and you do not like the answer."
+    text """
+        Toward midnight the horn stops. That is worse.
+
+        And then, thin and unmistakable, from somewhere below you and to the south-east,
+        where the steps go down to the water: a voice. One word, twice. It might be *light*.
+        It might be a name.
+        """
+    button "Look at the chart", goto=chart_plate
+
+# --- 5. The chart: a fixed page with positioned buttons -------------------------------
+# The plate art keeps two empty frames for the buttons. `if` is allowed inside
+# a page; each alternative carries its own frame.
+
+chapter "The Chart of the Rock", id=chart_plate, numbered=false, opener=false:
+    page background="#e9e4d6":
+        image chart_art, at=(0, 0), size=(100, 100), fit=cover
+        text "Skerry Vane", style=display, color="#16202a", at=(8, 5), size=(84, 9), align=center
+        if answered:
+            button "Stay with the lamp", at=(50, 32), size=(42, 8), animate=slide_left, delay=300ms:
+                route = "tower"
+                goto ending_answer
+        elif oil >= 4 or duty == "bell":
+            button "Stay with the lamp", at=(50, 32), size=(42, 8), animate=slide_left, delay=300ms:
+                route = "tower"
+                goto ending_kept
+        else:
+            button "Stay with the lamp", at=(50, 32), size=(42, 8), animate=slide_left, delay=300ms:
+                route = "tower"
+                goto ending_dark
+        button "Go down to the landing", at=(50, 64), size=(42, 8), animate=slide_left, delay=500ms:
+            route = "landing"
+            goto ending_landing
+        text "The third line of the Protocol: *the keeper shall not leave the tower while the light is burning.* Where do you stand the rest of the watch?",
+                color="#16202a", at=(8, 81), size=(84, 12), align=center

@@ -1,0 +1,72 @@
+darm 1
+
+chapter "Botánica de lo salobre", id=botanica:
+    text "Entre la tierra y el mar hay una franja que no es ni lo uno ni lo otro, y en ella vive una gente vegetal de costumbres extremas: plantas que beben sal, que respiran por tubos y que pasan media vida ahogadas y la otra media al sol.",
+            style=lead
+
+    section "Una escalera de plantas", id=zonacion:
+        text """
+            La marisma parece desde lejos una pradera uniforme, de un verde cansado. De cerca es
+            una escalera. Cada especie ocupa el peldaño exacto que le toca según las horas que
+            aguanta bajo el agua, y basta subir medio metro desde el caño para atravesar cuatro o
+            cinco países distintos. La lámina 8 es el corte de esa escalera tal como lo medí en
+            la Marisma del Cigüeñal, con una mira y un nivel prestados, un septiembre de mareas
+            vivas.
+            """
+        image fig_zonacion, id=lamina_zonacion,
+                caption="Lámina 8. Perfil de la marisma, del caño al junco. Las líneas de trazos marcan hasta dónde llegan las pleamares y las bajamares, vivas y muertas.",
+                width=100%
+        list ordered=true:
+            item "Abajo del todo, donde solo las bajamares vivas dejan ver el fondo, ondea la **seda de mar**, una hierba de hojas como cintas que no es un alga, aunque lo parezca, y que florece bajo el agua."
+            item "En el fango que se inunda dos veces al día crece la **espartina**, dura y tiesa, la primera que se atreve a sujetar el barro con sus raíces."
+            item "Un poco más arriba empieza la **salicornia**, de la que hablo enseguida."
+            item "Donde solo llegan las pleamares vivas se extienden la **verdolaga marina**, gris y harinosa, y la **lavanda de mar**, que en agosto pone la marisma de color violeta."
+            item "Y arriba, donde el agua salada llega apenas un puñado de días al año, manda el **junco**, que ya es casi tierra firme."
+        text """
+            Nada de esto es casualidad ni cortesía. Cada planta estaría mejor un peldaño más
+            arriba, donde la vida es más fácil, pero de allí la echa la vecina, que crece más
+            deprisa. Y ninguna puede bajar, porque más abajo se ahoga. La marisma es una
+            negociación entre lo que cada cual soporta y lo que las demás le consienten, y la
+            marea es quien fija las condiciones.
+            """
+
+    section "La hierba que bebe sal", id=salicornia:
+        text """
+            La salicornia es mi favorita, y no solo porque cruje. No tiene hojas: es toda tallo,
+            una rama de cuentas verdes y carnosas ensartadas una tras otra, como un coral que
+            hubiera decidido ser planta. Guarda la sal que no puede evitar en esas cuentas
+            hinchadas de agua, y cuando un segmento ya no admite más lo deja secar y se desprende
+            de él. En otoño enrojece desde las puntas, y durante unas semanas los bordes de los
+            caños parecen dibujados con tinta de almagre.
+            """
+        image fig_salicornia, id=lamina_salicornia,
+                caption="Lámina 9. Salicornia: planta entera y detalle de dos segmentos. En otoño las puntas se vuelven rojas.",
+                width=60%
+        text """
+            Se come. Cruda sabe a mar y a pepino; escaldada un minuto, a espárrago con la sal ya
+            puesta. En Ardora la llamaban *hierba salada* y era comida de pobres, hasta que
+            alguien le puso en la ciudad un nombre de fantasía y un precio de marisco. Antes
+            sirvió para algo más serio: sus cenizas, ricas en sosa, se vendían a los vidrieros y
+            a los jaboneros, y hubo un tiempo en que de estas marismas salían carros enteros de
+            planta quemada. Todavía hay lenguas en las que su nombre quiere decir, sencillamente,
+            hierba del vidrio.
+            """
+
+    section "Los que vienen a comer", id=aves:
+        text """
+            Donde hay fango hay pico. Cada bajamar convoca en los Llanos a una multitud que se
+            reparte el banquete con el mismo rigor con que las plantas se reparten la escalera,
+            solo que aquí la medida es el largo del pico. Los correlimos, menudos y nerviosos,
+            picotean lo que hay en el primer centímetro. La cigüeñuela, subida a sus zancos
+            rosados, vadea donde ellos ya no hacen pie. El zarapito, con ese pico curvo y
+            desmesurado que parece una broma, saca los gusanos de galerías adonde nadie más
+            llega. Y en los postes de las salinas, las cigüeñas —que dieron nombre a la marisma—
+            vigilan el conjunto con aire de propietarias.
+
+            He contado hasta once especies comiendo a la vez en el mismo banco sin estorbarse. No
+            conozco mejor refutación de la idea de que en la naturaleza todo es pelea. Ni mejor
+            prueba de la ambigüedad de esta orilla: lo que para nosotros es un lodazal, para
+            ellas es una mesa puesta dos veces al día.
+            """
+        nota_marginal "Hoy entraron los zarapitos con la marea, gritando. Dice la Ronca que cuando gritan así cambia el tiempo. Cambió.",
+                rotulo="Del cuaderno de Anselmo, un noviembre"

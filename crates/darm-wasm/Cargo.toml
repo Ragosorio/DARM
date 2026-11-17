@@ -1,0 +1,26 @@
+[package]
+name = "darm-wasm"
+description = "WebAssembly bindings for the DARM reader core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Read-only: no writer, no `getrandom`, so this builds for
+# wasm32-unknown-unknown without any cfg flags.
+darm-package = { workspace = true }
+darm-ir = { workspace = true }
+serde_json = { workspace = true }
+# Must match the installed `wasm-bindgen` CLI exactly.
+wasm-bindgen = "=0.2.130"
+# No default features: drops the `unsafe-eval` bindings (so the bundle never
+# needs `eval` under a Content-Security-Policy) and the futures glue this
+# crate does not use.
+js-sys = { version = "=0.3.107", default-features = false }
+zeroize = { version = "1.9.1", default-features = false, features = ["alloc"] }

@@ -1,0 +1,21 @@
+darm 1
+
+# Components: named, parameterised groups of blocks expanded at compile time
+# (reference §12). Parameters can be argument values or {placeholders}.
+
+book "Field Notes":
+    author = "DARM Examples"
+    language = "en"
+
+component field_note(body, label="Field note"):
+    box style=bar, title=label:
+        text body, style=small
+
+component signpost(place, miles):
+    text "**{place}** is {miles} miles on.", align=center
+
+chapter "Notes":
+    field_note "Spring tides run **two hours** late here."
+    field_note "Never trust a calm.", label="Warning"  # named argument
+    signpost "Port Hollow", "three"
+    signpost miles="nine", place="Gull Rock"  # arguments by name

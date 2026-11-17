@@ -1,0 +1,158 @@
+darm 1
+
+# Reader test fixture: one of every block type, enough prose to paginate,
+# state and branching for the interaction tests.
+
+book "The Kitchen Sink":
+    id = "org.darm.fixtures.kitchen-sink"
+    subtitle = "A book that contains one of everything"
+    author = ["Ana Reyes", "Ben Okafor"]
+    language = "en"
+    edition = "Test edition"
+    version = "1.0.0"
+    publisher = "DARM Fixtures"
+    published = "2026-11-16"
+    description = "Every block the reader knows how to draw, in one short volume. Used by the automated tests."
+    rights = "Public domain (CC0). Written for the DARM test suite."
+    credit "Illustrations", "The test suite"
+    credit "Typesetting", "The DARM reader"
+
+theme:
+    paper = "#f7f3ea"
+    ink = "#1f1c18"
+    accent = "#8c3b2a"
+    dark_paper = "#181614"
+    dark_ink = "#e8e1d3"
+    dark_accent = "#e08a6f"
+    drop_caps = true
+
+assets:
+    pic = image("art/pic.png", alt="A low sun over a dark sea")
+    map = image("art/map.svg",
+            alt="A chart with a red hill, a compass rose and three lines of water")
+    clip = video("media/clip.mp4", alt="A slow diagonal gradient from navy to gold",
+            poster="art/pic.png", captions=["media/clip.en.vtt", "media/clip.es.vtt"],
+            title="Gradient study")
+    sound = audio("media/sound.m4a", title="A single tone",
+            transcript="A steady low tone that fades in and out.")
+
+state:
+    courage = 1 in 0..5
+    lit = false
+    route = "shore" in ["shore", "cliff"]
+
+cover:
+    style = classic
+    color = "#7a2e22"
+    ink = "#f4ead5"
+    accent = "#d9b46a"
+
+back_cover:
+    tagline = "One of everything."
+    text "A short volume built to exercise a reading machine: paragraphs that run long enough to break across pages, figures, verse, lists, boxes, and a story that forks."
+    text "If you can read this on the back board, the *contraportada* works."
+
+component note(body, label="Note"):
+    box style=bar, title=label:
+        text body, style=small
+
+chapter "Arrival", id=arrival:
+    text """
+        The ferry came in sideways, as it always did, shouldering the tide. From the rail the town looked like a
+        sentence somebody had started with confidence and then abandoned: a bright row of houses, a comma of
+        breakwater, and after that only weather.
+
+        Nobody met the boat. The gulls conducted their usual inquiry. A man in an oilskin was coiling rope with the
+        patience of someone who intends to coil it again tomorrow, and the harbour clock, which had been wrong for
+        so long that people navigated by its error, said a quarter past something.
+
+        She had come for the archive, or that was what the letter said. The letter also said *bring boots*, which
+        she had taken for a joke until she saw the quay. It was the kind of quay that keeps what it is given.
+        """
+    text "The first thing anyone tells you here is the time of the next low water.", style=lead
+    section "The quay", id=quay:
+        image pic, caption="Fig. 1. The harbour at dusk, *looking west*.", width=70%
+        text """
+            There is a particular light on a coast in the last hour, when the water gives back more than the sky
+            sends down. Painters have a word for it and so do pilots, and the two words do not agree. The painters
+            mean that the edges of things go soft; the pilots mean that you can no longer trust a distance.
+            """
+        gallery pic, map, caption="Two views of the same water."
+        note "Mind the **gap** between the pontoon and the steps."
+        note "Spring tides run two hours late here.", label="Warning"
+    section "What the tide left":
+        quote "A coast is a sentence the sea keeps rewriting.", by="Harbour proverb"
+        list ordered=true:
+            item "Rope, tarred, about four fathoms."
+            item "A **brass** sounding lead with the tallow still in it."
+            item "One boot. Nobody asks about the other."
+        list:
+            item "Limpets"
+            item "Bladderwrack"
+        divider style=rule
+        text """
+            The tide kept its accounts in the old way,
+            a line of wrack for every hour it stayed,
+            and what it took it entered as a loan.
+            """, style=verse, align=center
+        divider
+        video clip, caption="A study in two colours."
+        audio sound, caption="The same study, for the ear."
+    heading "A minor heading"
+    text "Body text resumes after the heading, set in the same measure as before. `Inline code` sits in a mono face, and a [link to the fork](fork) is underlined in the accent colour, as is [an external one](https://example.org/tides)."
+    box style=tint, title="A tinted box":
+        text "Boxes hold blocks. This one has a tint; the notes above use a bar; the one below a rule."
+    box:
+        text "A plain ruled box."
+    space 1
+    text "Small print belongs at the foot of things.", style=small
+    text "MONOSPACE 0123456789", style=mono
+    break
+    choice "The path forks at the breakwater.", id=fork:
+        option "Climb to the lighthouse":
+            route = "cliff"
+            courage += 1
+            goto cliff, transition=fade
+        option "Wade into the sea caves", when=lit:
+            route = "shore"
+            goto arrival
+        option "Stay on the shingle":
+            route = "shore"
+    button "Light the lantern", id=lantern:
+        lit = true
+    if route == "cliff" and courage >= 2:
+        text "From up here the whole coast is a map.", id=verdict_high
+    elif lit:
+        text "The lantern hisses. Courage: {courage}.", id=verdict_lit
+    else:
+        text "You stay on the shingle with the gulls.", id=verdict_low
+    quiz "Which star does the pilot steer by?", id=star_quiz:
+        answer "Polaris", correct=true
+        answer "Sirius"
+        answer "Vega"
+        explain "Polaris sits within a degree of the celestial pole."
+        on_correct:
+            courage += 1
+    button "Start again", id=restart:
+        reset
+        goto start
+
+chapter "The cliff", id=cliff, when=route == "cliff", numbered=false:
+    text "The path up is cut into the rock like a line of handwriting.", animate=rise, delay=200ms,
+            duration=800ms
+    page background="#102030", id=plate:
+        image map, at=(0, 0), size=(100, 100), fit=cover
+        text "The Charted Coast", style=display, at=(8, 8), size=(84, 16), color="#ffffff",
+                align=center
+        text "A fixed page: every element is placed by hand.", at=(15, 26), size=(70, 10),
+                color="#3a2a24", align=center
+        button "Back to the quay", goto=quay, at=(30, 82), size=(40, 9)
+    text "And back down again, more carefully."
+
+chapter "Afterword", id=afterword, numbered=false:
+    text """
+        A test book should end the way a real one does: with a last page that has some white under it, and then
+        the back board. If you are reading this in a browser at two in the morning because a snapshot changed by
+        one pixel, I am sorry, and also: check the font loaded.
+        """
+    text "*The end.*", align=center

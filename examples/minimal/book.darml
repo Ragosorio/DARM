@@ -1,0 +1,17 @@
+darm 1
+
+book "A Small Atlas of Rain":
+    author = "Mara Quill"
+    language = "en"
+
+chapter "Drizzle":
+    text "Rain begins as a rumour. *Somebody* smells it first."
+    text """
+        The second paragraph is long, so it uses a triple-quoted string.
+        Line breaks inside it are just spaces.
+
+        A blank line starts a new paragraph.
+        """
+
+chapter "Downpour":
+    text "And then it arrives."

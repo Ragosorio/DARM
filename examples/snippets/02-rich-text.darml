@@ -1,0 +1,24 @@
+darm 1
+
+# Rich text: inline markup, links, escapes and reserved targets (reference §2, §6).
+
+book "Rich Text":
+    author = "DARM Examples"
+    language = "en"
+
+chapter "Markup", id=markup:
+    text "Inline markup: *italic*, **bold**, `code`, and **bold with *italic* inside**."
+    text "Markup escapes print the character itself: \*not italic\*, \[not a link\], \{not a variable\}."
+    text "A string escape: she said \"wait\", then a tab\tand a snowflake \u{2744}."
+    text """
+        Inside a triple-quoted block a single newline
+        is just a space.
+
+        A blank line starts a new paragraph.
+        """
+    text "Jump to the [second chapter](links) or to a [single paragraph](target_par)."
+
+chapter "Links", id=links:
+    text "An external link: [example.org](https://example.org). Only https, http and mailto are allowed."
+    text "This paragraph is a jump target because it has an id.", id=target_par
+    text "Reserved targets: [cover](cover), [contents](contents), [first page](start), [back cover](end)."

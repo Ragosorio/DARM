@@ -1,0 +1,63 @@
+darm 1
+
+chapter "Mareas que vendrán", id=venideras:
+    text "Cuando por fin puse en fila los rollos del mareógrafo —ciento seis años de papel, con algún hueco de guerras y de goteras—, encontré lo que mi abuelo había sospechado sin decirlo: la curva entera, despacio, está subiendo.",
+            style=lead
+
+    section "Lo que dicen los rollos", id=rollos:
+        text """
+            No se nota de una marea a otra, ni de un año a otro. Hay que promediar miles de
+            pleamares y miles de bajamares, descontar el empuje de los temporales y los caprichos
+            de la presión, y quedarse con lo que resta: el nivel medio, ese mar imaginario que
+            habría si la Luna y el viento lo dejaran en paz. En Ardora, ese nivel ha subido algo
+            más de un palmo desde que se clavó la primera regla. Un palmo no parece mucho. Pero
+            la marisma tiene la pendiente de una mesa mal calzada, y sobre una mesa así un palmo
+            de agua son muchos pasos de tierra.
+
+            Lo de Ardora no es una rareza. Los registros de mareógrafos de todo el mundo, algunos
+            con más de dos siglos de paciencia a cuestas, cuentan la misma historia con acentos
+            distintos, y desde hace unas décadas la cuentan más deprisa. Quien quiera verlo con
+            sus ojos puede consultar los datos que reúne el
+            [Servicio Permanente del Nivel Medio del Mar](https://psmsl.org), donde las series de
+            cientos de puertos están a disposición de cualquiera. Son gráficos sobrios, sin
+            adjetivos. Impresionan más que cualquier discurso.
+            """
+
+    section "Lo que se mueve con el agua", id=retroceso:
+        text """
+            La marisma lo sabe antes que los aparatos. El junco está cediendo el escalón más alto
+            a la lavanda de mar, la salicornia aparece donde hace veinte años solo había
+            verdolaga, y la espartina del borde se desmorona en terrones cuando las vivas
+            coinciden con temporal. Toda la [escalera de plantas](zonacion) está subiendo un
+            peldaño, y lo haría sin daño si detrás tuviera sitio adonde subir. Pero detrás está
+            la carretera, y las huertas, y el muro del cementerio.
+
+            En las Salinas Viejas, el salinero joven ha tenido que recrecer los muros dos veces.
+            Las mariscadoras cuentan que algunos bancos de berberecho se han mudado estero
+            adentro, buscando la arena que les conviene. Y la caseta de mi abuelo, que durante un
+            siglo quedó a salvo de todo, tuvo el invierno pasado, por primera vez, un dedo de
+            agua sobre las tablas del suelo.
+            """
+        nota_marginal "Pleamar de 4,31 con el barómetro por los suelos. Agua en el último escalón. Mi padre decía que eso pasaba una vez en la vida; yo ya lo he visto cuatro.",
+                rotulo="Del cuaderno de Anselmo, un enero"
+
+    section "Qué se hace con una orilla que se va", id=que_hacer:
+        text "He oído tres respuestas, y las tres en la misma taberna."
+        list:
+            item "**Defenderla**: levantar el muro, traer escollera, fijar la raya. Es la respuesta del cartógrafo antes de conocer a la vieja de [la fábula](fabula)."
+            item "**Acompañarla**: dejar sitio detrás de la marisma para que pueda retroceder, devolver al agua algunas tierras que se le ganaron y aceptar que el mapa cambie."
+            item "**Seguir midiendo**: que no es una solución, pero es la condición de las otras dos."
+        text """
+            No sé cuál es la buena, y sospecho que depende del tramo y de la hora, como los
+            impuestos del rey. Sé que la segunda se parece más a lo que la costa ha hecho siempre,
+            y que la tercera es la única que está en mi mano. El sensor de radar del Muelle Largo
+            sigue enviando su cifra cada segundo. Y yo, que no tengo obligación ninguna, bajo
+            todavía algunos domingos a leer la regla del pilote y a apuntar en un cuaderno la
+            altura, la hora, el viento y, en el margen, lo que la cifra no dice.
+            """
+        box style=tint, title="Instrucciones para un mareógrafo de bolsillo":
+            list ordered=true:
+                item "Elige un pilote, una escalera de muelle o una roca que no se mueva, y hazle una señal."
+                item "Apunta la hora en que el agua toca la señal al subir, y la hora en que la suelta al bajar."
+                item "Repítelo quince días seguidos, de una luna a la siguiente."
+                item "Dibuja los puntos. La curva que salga será tuya y no se parecerá a ninguna otra."

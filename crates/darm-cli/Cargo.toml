@@ -1,0 +1,34 @@
+[package]
+name = "darm-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "The `darm` command line: init, check, fmt, build, inspect, verify, extract, open, dev"
+
+[[bin]]
+name = "darm"
+path = "src/main.rs"
+
+[dependencies]
+darm-ir = { workspace = true, features = ["schema"] }
+darm-lang = { workspace = true }
+darm-compiler = { workspace = true }
+darm-package = { workspace = true, features = ["std", "write"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+schemars = "1.2"
+clap = { version = "4.6", features = ["derive", "wrap_help"] }
+rpassword = "7.5"
+unicode-normalization = "0.1.26"
+zeroize = "1.9"
+include_dir = { version = "0.7", optional = true }
+
+[features]
+default = []
+# Embed the built reader (apps/reader/dist) into the binary so that
+# `darm open` works from a single file. Requires `npm run build` first.
+embed-reader = ["dep:include_dir"]
+
+[dev-dependencies]

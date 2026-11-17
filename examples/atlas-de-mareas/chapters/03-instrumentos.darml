@@ -1,0 +1,78 @@
+darm 1
+
+chapter "Instrumentos para medir lo que se va", id=instrumentos:
+    text "Medir el mar es una ocupación ligeramente absurda: se toma la altura de algo que ya no está a esa altura cuando uno termina de apuntarla. Los instrumentos del oficio tienen por eso un aire paciente, de cosa hecha para durar más que quien la usa.",
+            style=lead
+
+    section "El mareógrafo", id=mareografo:
+        text """
+            El de Ardora era un mareógrafo de flotador, el modelo más viejo y más sensato. La
+            lámina 5 lo muestra abierto en canal. Un tubo ancho —el *pozo tranquilizador*— baja
+            desde la caseta hasta más abajo de la bajamar más baja, y solo se comunica con el mar
+            por un orificio pequeño cerca del fondo. El oleaje, que va y viene en segundos, no
+            tiene tiempo de entrar por un agujero así; la marea, que tarda horas, entra y sale
+            sin estorbo. Dentro del tubo el agua está siempre lisa, y sobre ella descansa un
+            flotador de cobre.
+
+            Del flotador sube un hilo de acero que pasa por una polea y termina en un contrapeso.
+            Cuando el agua sube, el flotador sube y la polea gira; un juego de ruedas reduce ese
+            movimiento y se lo comunica a una plumilla. La plumilla escribe sobre un tambor
+            forrado de papel al que un reloj hace dar una vuelta por semana. El resultado es una
+            curva: el *mareograma*.
+            """
+        image fig_mareografo, id=lamina_mareografo,
+                caption="Lámina 5. Mareógrafo de flotador. **1**, pozo tranquilizador; **2**, flotador; **3**, polea; **4**, contrapeso; **5**, tambor registrador; **6**, plumilla.",
+                width=80%
+        text """
+            Lo que más me asombra del aparato es su modestia. No calcula nada. No sabe qué es la
+            Luna. Se limita a no dejar pasar las olas y a escribir lo que queda, y sin embargo de
+            sus rollos de papel, puestos uno detrás de otro, salieron las tablas que permiten
+            anunciar con años de antelación a qué hora quedará en seco el Bajo de las Ánimas. La
+            lengüeta de la plumilla se gastaba cada pocos meses; mi abuelo guardaba las viejas en
+            una caja de pastillas para la tos, y aún conservan una costra de tinta azul.
+            """
+        nota_marginal "Marea de 4,02. Viento del sudoeste, duro. El papel dice 4,02, pero la mar venía enfadada y traía medio palmo de propina. El aparato no entiende de enfados.",
+                rotulo="Del cuaderno de Anselmo, un febrero"
+
+    section "El escandallo y otros parientes", id=escandallo:
+        text """
+            Antes de que hubiera mareógrafos hubo escandallos, y todavía los hay en cualquier
+            barca que se respete. Un escandallo es un peso de plomo, largo como un antebrazo,
+            atado a un cabo delgado que llaman *sondaleza*. Se deja caer por la borda, se nota en
+            la mano el momento en que toca fondo y se lee la profundidad en las marcas del cabo:
+            tiras de cuero, nudos, un trapo blanco, uno rojo. Con los dedos, a oscuras, sin mirar.
+
+            El plomo guarda un secreto en la base: un hueco que se rellena de sebo. Al tocar
+            fondo, el sebo se trae pegada una muestra —arena fina, cascajo, fango, conchuela— y
+            así el patrón sabe no solo cuánta agua tiene debajo, sino sobre qué está. Las cartas
+            antiguas anotaban esa calidad del fondo con letras diminutas junto a cada sonda, y un
+            buen piloto reconocía su costa por lo que subía en el sebo, igual que otros la
+            reconocen por los campanarios.
+            """
+        gallery fig_escandallo, fig_reloj,
+                caption="Lámina 6. A la izquierda, el escandallo con su sondaleza marcada y, en el detalle, la base armada con sebo. A la derecha, un reloj de mareas."
+        text """
+            El tercer pariente es el más doméstico: el reloj de mareas que cuelga en media docena
+            de cocinas de Ardora. Tiene una sola aguja, que no marca la hora sino el estado del
+            agua, y da una vuelta completa cada doce horas y veinticinco minutos, lo que tarda la
+            Luna en devolvernos la misma marea. Arriba pone PLEAMAR, abajo BAJAMAR, y a los lados
+            van las horas que faltan. Hay que ponerlo en hora un día de luna llena y perdonarle
+            que se descuadre en las muertas: es un reloj que solo sabe de la Luna, y el Sol le
+            desbarata las cuentas.
+            """
+
+    section "El cero de las cartas", id=cero:
+        text """
+            Queda un instrumento que no se puede colgar de la pared, porque es un acuerdo. Para
+            decir que un bajo tiene dos metros de agua hay que decir primero desde dónde se mide,
+            y el mar no ofrece ningún nivel quieto del que fiarse. Los hidrógrafos resolvieron el
+            problema con prudencia de aseguradores: eligieron como *cero* un nivel tan bajo que
+            la marea casi nunca desciende de él. Todas las sondas de una carta náutica se cuentan
+            desde ese cero, de modo que el navegante puede estar seguro de que, salvo temporal o
+            capricho, tendrá bajo la quilla al menos el agua que promete el papel.
+
+            En Ardora, el cero está grabado en una chapa de bronce atornillada al tercer pilote
+            del Muelle Largo. La marea solo baja hasta ella en las vivas más grandes del
+            equinoccio, y hay años en que ni eso. Cuando ocurre, los críos del pueblo bajan a
+            tocarla con la mano, como quien toca el fondo de algo.
+            """

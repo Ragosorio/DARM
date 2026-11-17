@@ -1,0 +1,72 @@
+darm 1
+
+chapter "La costa que respira", id=costa:
+    text "Dos veces al día el estero de Ardora se llena, y dos veces se vacía. Dicho así parece poca cosa. Hay que haber visto desaparecer un kilómetro de arena en lo que dura una sobremesa para entender que aquí la tierra firme es una opinión.",
+            style=lead
+
+    section "El estero", id=estero:
+        text """
+            A pleamar, Ardora es un pueblo a orillas de una laguna ancha y mansa, del color del
+            estaño, donde las barcas se mecen sobre su propio reflejo. Seis horas después la
+            laguna se ha ido. Quedan los Llanos, una llanura de arena rizada y fango brillante
+            que huele a yodo y a cosa viva; quedan las barcas tumbadas sobre un costado, como
+            animales que duermen; y queda, en medio de todo, el Caño Grande, la única agua que
+            nunca se retira, corriendo hacia la Barra de los Zarapitos con prisa de río.
+
+            Los forasteros llegan con la pleamar y preguntan dónde está la playa. Llegan con la
+            bajamar y preguntan dónde está el mar. Las dos veces se les contesta lo mismo:
+            «Espere un poco».
+            """
+        image fig_mapa, id=lamina_mapa,
+                caption="Lámina 1. El estero de Ardora, con el Caño Grande, la Barra de los Zarapitos y, en rojo, la caseta del mareógrafo al final del Muelle Largo.",
+                width=100%
+        text """
+            El mapa de la lámina 1 dice la verdad solo a media marea. Lo dibujé así a propósito,
+            con la arena a la vista y el agua en sus caños, porque es el único momento en que el
+            estero se parece a sí mismo. El resto del tiempo está llegando o está yéndose. Al
+            norte, las Salinas Viejas guardan en sus estanques cuadrados un poco de la pleamar
+            anterior; al este, la Marisma del Cigüeñal se bebe despacio lo que la marea le
+            presta; al oeste, fuera de la barra, el Bajo de las Ánimas asoma su lomo negro solo
+            en las bajamares más grandes del año, y los viejos se santiguan al verlo.
+            """
+        nota_marginal "La mar no sube ni baja: va y viene. Lo de subir es cosa nuestra, que la miramos desde un muelle.",
+                rotulo="Del cuaderno de Anselmo"
+
+    section "La caseta del mareógrafo", id=caseta_abuelo:
+        text """
+            Al final del Muelle Largo hay una caseta de madera pintada de gris, no mayor que un
+            confesionario. Dentro, durante más de un siglo, un flotador subió y bajó por un tubo,
+            un hilo de acero hizo girar una polea y una plumilla fue escribiendo sobre un tambor
+            de papel la respiración del estero. Mi abuelo Anselmo Requejo entró allí por primera
+            vez a los diecinueve años, de ayudante, y salió por última vez a los sesenta, con el
+            reloj de cuerda del aparato envuelto en un pañuelo porque nadie más iba a quererlo.
+
+            Su trabajo consistía en casi nada: dar cuerda, cambiar el papel cada semana, rellenar
+            el tintero, anotar a mano la hora exacta de cada pleamar y de cada bajamar, y mirar.
+            Sobre todo mirar. Decía que el mareógrafo era un aparato honrado pero corto de vista,
+            que apuntaba la altura del agua y no se enteraba de nada más: ni del viento que la
+            empujaba, ni de la presión que la aplastaba, ni del color que traía. Eso lo apuntaba
+            él en el margen, con una letra menuda que he tardado dos inviernos en descifrar.
+            """
+        image fig_caseta, id=lamina_caseta,
+                caption="Lámina 2. La caseta al final del Muelle Largo, a media marea. La regla graduada del pilote servía para comprobar a ojo lo que el aparato escribía dentro.",
+                width=90%
+        text """
+            De niña me dejaba acompañarlo los domingos. Yo esperaba una máquina prodigiosa y
+            encontraba un cilindro de latón que giraba tan despacio que parecía quieto, y una
+            línea azul que no hacía nada.
+
+            —No la mires así —me decía—. Mírala como se mira crecer la hierba.
+
+            Tardé años en entender que aquella línea era el retrato más fiel que se ha hecho
+            nunca de Ardora: una curva que sube y baja sin repetirse jamás del todo, igual que no
+            se repite una cara.
+
+            Cuando se jubiló, el instituto instaló un sensor de radar que mide el nivel sesenta
+            veces por minuto y lo envía por satélite a una oficina donde nadie ha olido nunca el
+            fango. Es mucho mejor que la plumilla, y lo digo sin ironía. Pero no apunta nada en
+            el margen. De eso trata, en el fondo, este atlas: de los márgenes.
+            """
+
+    divider
+    text "Antes de bajar a la arena conviene levantar la vista. Lo que mueve el estero no está en el estero: [está en el cielo](luna)."

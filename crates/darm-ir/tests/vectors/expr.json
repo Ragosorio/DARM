@@ -1,0 +1,62 @@
+{
+  "comment": "Shared conformance vectors for DARM expressions and actions. Run by crates/darm-ir (Rust) and apps/reader (TypeScript). `expect` is the value, or {\"error\": true}.",
+  "state_decl": [
+    {"name": "n", "type": "int", "initial": 2, "min": 0, "max": 5},
+    {"name": "big", "type": "int", "initial": 1000000000, "min": -1000000000, "max": 1000000000},
+    {"name": "flag", "type": "bool", "initial": false},
+    {"name": "route", "type": "enum", "initial": "shore", "values": ["shore", "cliff"]}
+  ],
+  "exprs": [
+    {"e": {"op": "int", "value": 7}, "expect": 7},
+    {"e": {"op": "var", "name": "n"}, "expect": 2},
+    {"e": {"op": "var", "name": "missing"}, "expect": {"error": true}},
+    {"e": {"op": "bin", "kind": "add", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 3}}, "expect": 5},
+    {"e": {"op": "bin", "kind": "sub", "left": {"op": "int", "value": 1}, "right": {"op": "var", "name": "n"}}, "expect": -1},
+    {"e": {"op": "bin", "kind": "mul", "left": {"op": "var", "name": "big"}, "right": {"op": "var", "name": "big"}}, "expect": 9007199254740991},
+    {"e": {"op": "bin", "kind": "mul", "left": {"op": "bin", "kind": "mul", "left": {"op": "var", "name": "big"}, "right": {"op": "var", "name": "big"}}, "right": {"op": "int", "value": -3}}, "expect": -9007199254740991},
+    {"e": {"op": "bin", "kind": "add", "left": {"op": "int", "value": 9007199254740991}, "right": {"op": "int", "value": 9007199254740991}}, "expect": 9007199254740991},
+    {"e": {"op": "bin", "kind": "mul", "left": {"op": "int", "value": 94906265}, "right": {"op": "int", "value": 94906265}}, "expect": 9007199136250225},
+    {"e": {"op": "neg", "expr": {"op": "var", "name": "n"}}, "expect": -2},
+    {"e": {"op": "neg", "expr": {"op": "var", "name": "flag"}}, "expect": {"error": true}},
+    {"e": {"op": "not", "expr": {"op": "var", "name": "flag"}}, "expect": true},
+    {"e": {"op": "not", "expr": {"op": "var", "name": "n"}}, "expect": {"error": true}},
+    {"e": {"op": "bin", "kind": "eq", "left": {"op": "var", "name": "route"}, "right": {"op": "str", "value": "shore"}}, "expect": true},
+    {"e": {"op": "bin", "kind": "ne", "left": {"op": "var", "name": "route"}, "right": {"op": "str", "value": "shore"}}, "expect": false},
+    {"e": {"op": "bin", "kind": "eq", "left": {"op": "var", "name": "n"}, "right": {"op": "str", "value": "2"}}, "expect": {"error": true}},
+    {"e": {"op": "bin", "kind": "eq", "left": {"op": "var", "name": "flag"}, "right": {"op": "bool", "value": false}}, "expect": true},
+    {"e": {"op": "bin", "kind": "lt", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 2}}, "expect": false},
+    {"e": {"op": "bin", "kind": "le", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 2}}, "expect": true},
+    {"e": {"op": "bin", "kind": "gt", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 1}}, "expect": true},
+    {"e": {"op": "bin", "kind": "ge", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 3}}, "expect": false},
+    {"e": {"op": "bin", "kind": "lt", "left": {"op": "var", "name": "flag"}, "right": {"op": "int", "value": 3}}, "expect": {"error": true}},
+    {"e": {"op": "bin", "kind": "and", "left": {"op": "var", "name": "flag"}, "right": {"op": "var", "name": "missing"}}, "expect": false},
+    {"e": {"op": "bin", "kind": "or", "left": {"op": "bool", "value": true}, "right": {"op": "var", "name": "missing"}}, "expect": true},
+    {"e": {"op": "bin", "kind": "or", "left": {"op": "var", "name": "flag"}, "right": {"op": "var", "name": "missing"}}, "expect": {"error": true}},
+    {"e": {"op": "bin", "kind": "and", "left": {"op": "int", "value": 1}, "right": {"op": "bool", "value": true}}, "expect": {"error": true}}
+  ],
+  "actions": [
+    {"name": "assignment clamps to the range", "run": [{"do": "set", "var": "n", "value": {"op": "int", "value": 99}}], "expect": {"n": 5}},
+    {"name": "clamps below", "run": [{"do": "set", "var": "n", "value": {"op": "int", "value": -4}}], "expect": {"n": 0}},
+    {"name": "wrong type is ignored", "run": [{"do": "set", "var": "n", "value": {"op": "bool", "value": true}}], "expect": {"n": 2}},
+    {"name": "enum outside the set is ignored", "run": [{"do": "set", "var": "route", "value": {"op": "str", "value": "moon"}}], "expect": {"route": "shore"}},
+    {"name": "enum inside the set", "run": [{"do": "set", "var": "route", "value": {"op": "str", "value": "cliff"}}], "expect": {"route": "cliff"}},
+    {"name": "actions run in order", "run": [
+      {"do": "set", "var": "n", "value": {"op": "bin", "kind": "add", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 1}}},
+      {"do": "set", "var": "flag", "value": {"op": "bin", "kind": "ge", "left": {"op": "var", "name": "n"}, "right": {"op": "int", "value": 3}}},
+      {"do": "goto", "target": "a"},
+      {"do": "goto", "target": "b", "transition": "fade"}
+    ], "expect": {"n": 3, "flag": true}, "goto": "b", "transition": "fade"},
+    {"name": "reset one", "run": [
+      {"do": "set", "var": "n", "value": {"op": "int", "value": 4}},
+      {"do": "set", "var": "flag", "value": {"op": "bool", "value": true}},
+      {"do": "reset", "var": "n"}
+    ], "expect": {"n": 2, "flag": true}},
+    {"name": "reset all", "run": [
+      {"do": "set", "var": "n", "value": {"op": "int", "value": 4}},
+      {"do": "set", "var": "flag", "value": {"op": "bool", "value": true}},
+      {"do": "reset"}
+    ], "expect": {"n": 2, "flag": false, "route": "shore", "big": 1000000000}, "reset_all": true},
+    {"name": "unknown variable is ignored", "run": [{"do": "set", "var": "ghost", "value": {"op": "int", "value": 1}}], "expect": {"n": 2}},
+    {"name": "failing expression is ignored", "run": [{"do": "set", "var": "n", "value": {"op": "var", "name": "ghost"}}], "expect": {"n": 2}}
+  ]
+}

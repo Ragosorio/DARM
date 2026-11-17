@@ -1,0 +1,42 @@
+darm 1
+
+chapter "Nota de cierre", id=epilogo, numbered=false:
+    text "Terminé de vaciar la casa en primavera. Me quedé con poca cosa: los cuadernos, la caja de lengüetas gastadas, el reloj de cuerda del mareógrafo, que anda si se le habla con cariño, y el reloj de mareas de la cocina, que sigue descuadrándose en las muertas.",
+            style=lead
+    text """
+        Los rollos de papel están ahora en un archivo, a temperatura constante, donde alguien
+        con más medios que yo acabará de convertir su línea azul en números. Me alegro. Pero
+        antes de entregarlos desenrollé el último sobre la mesa grande, el de la semana en que
+        murió mi abuelo, y estuve mirándolo como él me enseñó: como se mira crecer la hierba.
+        La curva sube, se detiene, baja, se detiene. No hay en ella nada que indique que
+        aquella semana fuera distinta de las otras cinco mil. Supongo que esa es su manera de
+        consolar.
+
+        He querido que este atlas se pareciera a aquel papel: que dijera la altura del agua con
+        la honradez del aparato y que apuntara en el margen lo que el aparato no ve. Si al
+        cerrarlo alguien mira distinto la próxima orilla que pise —si se pregunta, antes que
+        nada, cómo está la marea—, habrá servido.
+
+        Y si alguna vez pasa por un pueblo que se parezca a Ardora, que espere un poco. La
+        costa vuelve siempre. Nunca al mismo sitio.
+        """
+    divider
+
+    section "Glosario mínimo", id=glosario:
+        list:
+            item "**Ardora.** Luz que despide el mar de noche al agitarse; la producen organismos microscópicos. Véase [el capítulo que lleva su nombre](ardora)."
+            item "**Bajamar.** Nivel más bajo de una marea, y momento en que se alcanza."
+            item "**Caño.** Canal por donde entra y sale el agua en un estero o una marisma."
+            item "**Cuadratura.** Posición de la Luna en ángulo recto con el Sol; trae las mareas muertas."
+            item "**Escandallo.** Plomo de sonda con la base hueca, para traer muestra del fondo. Véase [su apartado](escandallo)."
+            item "**Estero.** Brazo de mar somero que la marea llena y vacía."
+            item "**Estoa.** Momento de quietud entre dos mareas; en Ardora, *el repunte*."
+            item "**Mareógrafo.** Aparato que registra la altura del mar a lo largo del tiempo. Se describe en [el capítulo de los instrumentos](mareografo)."
+            item "**Pleamar.** Nivel más alto de una marea, y momento en que se alcanza."
+            item "**Sizigia.** Alineación del Sol, la Tierra y la Luna; trae las mareas vivas. Véase la [lámina 3](lamina_sizigia)."
+
+    section "Sobre las láminas", id=sobre_laminas:
+        text "Las diez láminas —la primera es un mapa— se dibujaron expresamente para esta edición, a tinta y aguada, con una paleta de cuatro colores. Ardora no figura en ningún otro atlas: es un lugar inventado, hecho con trozos de muchas orillas verdaderas. Las cifras sobre las mareas son, en cambio, las del mundo real.",
+                style=small
+        space 1
+        text "Volver al [índice](contents) o a la [cubierta](cover).", style=small, align=center

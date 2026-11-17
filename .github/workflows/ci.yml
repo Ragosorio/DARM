@@ -1,0 +1,342 @@
+# Continuous integration for DARM: the Rust workspace, the WebAssembly core,
+# the reader (unit + end-to-end), the example books, the desktop shell on
+# three operating systems, dependency audits and a short fuzzing pass.
+#
+# NOTE: this workflow was written and syntax-checked locally but has never
+# been executed on GitHub Actions. Expect to adjust it on the first run.
+# Nothing here signs anything: every desktop bundle it uploads is unsigned
+# (macOS: ad-hoc signature only). See docs/platforms.md.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Daily, so new advisories and fuzz findings show up without a push.
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: "0"
+  # Debug info is the bulk of a target directory and CI never needs it.
+  CARGO_PROFILE_DEV_DEBUG: "0"
+  CARGO_PROFILE_RELEASE_DEBUG: "0"
+  NODE_VERSION: "22"
+  WASM_BINDGEN_VERSION: "0.2.130"
+
+jobs:
+  # (a) The Rust workspace: compiler, package format, CLI, WASM core (host build).
+  rust:
+    name: rust (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      # Formatting is the same everywhere; checking it once avoids CRLF noise on Windows.
+      - name: cargo fmt --check
+        if: matrix.os == 'ubuntu-latest'
+        run: cargo fmt --all --check
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: cargo test
+        run: cargo test --workspace
+      # libFuzzer needs nightly to run, but the targets must keep compiling on stable.
+      - name: fuzz targets compile
+        if: matrix.os == 'ubuntu-latest'
+        run: cargo check --manifest-path fuzz/Cargo.toml
+
+  # (b) The reader's WebAssembly core, built exactly as the app consumes it.
+  wasm:
+    name: wasm core
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen-cli@${{ env.WASM_BINDGEN_VERSION }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Build the WASM bundle
+        run: scripts/build-wasm.sh
+      - name: Smoke test in Node
+        run: node crates/darm-wasm/tests/smoke.mjs
+      # apps/reader/src/wasm-pkg is not committed; the jobs below reuse this build.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wasm-pkg
+          path: apps/reader/src/wasm-pkg
+          if-no-files-found: error
+          retention-days: 7
+
+  # (c) The reader: typecheck, unit tests, production build, end-to-end tests
+  #     in Chrome, WebKit and Firefox.
+  reader:
+    name: reader
+    runs-on: ubuntu-latest
+    needs: wasm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/reader/package-lock.json
+      # The end-to-end setup compiles its books from source with the real compiler.
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/download-artifact@v8
+        with:
+          name: wasm-pkg
+          path: apps/reader/src/wasm-pkg
+      - name: npm ci
+        working-directory: apps/reader
+        run: npm ci
+      - name: Typecheck
+        working-directory: apps/reader
+        run: npm run typecheck
+      - name: Unit tests (vitest)
+        working-directory: apps/reader
+        run: npm test
+      - name: Production build
+        working-directory: apps/reader
+        run: npm run build
+      - name: Service worker and manifest are well formed
+        working-directory: apps/reader
+        run: |
+          node --check dist/sw.js
+          node -e 'for (const f of ["dist/manifest.webmanifest", "dist/precache.json"]) JSON.parse(require("fs").readFileSync(f, "utf8"))'
+      - name: Build the compiler for the end-to-end setup
+        run: cargo build -p darm-cli
+      # The "chromium" project of playwright.config.ts drives Google Chrome
+      # (channel: "chrome"), which GitHub's Ubuntu images ship; the bundled
+      # Chromium is installed as well so either works.
+      # The visual baselines in e2e/snapshots were recorded on macOS. If they
+      # differ on Linux beyond the configured tolerance, record Linux baselines
+      # or move this job to macos-latest.
+      - name: Install browsers
+        working-directory: apps/reader
+        run: npx playwright install --with-deps chromium webkit firefox
+      - name: End-to-end tests (Playwright)
+        working-directory: apps/reader
+        run: npm run e2e
+      - name: Upload the Playwright report, traces and screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: reader-e2e
+          path: |
+            apps/reader/e2e/results
+            apps/reader/test-results
+            apps/reader/playwright-report
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # (d) Every example book compiles and every output verifies.
+  examples:
+    name: example books
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the CLI
+        run: cargo build --release -p darm-cli
+      - name: Examples are formatted
+        run: target/release/darm fmt --check examples
+      - name: Compile and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          darm=target/release/darm
+          out="$RUNNER_TEMP/books"
+          mkdir -p "$out"
+
+          # Complete books: any warning is an error.
+          strict=(
+            examples/atlas-de-mareas/book.darml
+            examples/the-lighthouse-protocol/book.darml
+            apps/reader/tests/fixtures/kitchen-sink
+          )
+          # The minimal book and the single-feature snippets deliberately have no
+          # cover blocks, which the compiler reports as W0601/W0602 (it generates
+          # the covers). They must compile, but not warning-free.
+          lenient=(examples/minimal/book.darml examples/snippets/*.darml)
+
+          n=0
+          for project in "${strict[@]}"; do
+            n=$((n + 1))
+            echo "::group::$project (--deny-warnings)"
+            "$darm" build "$project" -o "$out/$n.darm" --deny-warnings
+            "$darm" verify "$out/$n.darm"
+            echo "::endgroup::"
+          done
+          for project in "${lenient[@]}"; do
+            n=$((n + 1))
+            echo "::group::$project"
+            "$darm" build "$project" -o "$out/$n.darm"
+            "$darm" verify "$out/$n.darm"
+            echo "::endgroup::"
+          done
+
+          # A protected build of a real book must verify with its password and not without it.
+          DARM_PASSWORD="ci only passphrase" "$darm" build examples/the-lighthouse-protocol/book.darml \
+            -o "$out/locked.darm" --deny-warnings --encrypt --password-env DARM_PASSWORD
+          DARM_PASSWORD="ci only passphrase" "$darm" verify "$out/locked.darm" --password-env DARM_PASSWORD
+          if "$darm" verify "$out/locked.darm" < /dev/null; then
+            echo "::error::a protected book verified without its password"
+            exit 1
+          fi
+          echo "compiled and verified $((n + 1)) books"
+
+  # (e) The desktop shell (Tauri 2) on the three desktop platforms. Unsigned.
+  desktop:
+    name: desktop (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: wasm
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-22.04]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Linux system dependencies (WebKitGTK 4.1 and friends)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            apps/reader/package-lock.json
+            apps/desktop/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri
+      - uses: actions/download-artifact@v8
+        with:
+          name: wasm-pkg
+          path: apps/reader/src/wasm-pkg
+      - name: Shell crate is formatted
+        if: runner.os == 'Linux'
+        run: cargo fmt --check --manifest-path apps/desktop/src-tauri/Cargo.toml
+      # Reader (npm ci + build) and then `tauri build`. No signing identity or
+      # certificate is configured, so the bundles are unsigned.
+      - name: Build the reader and the desktop bundles
+        shell: bash
+        run: scripts/build-desktop.sh --skip-wasm
+      # Same profile and features as `tauri build`, so the dependencies are not rebuilt.
+      - name: Shell unit tests (file registry, URL policy)
+        shell: bash
+        run: cargo test --release --features tauri/custom-protocol --manifest-path apps/desktop/src-tauri/Cargo.toml
+      - name: Shell clippy
+        shell: bash
+        run: cargo clippy --release --features tauri/custom-protocol --all-targets --manifest-path apps/desktop/src-tauri/Cargo.toml -- -D warnings
+      - name: Upload bundles (unsigned)
+        uses: actions/upload-artifact@v7
+        with:
+          name: darm-desktop-${{ matrix.os }}-unsigned
+          path: |
+            apps/desktop/src-tauri/target/release/bundle/dmg/*.dmg
+            apps/desktop/src-tauri/target/release/bundle/msi/*.msi
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.exe
+            apps/desktop/src-tauri/target/release/bundle/deb/*.deb
+            apps/desktop/src-tauri/target/release/bundle/rpm/*.rpm
+            apps/desktop/src-tauri/target/release/bundle/appimage/*.AppImage
+          if-no-files-found: error
+          retention-days: 14
+
+  # (f) Known vulnerabilities in dependencies. Informational: never blocks a merge.
+  audit:
+    name: audit (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+      - name: cargo audit (workspace)
+        continue-on-error: true
+        run: cargo audit
+      - name: cargo audit (desktop shell)
+        continue-on-error: true
+        run: cargo audit --file apps/desktop/src-tauri/Cargo.lock
+      - name: npm audit (reader, shipped dependencies only)
+        continue-on-error: true
+        working-directory: apps/reader
+        run: npm audit --omit=dev
+      - name: npm audit (desktop tooling)
+        continue-on-error: true
+        working-directory: apps/desktop
+        run: npm audit
+
+  # Sixty seconds of coverage-guided fuzzing per target, on nightly Rust.
+  fuzz-smoke:
+    name: fuzz ${{ matrix.target }} (60 s)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: package_open
+            seeds: crates/darm-package/tests/fixtures
+          - target: package_probe
+            seeds: crates/darm-package/tests/fixtures
+          - target: compile_source
+            seeds: ""
+          - target: ir_validate
+            seeds: ""
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: fuzz
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-fuzz
+      - name: Fuzz for 60 seconds
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "fuzz/corpus/${{ matrix.target }}"
+          # shellcheck disable=SC2086  # seeds is empty or one directory
+          cargo +nightly fuzz run "${{ matrix.target }}" "fuzz/corpus/${{ matrix.target }}" ${{ matrix.seeds }} -- -max_total_time=60
+      - name: Upload crashing inputs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: fuzz-artifacts-${{ matrix.target }}
+          path: fuzz/artifacts
+          if-no-files-found: ignore

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>DARM</title>
+  <rect width="512" height="512" rx="112" fill="#7a2e22"/>
+  <g transform="translate(256 270) scale(1.06) translate(-256 -256)">
+    <path fill="#f4ead5" d="M250 190C208 160 148 150 86 162v200c62-12 122-2 164 28z"/>
+    <path fill="#f4ead5" fill-opacity=".8" d="M262 190c42-30 102-40 164-28v200c-62-12-122-2-164 28z"/>
+    <path fill="#d9b46a" d="M262 190c14-52 52-92 104-106l12 214c-48 12-90 44-116 92z"/>
+  </g>
+</svg>

@@ -1,0 +1,67 @@
+# Coverage-guided fuzz targets (cargo-fuzz / libFuzzer).
+#
+# This is its own Cargo project, excluded from the main workspace, because
+# libFuzzer needs a nightly toolchain:
+#
+#   rustup toolchain install nightly
+#   cargo install cargo-fuzz
+#
+#   # from the repository root; the committed fixtures serve as seed corpus
+#   cargo +nightly fuzz run package_open  fuzz/corpus/package_open  crates/darm-package/tests/fixtures
+#   cargo +nightly fuzz run package_probe fuzz/corpus/package_probe crates/darm-package/tests/fixtures
+#
+# `cargo check --manifest-path fuzz/Cargo.toml` works on stable and is enough
+# to keep the targets compiling.
+#
+# To add a target: create fuzz_targets/<name>.rs and add a [[bin]] section below.
+[package]
+name = "darm-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+# Keep this project out of the parent workspace even if the root `exclude`
+# entry is ever dropped.
+[workspace]
+
+[dependencies]
+darm-compiler = { path = "../crates/darm-compiler" }
+darm-lang = { path = "../crates/darm-lang" }
+darm-ir = { path = "../crates/darm-ir" }
+libfuzzer-sys = "0.4"
+darm-package = { path = "../crates/darm-package" }
+sha2 = { version = "0.11", default-features = false }
+
+[[bin]]
+name = "package_open"
+path = "fuzz_targets/package_open.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "package_probe"
+path = "fuzz_targets/package_probe.rs"
+test = false
+doc = false
+bench = false
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "compile_source"
+path = "fuzz_targets/compile_source.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ir_validate"
+path = "fuzz_targets/ir_validate.rs"
+test = false
+doc = false
+bench = false
